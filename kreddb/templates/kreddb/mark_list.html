@@ -1,0 +1,13 @@
+{% extends "kreddb/base.html" %}
+
+{% block pagetitle %}
+  Кредит на любой автомобиль!
+{% endblock %}
+
+{% block content %}
+  <ul>
+  {% for mark in mark_list %}
+    <li><a href="{{ mark.filter_url }}">{{ mark.name }}</a></li>
+  {% endfor %}
+  </ul>
+{% endblock %}

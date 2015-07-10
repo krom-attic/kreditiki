@@ -1,0 +1,15 @@
+{% extends "kreddb/base.html" %}
+
+{% block pagetitle %}
+  Кредиты на {{ mark.name }} {{ model.name }}
+{% endblock %}
+
+{% block content %}
+
+  <h1>{{ mark.name }} {{ model.name }}</h1>
+  <ul>
+  {% for modification in modification_list %}
+    <li><a href="{{ modification.get_absolute_url }}">{{ modification.name}}</a></li>
+  {% endfor %}
+  </ul>
+{% endblock %}

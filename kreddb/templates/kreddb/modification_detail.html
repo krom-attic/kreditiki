@@ -1,0 +1,16 @@
+{% extends "kreddb/base.html" %}
+
+{% block pagetitle %}
+  Кредиты на {{ modification.mark.name }} {{ modification.model.name }} {{ modification.generation.generation }} {{ modification.equipment_name }}
+{{ modification.body.name }} {{ modification.engine.name }} {{ modification.gear.name }}
+{% endblock %}
+
+{% block content %}
+
+  <h1>{{ modification.mark.name }} {{ modification.model.name }} {{ modification.generation.generation }} {{ modification.equipment_name }}
+{{ modification.body.name }} {{ modification.engine.name }} {{ modification.gear.name }}</h1>
+<h2>Это корыто стоит {{ modification.cost }}</h2>
+<div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "kreddb/base.html" %}
+
+{% block pagetitle %}
+  Кредиты на {{ mark.name }} {{ model.name }}
+{% endblock %}
+
+{% block content %}
+
+  <h1>{{ mark.name }} {{ model.name }}</h1>
+  <ul>
+  {% for generation in generation_list %}
+    <li><a href="{{ generation.get_absolute_url }}">{{ generation.generation }} ({{ generation.bottom_age }} - {{ generation.top_age }})</a></li>
+  {% endfor %}
+  </ul>
+{% endblock %}
