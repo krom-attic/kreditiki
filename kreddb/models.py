@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 
 from kreddb.orm_old import *
 
-# если max_length=253, значит он выставлен автоматически
+# РµСЃР»Рё max_length=253, Р·РЅР°С‡РёС‚ РѕРЅ РІС‹СЃС‚Р°РІР»РµРЅ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё
 
 
 # NOT USED

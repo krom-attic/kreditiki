@@ -9,7 +9,27 @@
 
   <h1>{{ modification.mark.name }} {{ modification.model.name }} {{ modification.generation.generation }} {{ modification.equipment_name }}
 {{ modification.body.name }} {{ modification.engine.name }} {{ modification.gear.name }}</h1>
-<h2>Это корыто стоит {{ modification.cost }}</h2>
+{% if modification.cost %}
+  <h3>Это корыто стоит {{ modification.cost }} руб.</h3>
+{% else %}
+ <h3>Похоже, это корыто уже не продаётся. Но всегда кто-то ищет лоха, которому можно сбагрить свой зачуханный тарантас.</h3>
+<p>Серьёзно, не расстраивайтесь. Просто введите сумму сами.</p>
+{% endif %}
+<form id="calc">
+    <p>
+        <label>Размер кредита: </label><input type="number" id="loan" value="{{ loan }}" />
+    </p>
+    <p>
+        <label>Длительность (мес.): </label><input type="number" id="months" value="12" />
+    </p>
+    <p>
+        <label>Ставка кредита: </label><input type="number" id="percent" value="12" />
+    </p>
+    <input type="button" id="calculate" value="Посчитать" />
+</form>
+<h2>Расчёт кредита</h2>
+<p id="result"></p>
+
 <div>
 
 </div>

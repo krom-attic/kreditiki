@@ -46,7 +46,7 @@ class ModelListView(NameFilterMixin, ListView):
 
 
 class ModificationListView(ListView):
-    # TODO сделать фильтры
+    # TODO СЃРґРµР»Р°С‚СЊ С„РёР»СЊС‚СЂС‹
     model = models.Modification
     filter_mark = None
     filter_model = None
@@ -94,8 +94,8 @@ class ModificationListView(ListView):
         return context
 
 class ModificationDetailView(DetailView):
-    # TODO сделать тайбрейкер
-    # ВНИМАНИЕ! Создавать tie_braker ТОЛЬКО если модификация действительно неуникальна
+    # TODO СЃРґРµР»Р°С‚СЊ С‚Р°Р№Р±СЂРµР№РєРµСЂ
+    # Р’РќРРњРђРќРР•! РЎРѕР·РґР°РІР°С‚СЊ tie_braker РўРћР›Р¬РљРћ РµСЃР»Рё РјРѕРґРёС„РёРєР°С†РёСЏ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ РЅРµСѓРЅРёРєР°Р»СЊРЅР°
     model = models.Modification
     mark = None
     car_model = None
@@ -127,3 +127,11 @@ class ModificationDetailView(DetailView):
 
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if context.get('modification').cost:
+            context['loan'] = int(context.get('modification').cost.replace('\u2009', ''))
+        else:
+            context['loan'] = None
+        return context

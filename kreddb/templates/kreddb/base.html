@@ -29,6 +29,46 @@
 
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script>
+"use strict";
 
+function calculate(loan, length, interest_p) {
+    var credit = [],
+        interest_p = interest_p / 100,
+        monthly = loan * (interest_p + interest_p / (Math.pow((1+interest_p/12), length) - 1)) / 12,
+        debt = loan;
+
+    while (debt > 1) {
+        var interest_m = interest_p / 12 * debt,
+            installment = monthly - interest_m,
+            this_month = {
+            'debt': debt.toFixed(2),
+            'interest': (interest_p*debt/12).toFixed(2),
+            'installment': installment.toFixed(2)
+        }
+        credit.push(this_month);
+        debt -= installment
+    }
+    return credit
+}
+
+
+$(document).ready(function(){
+    $("#calculate").click(function(){
+        var loan = parseInt($("#loan").val()),
+            credit_length = parseInt($("#months").val()),
+            interest_p = parseInt($("#percent").val()),
+            credit = calculate(loan, credit_length, interest_p);
+        $("#result").html("Месяц\tДолг\tПроценты\tТело<br>");
+        for (var i = 0; i < credit.length; i++) {
+            $("#result").append(i+1, ":\t");
+            $("#result").append(credit[i].debt, "\t");
+            $("#result").append(credit[i].interest, "\t");
+            $("#result").append(credit[i].installment, "\t");
+            $("#result").append("<br>");
+        }
+    });
+});
+</script>
 </body>
 </html>
