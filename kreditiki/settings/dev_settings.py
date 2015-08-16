@@ -13,4 +13,5 @@ DATABASES = {
     }
 }
 
+# TODO чё эта?
 LOGGING_CONFIG = None

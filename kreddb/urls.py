@@ -3,6 +3,7 @@ from django.conf.urls import url
 from kreddb import views
 
 # TODO: в gear и engine * заменить на +. Тогда можно будет поменять местами регэкспы для DetailView и ListView
+# TODO чего уж точно не должно быть в урлах, так это прямых слешей
 URL_RE_PARTS = {
     'mark': r'(?P<mark>[\w \-\(\)]+)',
     'model': r'(?P<model>[\w \.\-\(\)\'\&\,\+\!\xc2\xbb\xc2\xab\:]+)',
