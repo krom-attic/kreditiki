@@ -61,9 +61,10 @@ class ModificationListView(ListView):
         self.filter_mark = models.Mark.get_by_name(self.kwargs['mark'])
         self.filter_model = models.Model.get_by_name(self.kwargs['model'], self.filter_mark)
         qs_filter = {'model': self.filter_model}
-        if 'generation' in self.kwargs and self.kwargs['generation'] != '-':
-            self.filter_generation = models.Generation.get_by_name(self.kwargs['generation'], self.filter_mark, self.filter_model)
-            qs_filter.update({'generation': self.filter_generation})
+        # if 'generation' in self.kwargs and self.kwargs['generation'] != '-':
+        #     self.filter_generation = models.Generation.get_by_name(self.kwargs['generation'], self.filter_mark, self.filter_model)
+        #     qs_filter.update({'generation': self.filter_generation})
+        # TODO добавить фильтр по году поколения
         if 'modification' in self.kwargs and self.kwargs['modification'] != '-':
             self.filter_modification = self.kwargs['modification']
             qs_filter.update({'equipment_name': self.filter_modification})
@@ -93,45 +94,56 @@ class ModificationListView(ListView):
             context.update({'gear': self.filter_gear})
         return context
 
+
 class ModificationDetailView(DetailView):
-    # TODO сделать тайбрейкер
-    # ВНИМАНИЕ! Создавать tie_braker ТОЛЬКО если модификация действительно неуникальна
     model = models.Modification
-    mark = None
-    car_model = None
-    generation = None
-    modification = None
-    body = None
-    engine = None
-    gear = None
+
+    def __init__(self):
+        super().__init__()
+        self.mark = None
+        self.car_model = None
+        self.generation = None
+        self.gen_year_start = None
+        self.gen_year_end = None
+        self.modification = None
+        self.body = None
+        self.engine = None
+        self.gear = None
+        self.cost = None
 
     def get(self, request, *args, **kwargs):
         self.mark = models.Mark.get_by_name(self.kwargs['mark'])
         self.car_model = models.Model.get_by_name(self.kwargs['model'], self.mark)
-        if self.kwargs['generation'] == 'None':
-            self.kwargs['generation'] = None
-        try:
-            self.generation = models.Generation.get_by_name(self.kwargs['generation'], self.mark, self.car_model)
-        except ObjectDoesNotExist as e:
-            print(self.kwargs['generation'].encode(), self.mark.id, self.model.id)
+        generation_info = dict(top_age=self.kwargs['gen_year_start'], bottom_age=self.kwargs['gen_year_end'])
+        # if self.kwargs['generation'] == 'None':
+        #     self.kwargs['generation'] = None
+        if self.kwargs['generation']:
+            generation_info['generation'] = self.kwargs['generation']
+        self.generation = models.Generation.get_for_model(self.mark, self.car_model, **generation_info)
         self.modification = self.kwargs['modification']
         self.body = models.Body.objects.get(name=self.kwargs['body'])
         self.engine = models.Engine.objects.get(name=self.kwargs['engine'])
         self.gear = models.Gear.objects.get(name=self.kwargs['gear'])
-        qs_filter = {'generation': self.generation, 'equipment_name': self.modification,
-                     'body': self.body, 'engine': self.engine, 'gear': self.gear}
+        if self.kwargs.get('cost'):
+            self.cost = self.kwargs['cost']
+            qs_filter = {'generation': self.generation, 'equipment_name': self.modification,
+                         'body': self.body, 'engine': self.engine, 'gear': self.gear, 'cost': self.cost}
+        elif self.kwargs.get('mod_id'):
+            qs_filter = {'id': self.kwargs['mod_id']}
+        else:
+            raise Exception('Недостаточно данных для идентификации модификации')
         try:
             self.object = models.Modification.objects.get(**qs_filter)
         except MultipleObjectsReturned as e:
             raise e
-
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # TODO переделать на проверку self.cost
         if context.get('modification').cost:
-            context['loan'] = int(context.get('modification').cost.replace('\u2009', ''))
+            context['loan'] = context.get('modification').cost
         else:
             context['loan'] = None
         return context

@@ -100,8 +100,9 @@ class Generation(models.Model):
         return reverse('kreddb:list_modifications', kwargs=self.url_kwargs)
 
     @classmethod
-    def get_by_name(cls, name, mark, model):
-        return cls.objects.get(generation=name, mark=mark, model=model)
+    def get_for_model(cls, mark, model, **kwargs):
+        return cls.objects.get(mark=mark, model=model, **kwargs)
+
     #
     # @property
     # def generation(self):
@@ -144,18 +145,31 @@ class Modification(models.Model):
         managed = False
         db_table = 'modification'
 
+    @property
+    def generation_name(self):
+        name = self.generation.generation
+        return name if name else ''
+
     def get_absolute_url(self):
+        mod_params = {
+            'mark': self.mark.name,
+            'model': self.model.name,
+            'generation': self.generation_name,
+            'gen_year_start': self.generation.top_age,
+            'gen_year_end': self.generation.bottom_age,
+            'body': self.body.name,
+            'engine': self.engine.name,
+            'gear': self.gear.name,
+            'modification': self.equipment_name,
+        }
+        if self.cost is None:
+            mod_params.update({'mod_id': self.id})
+        else:
+            mod_params.update({'cost': self.cost})
         try:
-            url = reverse('kreddb:view_modification', kwargs={'mark': self.mark.name,
-                                                              'model': self.model.name,
-                                                              'generation': self.generation.generation,
-                                                              'body': self.body.name,
-                                                              'engine': self.engine.name,
-                                                              'gear': self.gear.name,
-                                                              'modification': self.equipment_name
-                                                              })
+            url = reverse('kreddb:view_modification', kwargs=mod_params)
         except Exception as e:
-            print(e.__str__().encode())
+            print(e.__str__())
             url = ''
         return url
 
@@ -166,20 +180,6 @@ class Modification(models.Model):
 
 class KredModification(Modification):
     tie_braker = models.SmallIntegerField(null=True, blank=True)
-
-
-# NOT USED
-# class Equipment(models.Model):
-#     name = models.CharField(max_length=253)
-#     generation = models.ForeignKey(Generation)
-#     body = models.ForeignKey(Body)
-#     mark = models.ForeignKey(Mark)
-#     model = models.ForeignKey(Model)
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'equipment'
-#         unique_together = (('name', 'generation'),)
 
 
 class EquipmentDict(models.Model):
@@ -202,20 +202,6 @@ class EquipmentLk(models.Model):
         unique_together = (('modification', 'equipment_dict'),)
 
 
-# NOT USED
-# class Feature(models.Model):
-#     name = models.CharField(max_length=253)
-#     generation = models.ForeignKey(Generation)
-#     body = models.ForeignKey(Body)
-#     mark = models.ForeignKey(Mark)
-#     model = models.ForeignKey(Model)
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'feature'
-#         unique_together = (('name', 'generation'),)
-
-
 class FeatureDict(models.Model):
     name = models.CharField(max_length=253)
     value = models.CharField(max_length=253)
@@ -234,39 +220,3 @@ class FeatureLk(models.Model):
         managed = False
         db_table = 'feature_lk'
         unique_together = (('modification', 'feature_dict'),)
-
-
-# NOT USED
-# class Trim(models.Model):
-#     name = models.CharField(max_length=253)
-#     generation = models.ForeignKey(Generation)
-#     body = models.ForeignKey(Body)
-#     mark = models.ForeignKey(Mark)
-#     model = models.ForeignKey(Model)
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'trim'
-#         unique_together = (('name', 'generation'),)
-
-
-# NOT USED
-# class TrimDict(models.Model):
-#     name = models.CharField(max_length=253)
-#     value = models.CharField(max_length=253)
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'trim_dict'
-#         unique_together = (('name', 'value'),)
-
-
-# NOT USED
-# class TrimLk(models.Model):
-#     trim = models.ForeignKey(Trim)
-#     trim_dict = models.ForeignKey(TrimDict)
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'trim_lk'
-#         unique_together = (('trim', 'trim_dict'),)

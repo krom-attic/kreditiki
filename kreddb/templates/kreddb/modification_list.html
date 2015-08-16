@@ -7,9 +7,9 @@
 {% block content %}
 
   <h1>{{ mark.name }} {{ model.name }}</h1>
-  <ul>
+  <ul id="modifications">
   {% for modification in modification_list %}
-    <li><a href="{{ modification.get_absolute_url }}">{{ modification.name}}</a></li>
+    <li><a href="{{ modification.get_absolute_url }}">{{ modification.name}}{% if modification.cost %} за {{ modification.cost }}{% endif %}</a></li>
   {% endfor %}
   </ul>
 {% endblock %}

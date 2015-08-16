@@ -1,0 +1,1 @@
+web: gunicorn kreditiki.wsgi --log-file -
