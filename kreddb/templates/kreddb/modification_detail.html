@@ -1,13 +1,13 @@
 {% extends "kreddb/base.html" %}
 
 {% block pagetitle %}
-  Кредиты на {{ modification.mark.name }} {{ modification.model.name }} {{ modification.generation.generation }} {{ modification.equipment_name }}
+  Кредиты на {{ modification.mark.name }} {{ modification.car_model.name }} {{ modification.generation.generation }} {{ modification.equipment_name }}
 {{ modification.body.name }} {{ modification.engine.name }} {{ modification.gear.name }}
 {% endblock %}
 
 {% block content %}
 
-  <h1>{{ modification.mark.name }} {{ modification.model.name }} {{ modification.generation.generation }} {{ modification.equipment_name }}
+  <h1>{{ modification.mark.name }} {{ modification.car_model.name }} {{ modification.generation.generation }} {{ modification.equipment_name }}
 {{ modification.body.name }} {{ modification.engine.name }} {{ modification.gear.name }}</h1>
 {% if modification.cost %}
   <h3>Это корыто стоит {{ modification.cost }} руб.</h3>
@@ -28,7 +28,7 @@
     <input type="button" id="calculate" value="Посчитать" />
 </form>
 <h2>Расчёт кредита</h2>
-<p id="result"></p>
+<p id="result">(нажмите кнопку "Посчитать")</p>
 
 <div>
 

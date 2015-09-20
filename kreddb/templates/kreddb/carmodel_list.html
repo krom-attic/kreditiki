@@ -7,9 +7,9 @@
 {% block content %}
 
   <h1>{{ mark }}</h1>
-  <ul id="models">
-  {% for model in model_list %}
-    <li><a href="{{ model.filter_url }}">{{ model.name }}</a></li>
+  <ul id="car_models">
+  {% for carmodel in carmodel_list %}
+    <li><a href="{{ carmodel.filter_url }}все/">{{ carmodel.name }}</a></li>
   {% endfor %}
   </ul>
 {% endblock %}

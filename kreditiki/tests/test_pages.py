@@ -12,7 +12,7 @@ class TestPages:
         for node in nodes:
             r = requests.get(BASE_URL + node.attrib['href'])
             tree = html.fromstring(r.text)
-            nodes = tree.xpath('//ul[@id="models"]/li/a')
+            nodes = tree.xpath('//ul[@id="car_models"]/li/a')
             for node in nodes:
                 r = requests.get(BASE_URL + node.attrib['href'])
                 tree = html.fromstring(r.text)
