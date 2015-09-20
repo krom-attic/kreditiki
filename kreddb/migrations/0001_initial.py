@@ -231,7 +231,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='modification',
             name='car_model',
-            field=models.ForeignKey(to='kreddb.CarModel', default=None, db_column='model_id'),
+            field=models.ForeignKey(to='kreddb.Model', default=None, db_column='model_id'),
             preserve_default=False,
         ),
         migrations.AddField(
@@ -282,7 +282,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='generation',
             name='car_model',
-            field=models.ForeignKey(to='kreddb.CarModel', default=None, db_column='model_id'),
+            field=models.ForeignKey(to='kreddb.Model', default=None, db_column='model_id'),
             preserve_default=False,
         ),
         migrations.AddField(
