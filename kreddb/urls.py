@@ -26,7 +26,7 @@ URL_RE_PARTS = {
 urlpatterns = [
     url(r'^/?$', views.MarkListView.as_view(), name='list_marks'),
     url(r'^c/$', views.MarkListView.as_view(), name='list_marks'),
-    url(r'^c/{mark}/(all)?/$'.format(**URL_RE_PARTS), views.CarModelListView.as_view(), name='list_car_models'),
+    url(r'^c/{mark}/(all/)?$'.format(**URL_RE_PARTS), views.CarModelListView.as_view(), name='list_car_models'),
     url(r'^c/{mark}/{car_model}/(?P<all>все/)?$'.format(**URL_RE_PARTS), views.ModificationListView.as_view(),
         name='list_modifications'),
     # url(r'c/^(?P<mark>[\w \-\(\)]+)/(?P<car_model>[\w \-\(\)\']+)/$', views.GenerationListView.as_view(), name='list_generations'),

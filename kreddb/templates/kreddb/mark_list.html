@@ -21,11 +21,11 @@
     <button type="button" id="search-btn">Найти</button>
   </form>
 </div>
-<div><button type="button" id="show-all-marks">Показать все марки</button></div>
-<div id="all-marks" class="hidden">
+<!-- <div><button type="button" id="show-all-marks">Показать все марки</button></div> -->
+<div id="marks">
   <h2>Все марки</h2>
-  <ul id="marks">
-  {% for mark in mark_list %}
+  <ul id="list-marks">
+  {% for mark in mark_new_list %}
     <li><a href="{{ mark.filter_url }}">{{ mark.name }}</a></li>
   {% endfor %}
   </ul>

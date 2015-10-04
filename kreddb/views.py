@@ -9,6 +9,10 @@ from django.views.generic import ListView, DetailView, View
 from kreddb import models
 
 
+def get_new_car_models(mark):
+    return models.Modification.objects.exclude(cost=None).filter(mark=mark).values_list('car_model', flat=True).distinct()
+
+
 class MarkListView(ListView):
     model = models.Mark
 
@@ -40,8 +44,8 @@ class CarModelListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         self._filter_object = models.MarkCustom.objects.get(safename=self.kwargs['mark']).mark_ptr
-        qs_filter = {'mark': self._filter_object}
-        return queryset.filter(**qs_filter)
+        _car_models = get_new_car_models(self._filter_object)
+        return queryset.filter(id__in=_car_models)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -178,7 +182,7 @@ class ListCarModelsAjaxView(View):
         _mark = request.GET['mark']
         mark = models.Mark.get_by_name(_mark)
         # TODO раз уж мы получили объект марки, то для оптимизации его id можно будет передать на страницу
-        _car_models = models.Modification.objects.exclude(cost=None).filter(mark=mark).values_list('car_model', flat=True).distinct()
+        _car_models = get_new_car_models(mark)
         car_models = [''] + list(models.CarModel.objects.filter(id__in=_car_models).values_list('name', flat=True).order_by('name'))
         return JsonResponse({'result': car_models})
 
