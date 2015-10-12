@@ -1,0 +1,14 @@
+.my-h1 {
+  font-size:25px;}
+
+.my-padding{
+	padding-left:5px;
+	padding-right:5px;
+	padding-top:10px;}
+
+.my-filter-content {
+	background-color: rgba(0,0,0,.5);
+	padding: 3%;}
+
+.my-white {
+  color:#fff;}

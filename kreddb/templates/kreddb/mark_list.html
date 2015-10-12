@@ -5,23 +5,103 @@
 {% endblock %}
 
 {% block content %}
-<h1>Продай квартиру - купи тачку!</h1>
+<div class="container">
+<h1 class="text-center my-h1">Лучшие предложения по автокредитам находятся здесь</h1>
 <div id="car-select">
+  <div class="row">
   <form action="">
-    <select type="select" id="select-marks">
-      <option value="">Выберите марку...</option>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-padding">
+    <select type="select" id="select-marks" class="form-control">
+
+        <option value="">Выберите марку...</option>
       {% for mark in mark_new_list %}
       <option value="{{ mark.name }}">{{ mark.name }}</option>
       {% endfor %}
     </select>
-    <select type="select" id="select-models">
-    </select>
-    <select type="select" id="select-modifications">
-    </select>
-    <button type="button" id="search-btn">Найти</button>
+    </div>
+    <div class="col-lg-3 col-md-3  col-sm-6 col-xs-12 my-padding"><select type="select" id="select-models" class="form-control">
+    <option value="">Выберите модель...</option>
+    </select></div>
+    <div class="col-lg-3 col-md-3  col-sm-12 col-xs-12 my-padding"><select type="select" id="select-modifications" class="form-control">
+    <option value="">Выберите модификацию...</option>
+    </select></div>
+    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 my-padding"><button type="button" id="search-btn" class="btn btn-primary btn-block">Найти</button></div>
   </form>
+  </div>
 </div>
-<!-- <div><button type="button" id="show-all-marks">Показать все марки</button></div> -->
+
+<div class="row">
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-padding">
+	<div style="background: url(http://toyota-tula.ru/images/88/common/all_new_toyota_camry_exterior.jpg) no-repeat; background-position: 50%; background-size: cover;">
+	<div class="my-filter-content">
+		<h3 class="my-white">Новая Toyota Camry 2014</h3>
+		<h3 class="my-white">За 629 руб. в день</h3>
+		<h4 class="my-white">9,8% годовых</h4>
+		<a href="#" class="btn btn-default" role="button">Подробнее</a> <a href="#" class="btn btn-primary" role="button">Послать заявку</a>
+	</div>
+	</div>
+</div>
+
+<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-padding">
+	<div style="background: url(http://i.ytimg.com/vi/_DnbTjf2VtA/maxresdefault.jpg) no-repeat; background-position: 50%; background-size: cover;">
+	<div class="my-filter-content">
+		<h3 class="my-white">Новая Toyota Camry 2014</h3>
+		<h3 class="my-white">За 629 руб. в день</h3>
+		<h4 class="my-white">9,8% годовых</h4>
+		<a href="#" class="btn btn-default" role="button">Подробнее</a> <a href="#" class="btn btn-primary" role="button">Послать заявку</a>
+	</div>
+	</div>
+</div>
+
+<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-padding">
+	<div style="background: url(http://recyclemag.ru/wp-content/uploads/2015/10/01-bmw-zagato-coupe.jpg) no-repeat; background-position: 50%; background-size: cover;">
+	<div class="my-filter-content">
+		<h3 class="my-white">Новая Toyota Camry 2014</h3>
+		<h3 class="my-white">За 629 руб. в день</h3>
+		<h4 class="my-white">9,8% годовых</h4>
+		<a href="#" class="btn btn-default" role="button">Подробнее</a> <a href="#" class="btn btn-primary" role="button">Послать заявку</a>
+	</div>
+	</div>
+</div>
+
+
+<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 my-padding">
+	<div style="background: url(http://carrrsmag.com/data_images/makes/audi/audi-01.jpg) no-repeat; background-position: 50%; background-size: cover;">
+	<div class="my-filter-content">
+		<h3 class="my-white">Новая Toyota Camry 2014</h3>
+		<h3 class="my-white">За 629 руб. в день</h3>
+		<h4 class="my-white">9,8% годовых</h4>
+		<a href="#" class="btn btn-default" role="button">Подробнее</a> <a href="#" class="btn btn-primary" role="button">Послать заявку</a>
+	</div>
+	</div>
+</div>
+
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 my-padding">
+	<div style="background: url(http://auto.sibkray.ru/images/uploads/autoproizv/skoda_rapid/skoda_7.jpg) no-repeat; background-position: 50%; background-size: cover;">
+	<div class="my-filter-content">
+		<h3 class="my-white">Новая Toyota Camry 2014</h3>
+		<h3 class="my-white">За 629 руб. в день</h3>
+		<h4 class="my-white">9,8% годовых</h4>
+		<a href="#" class="btn btn-default" role="button">Подробнее</a> <a href="#" class="btn btn-primary" role="button">Послать заявку</a>
+	</div>
+	</div>
+</div>
+
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 my-padding">
+	<div style="background: url(http://i.ytimg.com/vi/WV0XxP3kaic/maxresdefault.jpg) no-repeat; background-position: 50%; background-size: cover;">
+	<div class="my-filter-content">
+		<h3 class="my-white">Новая Toyota Camry 2014</h3>
+		<h3 class="my-white">За 629 руб. в день</h3>
+		<h4 class="my-white">9,8% годовых</h4>
+		<a href="#" class="btn btn-default" role="button">Подробнее</a> <a href="#" class="btn btn-primary" role="button">Послать заявку</a>
+	</div>
+	</div>
+</div>
+
+</div>
+
+<!-- <div><button type="button" id="show-all-marks">Показать все марки</button></div>
 <div id="marks">
   <h2>Все марки</h2>
   <ul id="list-marks">
@@ -31,3 +111,4 @@
   </ul>
 </div>
 {% endblock %}
+  </div> -->
