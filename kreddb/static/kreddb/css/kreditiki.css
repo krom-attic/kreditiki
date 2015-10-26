@@ -1,10 +1,18 @@
 .my-h1 {
   font-size:25px;}
 
+.my-h2 {
+  font-size:16px;}
+
 .my-padding{
 	padding-left:5px;
 	padding-right:5px;
 	padding-top:10px;}
+
+.my-padding2{
+	padding-left:30px;
+	padding-right:30px;
+	padding-top:20px;}
 
 .my-filter-content {
 	background-color: rgba(0,0,0,.5);
@@ -12,3 +20,6 @@
 
 .my-white {
   color:#fff;}
+
+li {
+    list-style-type: none;}
