@@ -1,25 +1,5 @@
 "use strict";
 
-function calculate(loan, length, interest_p) {
-    var credit = [],
-        interest_p = interest_p / 100,
-        monthly = loan * (interest_p + interest_p / (Math.pow((1+interest_p/12), length) - 1)) / 12,
-        debt = loan;
-
-    while (debt > 1) {
-        var interest_m = interest_p / 12 * debt,
-            installment = monthly - interest_m,
-            this_month = {
-            'debt': debt.toFixed(2),
-            'interest': (interest_p*debt/12).toFixed(2),
-            'installment': installment.toFixed(2)
-        }
-        credit.push(this_month);
-        debt -= installment
-    }
-    return credit
-};
-
 function populate_select(select, list) {
     select
         .children()
@@ -88,24 +68,6 @@ $(function(){
 });
 
 $(document).ready(function(){
-    $("#calculate").click(function(){
-        var loan = parseInt($("#loan").val()),
-            credit_length = parseInt($("#months").val()),
-            interest_p = parseInt($("#percent").val()),
-            credit = calculate(loan, credit_length, interest_p);
-
-        var result_table = "<table style='width:30%'><thead><tr><th>Месяц</th><th>Долг</th><th>Проценты</th><th>Тело</th></tr></thead>"
-        for (var i = 0; i < credit.length; i++) {
-            result_table += ("<tr>");
-            result_table += ("<td>" + (i+1) + "</td>");
-            result_table += ("<td>" + credit[i].debt + "</td>");
-            result_table += ("<td>" + credit[i].interest + "</td>");
-            result_table += ("<td>" + credit[i].installment + "</td>");
-            result_table += ("</tr>");
-        }
-        result_table += ("</table>");
-        $("#result").html(result_table);
-    });
     $("#select-marks").change(get_models);
     $("#select-models").change(get_modifications);
 

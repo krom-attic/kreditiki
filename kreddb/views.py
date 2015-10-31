@@ -171,9 +171,9 @@ class ModificationDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         # TODO переделать на проверку self.cost
         if context.get('modification').cost:
-            context['loan'] = context.get('modification').cost
+            context['price'] = context.get('modification').cost
         else:
-            context['loan'] = None
+            context['price'] = None
         return context
 
 

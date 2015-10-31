@@ -17,13 +17,28 @@
 {% endif %}
 <form id="calc">
     <p>
-        <label>Размер кредита: </label><input type="number" id="loan" value="{{ loan }}" />
+        <label>Стоимость автомобиля: </label><input type="number" id="price" value="{{ price }}" />
     </p>
     <p>
-        <label>Длительность (мес.): </label><input type="number" id="months" value="12" />
+        <label>Первый взнос (процентов): </label><input type="number" id="first_payment" value="10" />
     </p>
     <p>
-        <label>Ставка кредита: </label><input type="number" id="percent" value="12" />
+        <label>Длительность (мес.): </label><input type="number" id="months" value="12" min="12" />
+    </p>
+    <p>
+        <label>Без каско: </label><input type="checkbox" id="no_insurance" />
+    </p>
+    <p>
+        <label>Без подтверждеия дохода: </label><input type="checkbox" id="no_confirmation" />
+    </p>
+    <p>
+        <label>Выдача: </label>
+          <input type="radio" name="variation" id="variation_real" checked />Суровая реальность
+          <input type="radio" name="variation" id="variation_better" />Преукрашенная реальность
+          <input type="radio" name="variation" id="variation_best" />Для лоха
+    </p>
+    <p>
+        <label>Ставка кредита: </label><input type="number" id="percent" value="18" disabled />
     </p>
     <input type="button" id="calculate" value="Посчитать" />
 </form>
@@ -33,4 +48,5 @@
 <div>
 
 </div>
+
 {% endblock %}
