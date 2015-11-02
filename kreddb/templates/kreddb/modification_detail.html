@@ -26,19 +26,19 @@
         <label>Длительность (мес.): </label><input type="number" id="months" value="12" min="12" />
     </p>
     <p>
-        <label>Без каско: </label><input type="checkbox" id="no_insurance" />
+        <label>Без каско: <input type="checkbox" id="no_insurance" /></label>
     </p>
     <p>
-        <label>Без подтверждеия дохода: </label><input type="checkbox" id="no_confirmation" />
+        <label>Без подтверждения дохода: <input type="checkbox" id="no_confirmation" /></label>
     </p>
     <p>
-        <label>Выдача: </label>
-          <input type="radio" name="variation" id="variation_real" checked />Суровая реальность
-          <input type="radio" name="variation" id="variation_better" />Преукрашенная реальность
-          <input type="radio" name="variation" id="variation_best" />Для лоха
+        <label>Выдача: </label><br/>
+          <input type="radio" name="variation" id="variation_real" checked /><label for="variation_real">Суровая реальность</label><br/>
+          <input type="radio" name="variation" id="variation_better" /><label for="variation_better">Преукрашенная реальность</label><br/>
+          <input type="radio" name="variation" id="variation_best" /><label for="variation_best">Для лоха</label><br/>
     </p>
     <p>
-        <label>Ставка кредита: </label><input type="number" id="percent" value="18" disabled />
+        <label>Ставка кредита: <input type="number" id="percent" value="18" disabled /></label>
     </p>
     <input type="button" id="calculate" value="Посчитать" />
 </form>
