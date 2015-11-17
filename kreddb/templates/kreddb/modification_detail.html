@@ -17,13 +17,13 @@
 {% endif %}
 <form id="calc">
     <p>
-        <label>Стоимость автомобиля: </label><input type="number" id="price" value="{{ price }}" />
+        <label>Стоимость автомобиля: </label><input class="form-control" type="number" id="price" value="{{ price }}" />
     </p>
     <p>
-        <label>Первый взнос (процентов): </label><input type="number" id="first_payment" value="10" />
+        <label>Первый взнос (процентов): </label><input class="form-control" type="number" id="first_payment" value="10" />
     </p>
     <p>
-        <label>Длительность (мес.): </label><input type="number" id="months" value="12" min="12" />
+        <label>Длительность (мес.): </label><input class="form-control" type="number" id="months" value="12" min="12" />
     </p>
     <p>
         <label>Без каско: <input type="checkbox" id="no_insurance" /></label>
@@ -33,9 +33,10 @@
     </p>
     <p>
         <label>Выдача: </label><br/>
-          <input type="radio" name="variation" id="variation_real" checked /><label for="variation_real">Суровая реальность</label><br/>
-          <input type="radio" name="variation" id="variation_better" /><label for="variation_better">Преукрашенная реальность</label><br/>
-          <input type="radio" name="variation" id="variation_best" /><label for="variation_best">Для лоха</label><br/>
+        <div class="btn-group" data-toggle="buttons">
+          <label for="variation_real" class="btn btn-default"><input type="radio" name="variation" id="variation_real" checked />Плохая кредитная история</label>
+          <label for="variation_better" class="btn btn-default"><input type="radio" name="variation" id="variation_better" />Нет кредитной истории</label>
+          <label for="variation_best" class="btn btn-default"><input type="radio" name="variation" id="variation_best" />Хорошая кредитная история</label></div>
     </p>
     <p>
         <label>Ставка кредита: <input type="number" id="percent" value="18" disabled /></label>
@@ -44,6 +45,50 @@
 </form>
 <h2>Расчёт кредита</h2>
 <p id="result">(нажмите кнопку "Посчитать")</p>
+
+<div id="myCarousel" class="carousel slide col-lg-6 col-md-6 col-sm-6 col-xs-12" data-interval="5000" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+
+    <div class="active item">
+      <img src="http://auto-tester.ru/images/exterior/1776.jpg">
+      <div class="carousel-caption">
+        <h3>Toyota Camry</h3>
+        <p>В кредит от 520 руб.</p>
+      </div>
+    </div>
+
+
+    <!-- Слайд №2 -->
+    <div class="item">
+      <img src="http://www.1gai.ru/uploads/posts/2015-09/1443595695_7777.jpg">
+      <div class="carousel-caption">
+        <h3>Toyota Camry</h3>
+        <p>В кредит от 520 руб..</p>
+      </div>
+    </div>
+
+    <!-- Слайд №3 -->
+    <div class="item">
+      <img src="http://toyoti.ru/wp-content/uploads/2013/04/toyota-camri.jpg">
+      <div class="carousel-caption">
+        <h3>Toyota Camry</h3>
+        <p>В кредит от 520 руб.</p>
+      </div>
+    </div>
+  </div>
+
+  <a class="carousel-control left my-margin-left-15" href="#myCarousel" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="carousel-control right my-margin-right-15" href="#myCarousel" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+</div>
 
 <div>
 

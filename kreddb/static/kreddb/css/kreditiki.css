@@ -14,12 +14,23 @@
 	padding-right:30px;
 	padding-top:20px;}
 
+.my-margin-left-15{
+	margin-left:15px;}
+
+.my-margin-right-15{
+	margin-right:15px;}
+
 .my-filter-content {
 	background-color: rgba(0,0,0,.5);
 	padding: 3%;}
 
 .my-white {
   color:#fff;}
+
+.item{
+    background: #333;
+    text-align: center;
+}
 
 li {
     list-style-type: none;}
