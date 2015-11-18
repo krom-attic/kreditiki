@@ -6,30 +6,34 @@
 {% endblock %}
 
 {% block content %}
+<div class="container">
 
-  <h1>{{ modification.mark.name }} {{ modification.car_model.name }} {{ modification.generation.generation }} {{ modification.equipment_name }}
+ <h1 class="text-center my-h1">{{ modification.mark.name }} {{ modification.car_model.name }} {{ modification.generation.generation }} {{ modification.equipment_name }}
 {{ modification.body.name }} {{ modification.engine.name }} {{ modification.gear.name }}</h1>
 {% if modification.cost %}
-  <h3>Это корыто стоит {{ modification.cost }} руб.</h3>
-{% else %}
- <h3>Похоже, это корыто уже не продаётся. Но всегда кто-то ищет лоха, которому можно сбагрить свой зачуханный тарантас.</h3>
-<p>Серьёзно, не расстраивайтесь. Просто введите сумму сами.</p>
-{% endif %}
-<form id="calc">
-    <p>
-        <label>Стоимость автомобиля: </label><input class="form-control" type="number" id="price" value="{{ price }}" />
-    </p>
-    <p>
-        <label>Первый взнос (процентов): </label><input class="form-control" type="number" id="first_payment" value="10" />
-    </p>
-    <p>
-        <label>Длительность (мес.): </label><input class="form-control" type="number" id="months" value="12" min="12" />
-    </p>
-    <p>
-        <label>Без каско: <input type="checkbox" id="no_insurance" /></label>
-    </p>
-    <p>
-        <label>Без подтверждения дохода: <input type="checkbox" id="no_confirmation" /></label>
+
+<div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+    <h3>Это корыто стоит {{ modification.cost }} руб.</h3>
+    {% else %}
+    <h3>Похоже, это корыто уже не продаётся. Но всегда кто-то ищет лоха, которому можно сбагрить свой зачуханный тарантас.</h3>
+    <p>Серьёзно, не расстраивайтесь. Просто введите сумму сами.</p>
+    {% endif %}
+    <form id="calc">
+
+        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label>Стоимость автомобиля: </label></div>
+        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12"><input class="form-control" type="number" id="price" value="{{ price }}" /></div>
+
+
+        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label>Первый взнос (процентов): </label></div>
+        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12"><input class="form-control" type="number" id="first_payment" value="10" /></div>
+
+
+        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label>Длительность (мес.): </label></div>
+        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12"><input class="form-control" type="number" id="months" value="12" min="12" /></div>
+
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><label>Без каско: <input type="checkbox" id="no_insurance" /></label></div>
+
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><label>Без подтверждения дохода: <input type="checkbox" id="no_confirmation" /></label></div>
     </p>
     <p>
         <label>Выдача: </label><br/>
@@ -42,11 +46,13 @@
         <label>Ставка кредита: <input type="number" id="percent" value="18" disabled /></label>
     </p>
     <input type="button" id="calculate" value="Посчитать" />
-</form>
-<h2>Расчёт кредита</h2>
-<p id="result">(нажмите кнопку "Посчитать")</p>
+    </form>
+    <h2>Расчёт кредита</h2>
+    <p id="result">(нажмите кнопку "Посчитать")</p>
+</div>
 
-<div id="myCarousel" class="carousel slide col-lg-6 col-md-6 col-sm-6 col-xs-12" data-interval="5000" data-ride="carousel">
+<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+<div id="myCarousel" class="carousel slide" data-interval="5000" data-ride="carousel">
   <ol class="carousel-indicators">
     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
     <li data-target="#myCarousel" data-slide-to="1"></li>
@@ -89,9 +95,8 @@
     <span class="glyphicon glyphicon-chevron-right"></span>
   </a>
 </div>
-
-<div>
-
 </div>
+
+    </div>
 
 {% endblock %}
