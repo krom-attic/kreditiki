@@ -9,12 +9,12 @@
         .module('kreddb.controllers')
         .controller('CarSelectorController', CarSelectorController)
 
-    CarSelectorController.$inject = ['CarModels', 'Modifications']
+    CarSelectorController.$inject = ['CarModels']
 
     /**
     * @namespace CarSelectorController
     */
-    function CarSelectorController(CarModels, Modifications) {
+    function CarSelectorController(CarModels) {
         var vm = this
 
         vm.carmake = null
@@ -22,9 +22,6 @@
 
         vm.carmodels = []
         vm.get_carmodels = get_carmodels
-
-        vm.modifications = []
-        vm.get_modifications = get_modifications
 
         /**
         * @name get_carmodels
@@ -38,15 +35,6 @@
 
             CarModels.get_carmodels(vm.carmake)
                 .then(set_carmodels, set_carmodels)
-        }
-
-        function get_modifications() {
-            function set_modifications(modifications) {
-                vm.modifications = modifications.data
-            }
-
-            Modifications.get_modifications(vm.carmake, vm.carmodel)
-                .then(set_modifications, set_modifications)
         }
     }
 })()
