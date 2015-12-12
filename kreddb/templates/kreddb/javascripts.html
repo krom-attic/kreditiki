@@ -1,0 +1,18 @@
+{% load compress %}
+{% load staticfiles %}
+
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+
+{% compress js %}
+<script src="{% static 'kreddb/js/main.js' %}"></script>
+
+<script src="{% static 'kreddb/js/kreddb.js' %}"></script>
+<script src="{% static 'kreddb/js/directives/carselector.directive.js' %}"></script>
+<script src="{% static 'kreddb/js/controllers/carselector.controller.js' %}"></script>
+<script src="{% static 'kreddb/js/services/carmodels.service.js' %}"></script>
+<script src="{% static 'kreddb/js/directives/creditcalc.directive.js' %}"></script>
+<script src="{% static 'kreddb/js/controllers/creditcalc.controller.js' %}"></script>
+<script src="{% static 'kreddb/js/services/modifications.service.js' %}"></script>
+{% endcompress %}

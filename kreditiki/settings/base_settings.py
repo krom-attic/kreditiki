@@ -40,11 +40,16 @@ DJANGO_APPS = [
 
 ]
 
+THIRDPARTY_APPS = [
+    'compressor',
+    'rest_framework',
+]
+
 HOMEBREW_APPS = [
     'kreddb',
 ]
 
-INSTALLED_APPS = DJANGO_APPS + HOMEBREW_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRDPARTY_APPS + HOMEBREW_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -102,3 +107,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Измененённый дефолт!
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)

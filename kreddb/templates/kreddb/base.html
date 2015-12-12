@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-ng-app="kreddb">
 <head lang="ru">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,10 +27,7 @@
     {% block content %}App body here{% endblock %}
   </div>
 </div>
-
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script src="{% static 'kreddb/js/main.js' %}"></script>
-<script src="{% static 'kreddb/js/calc.js' %}"></script>
+  {% block localscripts %}{% endblock %}
+{% include 'kreddb/javascripts.html' %}
 </body>
 </html>

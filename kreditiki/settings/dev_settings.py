@@ -15,3 +15,5 @@ DATABASES = {
 
 # TODO чё эта?
 # LOGGING_CONFIG = None
+
+STATIC_ROOT = 'static_dev'

@@ -1,0 +1,61 @@
+<form id="calc">
+	<p>
+		<label>Стоимость автомобиля: </label>
+		<input type="number" id="price" data-ng-model="vm.price" data-ng-change="vm.calculate_credit()" />
+	</p>
+	<p>
+		<label>Первый взнос (процентов): </label>
+		<input type="number" id="first_payment" min="10" max="59" data-ng-model="vm.first_payment" data-ng-change="vm.recalculate_interest()" />
+	</p>
+	<p>
+		<label>Длительность (мес.): </label>
+		<input type="number" id="months" min="12" max="72" data-ng-model="vm.credit_length" data-ng-change="vm.recalculate_interest()" />
+	</p>
+	<p>
+		<label>Без каско:
+			<input type="checkbox" id="no_insurance" data-ng-model="vm.no_insurance" data-ng-change="vm.recalculate_interest()" />
+		</label>
+	</p>
+	<p>
+		<label>Без подтверждения дохода:
+			<input type="checkbox" id="no_confirmation" data-ng-model="vm.no_confirmation" data-ng-change="vm.recalculate_interest()" />
+		</label>
+	</p>
+	<p>
+		<label>Выдача: </label>
+		<br/>
+		<input type="radio" name="variation" id="variation_real" data-ng-model="vm.variation" value="real" checked data-ng-change="vm.recalculate_interest()" />
+		<label for="variation_real">Суровая реальность</label>
+		<br/>
+		<input type="radio" name="variation" id="variation_better" data-ng-model="vm.variation" value="better" data-ng-change="vm.recalculate_interest()" />
+		<label for="variation_better">Преукрашенная реальность</label>
+		<br/>
+		<input type="radio" name="variation" id="variation_best" data-ng-model="vm.variation" value="best" data-ng-change="vm.recalculate_interest()" />
+		<label for="variation_best">Для лоха</label>
+		<br/>
+	</p>
+	<p>
+		<label>Ставка кредита:
+			<input type="number" id="percent" data-ng-model="vm.percent" disabled />
+		</label>
+	</p>
+</form>
+<h2>Расчёт кредита</h2>
+<p id="result">
+	<table id="credit-calc" style='width:30%'>
+		<thead>
+			<tr>
+				<th>Месяц</th>
+				<th>Долг</th>
+				<th>Проценты</th>
+				<th>Тело</th>
+			</tr>
+		</thead>
+		<tr data-ng-repeat="month in vm.credit">
+			<td>{{month.num}}</td>
+			<td>{{month.debt}}</td>
+			<td>{{month.interest}}</td>
+			<td>{{month.installment}}</td>
+		</tr>
+	</table>
+</p>

@@ -1,4 +1,4 @@
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.core.urlresolvers import reverse
 
 from kreddb.orm_old import *
@@ -49,8 +49,8 @@ class Body(models.Model):
             return model_custom.safename
 
     @classmethod
-    def get_by_safe_name(cls, safe_name):
-        return BodyCustom.objects.get(safename=safe_name).body_ptr
+    def get_by_name(cls, name):
+        return cls.objects.get(name=name)
 
 
 class BodyCustom(Body):
@@ -72,13 +72,13 @@ class Mark(models.Model):
         return self.name
 
     def filter_url(self):
-        try:
-            safename = self.markcustom.safename
-        except ObjectDoesNotExist as e:
-            custom_mark = MarkCustom(mark_ptr=self, safename=self.name.translate(SAFE_TRANSLATION))
-            custom_mark.save_base(raw=True)  # Обход тикета 7623
-            safename = custom_mark.safename
-        return reverse('kreddb:list_car_models', kwargs={'mark': safename})
+        # try:
+        #     safename = self.markcustom.safename
+        # except ObjectDoesNotExist as e:
+        #     custom_mark = MarkCustom(mark_ptr=self, safename=self.name.translate(SAFE_TRANSLATION))
+        #     custom_mark.save_base(raw=True)  # Обход тикета 7623
+        #     safename = custom_mark.safename
+        return reverse('kreddb:list_car_models', kwargs={'car_make': self.name})
 
     @classmethod
     def get_by_name(cls, name):
@@ -110,16 +110,11 @@ class CarModel(models.Model):
 
     @property
     def safe_name(self):
-        try:
-            safename = self.carmodelcustom.safename
-        except ObjectDoesNotExist as e:
-            custom_car_model = CarModelCustom(carmodel_ptr=self, safename=self.name.translate(SAFE_TRANSLATION))
-            custom_car_model.save_base(raw=True)  # Обход тикета 7623
-            safename = custom_car_model.safename
-        return safename
+        return self.name.replace('/', '%')
 
     def filter_url(self):
-        return reverse('kreddb:list_modifications', kwargs={'mark': self.mark.markcustom.safename, 'car_model': self.safe_name})
+        return reverse('kreddb:list_modifications',
+                       kwargs=dict(car_make=self.mark.name, car_model=self.safe_name))
 
     @classmethod
     def get_by_name(cls, name, mark):
@@ -127,7 +122,7 @@ class CarModel(models.Model):
 
     @classmethod
     def get_by_safe_name(cls, safe_name, mark):
-        return CarModelCustom.objects.get(safename=safe_name, mark=mark).carmodel_ptr
+        return cls.objects.get(name=safe_name.replace('%', '/'), mark=mark)
 
 
 class CarModelCustom(CarModel):
@@ -151,10 +146,13 @@ class Generation(models.Model):
 
     @property
     def safe_name(self):
-        if self.generation and not self.safename:
-            self.safename = self.generation.translate(SAFE_TRANSLATION)
-            self.save()
-        return self.safename
+        """
+        Костыль для работы с оригинальной базой, где вместо пустых значений указано None
+        """
+        if self.generation is None:
+            return ''
+        else:
+            return self.generation
 
     @property
     def url_kwargs(self):
@@ -199,8 +197,8 @@ class Engine(models.Model):
             return model_custom.safename
 
     @classmethod
-    def get_by_safe_name(cls, safe_name):
-        return EngineCustom.objects.get(safename=safe_name).engine_ptr
+    def get_by_name(cls, name):
+        return cls.objects.get(name=name)
 
 
 class EngineCustom(Engine):
@@ -233,42 +231,40 @@ class Modification(models.Model):
 
     @property
     def safe_name(self):
-        if self.equipment_name and not self.safename:
-            self.safename = self.equipment_name.translate(SAFE_TRANSLATION)
-            self.save()
-        return self.safename
+        return self.equipment_name.replace('/', '%')
 
     def get_absolute_url(self):
         mod_params = {
-            'mark': self.mark.markcustom.safename,
+            'car_make': self.mark.name,
             'car_model': self.car_model.safe_name,
             'generation': self.generation.safe_name,
             'gen_year_start': self.generation.top_age,
             'gen_year_end': self.generation.bottom_age,
-            'body': self.body.safe_name,
-            'engine': self.engine.safe_name,
+            'body': self.body.name,
+            'engine': self.engine.name,
             'gear': self.gear.name,
-            'modification': self.safe_name,
+            'complect': self.safe_name,
         }
         if self.cost is None:
             mod_params.update({'mod_id': self.id})
         else:
             mod_params.update({'cost': self.cost})
-        try:
-            url = reverse('kreddb:view_modification', kwargs=mod_params)
-        except Exception as e:
-            print(e.__str__())
-            url = ''
+        # try:
+        url = reverse('kreddb:view_modification', kwargs=mod_params)
+        # except Exception as e:
+        #     print(e.__str__())
+        #     url = ''
         return url
 
+    # TODO подумать над названием и сигнатурой метода
     @classmethod
-    def get_by_name(cls, name, mark, car_model, generation=None):
-        # добавил generation=None, чтобы при ajax запросах его не передавать
-        # TODO Но вообще этот метод выглядит небезопасным, легко может вернуть >1 комплектации
-        qs_filter = dict(equipment_name=name, mark=mark, car_model=car_model)
-        if generation:
-            qs_filter.update(dict(generation=generation))
-        return cls.objects.get(qs_filter)
+    def get_by_name_and_gen(cls, **kwargs):
+        # может вернуть несколько объектов!
+        try:
+            modification = cls.objects.get(**kwargs)
+        except MultipleObjectsReturned as e:
+            raise e
+        return modification
 
 
 class KredModification(Modification):
