@@ -1,12 +1,12 @@
 {% extends "kreddb/base.html" %}
 
 {% block pagetitle %}
-  Кредиты на {{ mark.name }} {{ model.name }}
+  Кредиты на {{ car_make.name }} {{ car_model.name }}
 {% endblock %}
 
 {% block content %}
 
-  <h1 class="my-h1">{{ mark.name }} {{ model.name }} в кредит</h1>
+  <h1 class="my-h1">{{ car_make.name }} {{ car_model.name }} в кредит</h1>
  <h2 class="my-h2">Выберите модификацию:</h2>
   <ul id="modifications" >
   {% for modification in modification_list %}
