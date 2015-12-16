@@ -49,7 +49,7 @@
         vm.calculate_credit = calculate_credit
 
         function recalculate_interest() {
-            var key1 = 'less_' + String(Math.floor(vm.credit_length / 12)),
+            var key1 = 'less_' + String(Math.floor((vm.credit_length - 1) / 12) + 1),
                 key2 = 'from_' + String(Math.floor(vm.first_payment / 10) * 10),
                 amount = vm.price * (1 - vm.first_payment / 100),
                 rate_value = INTEREST_RATE[key1][key2]

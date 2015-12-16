@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^api/v1/carmodels/{car_make}/?$'.format(**URL_RE_PARTS), views.CarModelListAPIView.as_view(), name='test_list'),
     url(r'^api/v1/modifications/{car_make}/{car_model}/?$'.format(**URL_RE_PARTS), views.ListModificationsAPIView.as_view(), name='test_list'),
 
-    url(r'^/?$', views.MarkListView.as_view(), name='list_marks'),
+    url(r'^$', views.MarkListView.as_view(), name='list_marks'),
     # "c" поддерживается на обоих языках
     url(r'^[cс]/$', views.MarkListView.as_view(), name='list_marks'),
     url(r'^[cс]/selector/$', views.CarSelectorDispatchView.as_view(), name="carselector"),
