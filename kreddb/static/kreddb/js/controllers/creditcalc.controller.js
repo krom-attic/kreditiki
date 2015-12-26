@@ -30,28 +30,43 @@
             'best': 0.6 
         }
 
+        var INITIAL_PAYMENT = 0.1
+
         var vm = this
 
+        // Участвуют в расчёте
+        vm.price = null
+        vm.percent = null
+
         // Влияют на ставку
-        vm.first_payment = 10
+        vm.first_payment = null
         vm.credit_length = 12
         vm.no_insurance = false
         vm.no_confirmation = false
         vm.variation = 'real'
 
-        // Участвуют в расчёте
-        vm.price = null
-        vm.percent = null
-        
         vm.credit = []
+        vm.total_credit = null
 
         vm.recalculate_interest = recalculate_interest
         vm.calculate_credit = calculate_credit
 
+        vm.init = function(app_context) {
+        // TODO нужно разварачивать словарь app_context прямо в vm
+            vm.price = app_context["price"]
+            vm.photos = app_context["photos"]
+            vm.car_name = app_context["car_name"]
+            vm.payment_min = Math.ceil(INITIAL_PAYMENT * vm.price / 1000) * 1000
+            vm.payment_max = Math.floor(0.59 * vm.price / 1000) * 1000
+            vm.first_payment = vm.payment_min
+            vm.recalculate_interest()
+            vm.calculate_credit()
+        }
+
         function recalculate_interest() {
             var key1 = 'less_' + String(Math.floor((vm.credit_length - 1) / 12) + 1),
-                key2 = 'from_' + String(Math.floor(vm.first_payment / 10) * 10),
-                amount = vm.price * (1 - vm.first_payment / 100),
+                key2 = 'from_' + String(Math.floor(10 * vm.first_payment / vm.price) * 10),
+                amount = vm.price - vm.first_payment,
                 rate_value = INTEREST_RATE[key1][key2]
 
             for (var i = 0; i < AMOUNT_MODIFIER.length; i++) {
@@ -79,25 +94,29 @@
         }
 
         function calculate_credit() {
-            var debt = vm.price * (1 - vm.first_payment / 100),
+            var debt = vm.price - vm.first_payment,
                 interest_rate = vm.percent / 100,
                 monthly = debt * (interest_rate + interest_rate / (Math.pow((1 + interest_rate / 12), vm.credit_length) - 1)) / 12,
                 credit = []
 
             var num = 0
+            var total = vm.first_payment
             while (debt > 1) {
                 var monthly_interest = interest_rate / 12 * debt,
                     installment = monthly - monthly_interest,
+                    interest = (interest_rate * debt / 12),
                     this_month = {
                         'num': ++num,
                         'debt': debt.toFixed(2),
-                        'interest': (interest_rate * debt / 12).toFixed(2),
+                        'interest': interest.toFixed(2),
                         'installment': installment.toFixed(2)
                     }
+                    total += (interest + installment)
                 credit.push(this_month)
                 debt -= installment
             }
             vm.credit = credit
+            vm.total_credit = total.toFixed(2)
         }
 
     }

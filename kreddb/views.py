@@ -1,6 +1,7 @@
 import json
 from pprint import pprint
 
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
@@ -191,11 +192,20 @@ class ModificationDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # TODO переделать на проверку self.cost
+        creditcalc_context = {}
+        # TODO переделать на проверку self.cost???
+        modification = context.get('modification')
         if context.get('modification').cost:
-            context['price'] = context.get('modification').cost
+            creditcalc_context['price'] = modification.cost
         else:
-            context['price'] = None
+            creditcalc_context['price'] = None
+        creditcalc_context['photos'] = [
+            static('kreddb/img/toyota-camry-1.jpg'),
+            static('kreddb/img/toyota-camry-2.jpg'),
+            static('kreddb/img/toyota-camry-3.jpg'),
+        ]
+        creditcalc_context['car_name'] = '{} {}'.format(modification.mark.name, modification.car_model.name)
+        context['creditcalc'] = creditcalc_context
         return context
 
 

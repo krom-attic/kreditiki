@@ -5,7 +5,8 @@
         .module('kreddb', [
             'kreddb.controllers',
             'kreddb.directives',
-            'kreddb.services'
+            'kreddb.services',
+            'kreddb.filters'
         ])
 
     angular
@@ -16,4 +17,7 @@
 
     angular
         .module('kreddb.services', [])
+
+    angular
+        .module('kreddb.filters', [])
 })()

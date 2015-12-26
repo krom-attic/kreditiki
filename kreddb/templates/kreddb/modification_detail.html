@@ -7,131 +7,13 @@
 
 {% block content %}
 {% load staticfiles %}
-  <h1>{{ modification.mark.name }} {{ modification.car_model.name }} {{ modification.generation.generation }} {{ modification.equipment_name }}
-{{ modification.body.name }} {{ modification.engine.name }} {{ modification.gear.name }}</h1>
-{% if modification.cost %}
-  <h3>Это корыто стоит {{ modification.cost }} руб.</h3>
-{% else %}
- <h3>Похоже, это корыто уже не продаётся. Но всегда кто-то ищет лоха, которому можно сбагрить свой зачуханный тарантас.</h3>
-<p>Серьёзно, не расстраивайтесь. Просто введите сумму сами.</p>
-{% endif %}
-<creditcalc data-ng-cloak data-ng-init="vm.price = {{ price }}; vm.recalculate_interest(); vm.calculate_credit()"></creditcalc>
+{% load angular %}
 
 	<div class="container my-margin-top-20">
-	<h1 class="my-h1 my-margin-top-20">Toyota Camry XV50 Рестайлинг Стандарт седан 2.0 (149 л.с.) АТ в кредит</h1>
-		<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-			<div class="row my-content-header-text">
-				<h2 class="my-font-size-25">Автокредитный калькулятор Toyota Camry</h2>
-				Рассчитайте на калькуляторе в режиме онлайн ежемесячный платеж и переплату по кредиту
-			</div>
-			<div class="row my-content-calc">
-				<div class="row my-padding-top-30">
-					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-content-calc-text">Стоимость авто</div>
-					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-padding-bottom-20">
-						<div class="my-line-calc">&nbsp;</div>
-						<div class="my-margin-top-5">
-							<span class="my-calc my-text-align-left">1 млн</span>
-							<span class="my-calc my-text-align-center">1,5 млн</span>
-							<span class="my-calc my-text-align-right">2 млн</span>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">2 000 000 ₽</div>
-				</div>
-				<div class="row my-padding-top-30">
-					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-content-calc-text">Первый взнос</div>
-					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-padding-bottom-20">
-						<div class="my-line-calc">&nbsp;</div>
-						<div class="my-margin-top-5">
-							<span class="my-calc my-text-align-left">0 ₽</span>
-							<span class="my-calc my-text-align-center">500 000 ₽</span>
-							<span class="my-calc my-text-align-right">999 000 ₽</span>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">500 000 ₽</div>
-				</div>
-				<div class="row my-padding-top-30">
-					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-content-calc-text">Срок кредита</div>
-					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-padding-bottom-20">
-						<div class="my-line-calc">&nbsp;</div>
-						<div class="my-margin-top-5">
-							<span class="my-calc-month my-text-align-left">6</span>
-							<span class="my-calc-month my-padding-calc-month my-text-align-center">12</span>
-							<span class="my-calc-month my-padding-calc-month my-text-align-center">24</span>
-							<span class="my-calc-month my-padding-calc-month my-text-align-center">36</span>
-							<span class="my-calc-month my-padding-calc-month my-text-align-center">48</span>
-							<span class="my-calc-month my-padding-left-calc-month">60</span>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">36 месяцев</div>
-				</div>
-				<div class="row my-padding-top-30">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-content-calc-text">Кредитная история</div>
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-padding-bottom-20">
-						<div class="btn-group">
-							<button type="button" class="btn btn-default">Хорошая</button>
-							<button type="button" class="btn btn-default">Нет кредитной истории</button>
-							<button type="button" class="btn btn-default">Плохая</button>
-						</div>
-					</div>
-				</div>
-				<div class="row my-margin-top-20 margin-bottom-10">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-content-calc-text">Дополнительно</div>
-					<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-						<label class="checkbox-inline">
-							<input type="checkbox" id="inlineCheckbox1" value="option1">Без подтверждения дохода
-						</label>
-					</div>
-					<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-						<label class="checkbox-inline">
-							<input type="checkbox" id="inlineCheckbox2" value="option2">Без КАСКО
-						</label>
-					</div>
-				</div>
-			</div>
-		</div>
+	<h1 class="my-h1 my-margin-top-20">{{ modification.mark.name }} {{ modification.car_model.name }} {{ modification.generation.generation }} {{ modification.equipment_name }}
+{{ modification.body.name }} {{ modification.engine.name }} {{ modification.gear.name }}</h1>
 
-		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-			<div class="row my-margin-top-20 my-carousel-block-none my-margin-left-content-0">
-				<div id="carousel-example-generic" class="carousel slide">
-					<ol class="carousel-indicators hidden-xs">
-						<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-						<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-						<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-					</ol>
-					<div class="carousel-inner">
-						<div class="item active">
-							<img class="img-responsive img-full" src="{% static 'kreddb/img/toyota-camry-1.jpg' %}" alt="">
-						</div>
-						<div class="item">
-							<img class="img-responsive img-full" src="{% static 'kreddb/img/toyota-camry-2.jpg' %}" alt="">
-						</div>
-						<div class="item">
-							<img class="img-responsive img-full" src="{% static 'kreddb/img/toyota-camry-3.jpg' %}" alt="">
-						</div>
-					</div>
-					<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev"><span class="icon-prev"></span></a>
-					<a class="right carousel-control" href="#carousel-example-generic" data-slide="next"><span class="icon-next"></span></a>
-				</div>
-			</div>
-			<div class="row my-content-right-text my-margin-left-content-0">
-				<span class="my-font-size-16">Ежемесячный платеж</span>
-				<h2 class="my-font-size-50">24 500 ₽</h2>
-			</div>
-			<div class="row my-content-right-down-text my-margin-left-content-0">
-				<div class="row my-padding-bottom-25 my-padding-top-content-8">
-					<div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">Общая сумма по кредиту</div>
-					<div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 my-font-size-16  my-font-weight-bold">1 400 300 ₽</div>
-				</div>
-				<div class="row my-padding-bottom-25">
-					<div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">Переплата по кредиту</div>
-					<div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 my-font-size-16  my-font-weight-bold">227 000 ₽</div>
-				</div>
-				<div class="row my-padding-bottom-content-9">
-					<div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">Процентная ставка</div>
-					<div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 my-font-size-16  my-font-weight-bold">20,5%</div>
-				</div>
-			</div>
-		</div>
+    {% angular_app "creditcalc" %}
 
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-margin-bottom-35">
 			<div class="row my-header-app">
