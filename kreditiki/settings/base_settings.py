@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+# Поскольку у нас settings лежит в settings, нужно взять dirname дважды
+PROJECT_ROOT = os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
 
 
 # Quick-start development settings - unsuitable for production
