@@ -20,9 +20,10 @@ DATABASES = {
 }
 
 # Static asset configuration
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(PROJECT_ROOT, 'static'),
 )
 
 CSRF_COOKIE_SECURE = True
