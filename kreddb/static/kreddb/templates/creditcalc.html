@@ -24,12 +24,11 @@
 				<div class="row my-padding-top-30">
 					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-content-calc-text">Первый взнос</div>
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-padding-bottom-20">
-						<div class="my-line-calc">&nbsp;</div>
+						<div><input type="range" id="first_payment" min="{{ vm.payment_min }}" max="{{ vm.payment_max }}" step="1000" data-ng-model="vm.first_payment" data-ng-change="vm.recalculate_interest()" /></div>
 						<div class="my-margin-top-5">
-							<span class="my-calc my-text-align-left">0 ₽</span>
-							<span class="my-calc my-text-align-center">500 000 ₽</span>
-							<span class="my-calc my-text-align-right">999 000 ₽</span>
-              <input type="number" id="first_payment" min="{{ vm.payment_min }}" max="{{ vm.payment_max }}" step="1000" data-ng-model="vm.first_payment" data-ng-change="vm.recalculate_interest()" />
+							<span class="my-calc my-text-align-left">{{ vm.payment_min | currency : "₽" : 0 }}</span>
+							<span class="my-calc my-text-align-center">{{ (vm.payment_max + vm.payment_min) / 2 | currency : "₽" : 0 }}</span>
+							<span class="my-calc my-text-align-right">{{ vm.payment_max | currency : "₽" : 0 }}</span>
 						</div>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">{{ vm.first_payment | currency : "₽" : 0 }}</div>
@@ -37,15 +36,19 @@
 				<div class="row my-padding-top-30">
 					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-content-calc-text">Срок кредита</div>
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-padding-bottom-20">
-						<div class="my-line-calc">&nbsp;</div>
+						<div><input type="range" id="months" min="6" max="60" data-ng-model="vm.credit_length" data-ng-change="vm.recalculate_interest()" /></div>
 						<div class="my-margin-top-5">
 							<span class="my-calc-month my-text-align-left">6</span>
 							<span class="my-calc-month my-padding-calc-month my-text-align-center">12</span>
+							<span class="my-calc-month my-padding-calc-month my-text-align-center">&nbsp;</span>
 							<span class="my-calc-month my-padding-calc-month my-text-align-center">24</span>
+							<span class="my-calc-month my-padding-calc-month my-text-align-center">&nbsp;</span>
 							<span class="my-calc-month my-padding-calc-month my-text-align-center">36</span>
+							<span class="my-calc-month my-padding-calc-month my-text-align-center">&nbsp;</span>
 							<span class="my-calc-month my-padding-calc-month my-text-align-center">48</span>
+							<span class="my-calc-month my-padding-calc-month my-text-align-center">&nbsp;</span>
 							<span class="my-calc-month my-padding-left-calc-month">60</span>
-              <input type="number" id="months" min="6" max="60" data-ng-model="vm.credit_length" data-ng-change="vm.recalculate_interest()" />
+
 						</div>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">{{ vm.credit_length }} месяцев</div>
