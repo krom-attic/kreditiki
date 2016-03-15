@@ -6,11 +6,106 @@
 
 {% block content %}
 
-  <h1 class="my-h1">{{ car_make.name }} {{ car_model.name }} в кредит</h1>
- <h2 class="my-h2">Выберите модификацию:</h2>
-  <ul id="modifications" >
+	<div class="container">
+		<div class="col-xs-12">
+			<h2>{{ car_make.name }} {{ car_model.name }} в кредит</h2>
+			<p><strong>Выберите комплектацию:</strong></p>
+		</div>
+	</div>
+
+	<div class="container">
+		<h2>Седан</h2>
+		<hr>
+	</div>
   {% for modification in modification_list %}
-    <li><a href="{{ modification.get_absolute_url }}">{{ modification.name}}{% if modification.cost %} за {{ modification.cost }}{% endif %}</a></li>
+	<div class="container">
+		<div class="model">
+			<div class="col-xs-8 col-sm-7">
+				<a class="car-item" href="{{ modification.get_absolute_url }}">
+					<span class="car-item-inner">{{ modification.name}}</span>
+				</a>
+			</div>
+			<div class="col-xs-4 col-sm-2">
+				<span class="price">
+					<span class="price-inner">{{ modification.cost }}</span>
+				</span>
+			</div>
+			<div class="col-xs-12 col-sm-3">
+				<div class="row">
+					<ul class="nav nav-tabs my-tabs" role="tablist">
+						<li class="col-xs-6 col-sm-12 text-center">
+							<span class="row">
+								<a href="#complectation{{ modification.id }}" aria-controls="complectation{{ modification.id }}" role="tab" data-toggle="tab">Комплектация</a>
+							</span>
+						</li>
+						<li class="col-xs-6 col-sm-12 text-center">
+							<span class="row">
+								<a href="#characteristics{{ modification.id }}" aria-controls="characteristics{{ modification.id }}" role="tab" data-toggle="tab">Характеристики</a>
+							</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="tab-content my-tab-content">
+			<div role="tabpanel" class="tab-pane" id="complectation{{ modification.id }}">
+
+				<p>&nbsp;</p>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a href="#security" data-toggle="collapse" aria-expanded="false">БЕЗОПАСНОСТЬ</a>
+					</div>
+					<ul id="security" class="list-group panel-collapse collapse">
+						<li class="list-group-item">ABS</li>
+						<li class="list-group-item">ESP</li>
+						<li class="list-group-item">Isofix / LATCH</li>
+						<li class="list-group-item">Подушка безопасности водителя</li>
+						<li class="list-group-item">Подушка безопасности пассажира</li>
+						<li class="list-group-item">Система помощи при старте в гору</li>
+					</ul>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a href="#comfort" data-toggle="collapse" aria-expanded="false">КОМФОРТ</a>
+					</div>
+					<ul id="comfort" class="list-group panel-collapse collapse">
+						<li class="list-group-item">Кондиционер — 30 200 Р</li>
+						<li class="list-group-item">Усилитель руля</li>
+						<li class="list-group-item">Бортовой компьютер</li>
+						<li class="list-group-item">Прикуриватель и пепельница — 2 000 Р</li>
+						<li class="list-group-item">Регулировка руля по высоте</li>
+						<li class="list-group-item">Регулировка руля по вылету</li>
+						<li class="list-group-item">ОБЗОР</li>
+						<li class="list-group-item">Электропривод зеркал</li>
+					</ul>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a href="#interior" data-toggle="collapse" aria-expanded="false">САЛОН</a>
+					</div>
+					<ul id="interior" class="list-group panel-collapse collapse">
+						<li class="list-group-item">Тканевый салон</li>
+						<li class="list-group-item">Электростеклоподъемники передние</li>
+						<li class="list-group-item">Третий задний подголовник</li>
+						<li class="list-group-item">Складывающееся заднее сиденье</li>
+					</ul>
+				</div>
+			</div>
+
+			<p>&nbsp;</p>
+
+			<div role="tabpanel" class="tab-pane" id="characteristics{{ modification.id }}">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			</div>
+		</div>
+	</div>
   {% endfor %}
-  </ul>
 {% endblock %}

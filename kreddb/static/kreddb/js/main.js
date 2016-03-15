@@ -91,6 +91,25 @@ $(document).ready(function(){
         };
     });
 
+
+    // контроллирует сворачиваемость на странице модификаций
+    $('.collapse').on('show.bs.collapse', function (e) {
+        $('.collapse').not(e.target).removeClass('in');
+    });
+    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+        $('.tab-pane').not(e.target).removeClass('active');
+    });
+    $('.my-tabs a').click(function (e) {
+        var tab = $(this);
+        if(tab.parents('li').hasClass('active')){
+            window.setTimeout(function(){
+                $(".tab-pane").removeClass('active');
+                tab.parents('li').removeClass('active');
+            },1);
+        }
+    });
+    // до сих
+
 //    $("#show-all-marks").click(function(){
 //        $("#all-marks").removeClass("hidden");
 //        $("#show-all-marks").addClass("hidden");
