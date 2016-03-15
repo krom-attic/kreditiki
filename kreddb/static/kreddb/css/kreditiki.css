@@ -1,3 +1,12 @@
+header {
+	margin: 20px 0 0;
+}
+header h1 {
+	margin: 0;
+    color: #007cbf;
+    text-align: right;
+}
+
 .my-h1 {
   font-size:25px;}
 
@@ -173,7 +182,7 @@ footer {
 
 @media screen and (max-width:767px) {
 
-	.model-title {
+	header h1 {
 		font-size: 18px;}
 	
 	.my-padding-left-calc-month {
