@@ -6,19 +6,17 @@
 
 {% block content %}
 
-	<div class="container">
-		<div class="col-xs-12">
-			<h2>{{ car_make.name }} {{ car_model.name }} в кредит</h2>
-			<p><strong>Выберите комплектацию:</strong></p>
-		</div>
-	</div>
+	<h2>{{ car_make.name }} {{ car_model.name }} в кредит</h2>
+	<p><strong>Выберите комплектацию:</strong></p>
 
-	<div class="container">
-		<h2>Седан</h2>
-		<hr>
-	</div>
+	<p>&nbsp;</p>
+
+	<h3>Седан</h3>
+	
+	<hr>
+
   {% for modification in modification_list %}
-	<div class="container">
+	<div class="model-block">
 		<div class="model">
 			<div class="col-xs-8 col-sm-7">
 				<a class="car-item" href="{{ modification.get_absolute_url }}">
