@@ -7,11 +7,9 @@
 {% block content %}
 
 	<h2>{{ car_make.name }} {{ car_model.name }} в кредит</h2>
-	<p><strong>Выберите комплектацию:</strong></p>
+	<p class="mod-list-txt"><strong>Выберите комплектацию:</strong></p>
 
-	<p>&nbsp;</p>
-
-	<h3>Седан</h3>
+	<h3 class="mod-list-h3">Седан</h3>
 	
 	<hr>
 
@@ -25,7 +23,7 @@
 			</div>
 			<div class="col-xs-4 col-sm-2">
 				<span class="price">
-					<span class="price-inner">{{ modification.cost }}</span>
+					<span class="price-inner">{{ modification.cost }} <span class="ruble">Р</span></span>
 				</span>
 			</div>
 			<div class="col-xs-12 col-sm-3">
