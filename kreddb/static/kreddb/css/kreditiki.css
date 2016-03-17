@@ -130,6 +130,16 @@ li {
 	max-width: 250px;
 	display: block;}
 
+.mod-list-h2 {
+	font-weight: 700;}
+
+.mod-list-h3 {
+	font-size: 20px;}
+
+.mod-list-txt {
+	font-size: 30px;
+	font-weight: 700;}
+
 .model {
 	overflow: hidden;}
 
