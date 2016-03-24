@@ -225,7 +225,10 @@ footer {
 	.my-carousel-block-none {display: none;}
 	.my-button-app-margin-top-20 {margin-top: 20px;}
 
-	#popular-models.in {
+	#popular-models.collapse.hidden-xs {
+		display: none !important;
+	}
+	#popular-models.collapse.in.hidden-xs {
 		display: block !important;
 	}
 	
