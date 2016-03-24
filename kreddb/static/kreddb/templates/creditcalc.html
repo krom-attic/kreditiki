@@ -38,12 +38,36 @@
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-padding-bottom-20">
 						<div><input type="range" id="months" min="6" max="60" data-ng-model="vm.credit_length" data-ng-change="vm.recalculate_interest()" /></div>
 						<div class="my-calc-months my-margin-top-5">
-							<span class="my-calc-month">6</span>
-							<span class="my-calc-month">12</span>
-							<span class="my-calc-month">24</span>
-							<span class="my-calc-month">36</span>
-							<span class="my-calc-month">48</span>
-							<span class="my-calc-month">60</span>
+							<div class="col-xs-1 my-calc-month text-left">
+								<div class="row">
+									6
+								</div>
+							</div>
+							<div class="col-xs-2 my-calc-month text-left">
+								<div class="row">
+									12
+								</div>
+							</div>
+							<div class="col-xs-2 my-calc-month text-center">
+								<div class="row">
+									24
+								</div>
+							</div>
+							<div class="col-xs-2 my-calc-month text-right">
+								<div class="row">
+									36
+								</div>
+							</div>
+							<div class="col-xs-2 my-calc-month text-right">
+								<div class="row">
+									48
+								</div>
+							</div>
+							<div class="col-xs-3 my-calc-month text-right">
+								<div class="row">
+									60
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">{{ vm.credit_length }} месяцев</div>
