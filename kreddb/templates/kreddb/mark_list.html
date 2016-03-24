@@ -10,11 +10,11 @@
 
 <carselector data-ng-cloak data-ng-init="carmakes = [{% for car_make in car_makes_new %}'{{ car_make.name }}', {% endfor %}]"></carselector>
 
-<button class="btn btn-primary btn-block visible-xs-block" type="button" data-toggle="collapse" data-target="#popular-models" aria-expanded="false" aria-controls="popular-models">Посмотреть самые популрные модели</button>
+<button class="btn btn-primary btn-block visible-xs-block" type="button" data-toggle="collapse" data-target="#popular-models" aria-expanded="true" aria-controls="popular-models">Посмотреть самые популрные модели</button>
 
 <div class="row">
 
-<div class="collapse in hidden-xs" id="popular-models">
+<div class="collapse in hidden-xs" id="popular-models" aria-expanded="true">
 
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-padding">
 		<div style="background: url(http://toyota-tula.ru/images/88/common/all_new_toyota_camry_exterior.jpg) no-repeat; background-position: 50%; background-size: cover;">
