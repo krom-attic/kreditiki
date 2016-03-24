@@ -86,15 +86,7 @@ li {
     box-sizing: border-box;}
 
 .my-calc-months {
-	position: relative;
-	width: 100%;
 	height: 20px;}
-
-.my-calc-month {
-    display: inline-block;
-    vertical-align: middle;
-    width: 6%;
-    box-sizing: border-box;}
 	
 	
 .my-padding-calc-month {
