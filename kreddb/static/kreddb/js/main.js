@@ -109,12 +109,10 @@ $(document).ready(function(){
         }
     });
 
-    // схлопывает популярные модели на главной для мобильных устройств
-    var wWidth = $(window).width();
-    if(wWidth <= 768) {
-        $('.btn-popular-models').attr('aria-expanded','false');
-        $('#popular-models').removeClass('in');
-    }
+    // убирает скрывающий класс у блока с популярными моделями
+    $('.btn-popular-models').on('click', function() {
+        $('#popular-models').removeClass('hidden-xs');
+    });
 
     // до сих
 
