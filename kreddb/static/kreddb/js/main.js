@@ -108,6 +108,14 @@ $(document).ready(function(){
             },1);
         }
     });
+
+    // схлопывает популярные модели на главной для мобильных устройств
+    var wWidth = $(window).width();
+    if(wWidth <= 768) {
+        $('.btn-popular-models').attr('aria-expanded','false');
+        $('#popular-models').removeClass('in');
+    }
+
     // до сих
 
 //    $("#show-all-marks").click(function(){

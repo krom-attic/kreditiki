@@ -90,7 +90,7 @@ li {
 	
 .my-padding-0 {
 	padding: 0;}	
-
+	
 .my-padding-calc-month {
 	padding-left: 9%;
 	padding-right: 9%;}
@@ -224,14 +224,6 @@ footer {
 		
 	.my-carousel-block-none {display: none;}
 	.my-button-app-margin-top-20 {margin-top: 20px;}
-
-	.btn-popular-models[aria-expanded="true"] + .row #popular-models {
-		display: block !important;
-	}
-	#popular-models.in.hidden-xs,
-	.btn-popular-models[aria-expanded="false"] + .row #popular-models {
-		display: none !important;
-	}
 	
 }
 
