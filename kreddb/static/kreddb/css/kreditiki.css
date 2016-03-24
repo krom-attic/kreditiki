@@ -225,10 +225,11 @@ footer {
 	.my-carousel-block-none {display: none;}
 	.my-button-app-margin-top-20 {margin-top: 20px;}
 
-	.btn-popular-models[aria-expanded="false"] + #popular-models {
+	#popular-models.in.hidden-xs,
+	.btn-popular-models[aria-expanded="false"] + .row #popular-models {
 		display: none !important;
 	}
-	.btn-popular-models[aria-expanded="true"] + #popular-models {
+	.btn-popular-models[aria-expanded="true"] + .row #popular-models {
 		display: block !important;
 	}
 	
