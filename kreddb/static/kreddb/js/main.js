@@ -110,14 +110,9 @@ $(document).ready(function(){
     });
 
     // схлопываем блок с популярными моделями на мобильных
-    var wWidth = $(window).width();
-    if(wWidth <= 768) {
-        $('.btn-popular-models').attr('aria-expanded', 'false');
-        $('#popular-models').removeClass('in');
-        $('.btn-popular-models').on('click', function(){
-            $('#popular-models').removeClass('hidden-xs');
-        });
-    };
+    $('.btn-popular-models').on('click', function(){
+        $('#popular-models').toggleClass('hidden-xs');
+    });
 
     // до сих
 
