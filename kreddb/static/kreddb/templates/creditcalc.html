@@ -26,9 +26,9 @@
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-padding-bottom-20">
 						<div><input type="range" id="first_payment" min="{{ vm.payment_min }}" max="{{ vm.payment_max }}" step="1000" data-ng-model="vm.first_payment" data-ng-change="vm.recalculate_interest()" /></div>
 						<div class="my-margin-top-5">
-							<span class="my-calc text-left">{{ vm.payment_min | currency : "₽" : 0 }}</span>
-							<span class="my-calc text-center">{{ (vm.payment_max + vm.payment_min) / 2 | currency : "₽" : 0 }}</span>
-							<span class="my-calc text-right">{{ vm.payment_max | currency : "₽" : 0 }}</span>
+							<div class="col-xs-4 my-padding-0 text-left">{{ vm.payment_min | currency : "₽" : 0 }}</div>
+							<div class="col-xs-4 text-center">{{ (vm.payment_max + vm.payment_min) / 2 | currency : "₽" : 0 }}</div>
+							<div class="col-xs-4 my-padding-0 text-right">{{ vm.payment_max | currency : "₽" : 0 }}</div>
 						</div>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">{{ vm.first_payment | currency : "₽" : 0 }}</div>
