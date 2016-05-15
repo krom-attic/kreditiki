@@ -2,6 +2,10 @@ from django.contrib import admin
 
 from kreddb import models
 
-# Register your models here.
+# старьё
+admin.site.register(models.Mark)
+admin.site.register(models.CarModel)
 
-admin.site.register(models.Body)
+# новьё
+admin.site.register(models.CarMake)
+admin.site.register(models.CarModelNew)

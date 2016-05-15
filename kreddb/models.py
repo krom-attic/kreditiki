@@ -5,6 +5,239 @@ from kreddb.orm_old import *
 
 SAFE_TRANSLATION = str.maketrans(' &+:,/«»³®`×', '----_\\""3R\'x')
 
+
+class CarMake(models.Model):
+    name = models.CharField(db_index=True, max_length=127)
+    # old_id = models.IntegerField(unique=True, null=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+    def filter_url(self):
+        return reverse('kreddb:list_car_models', kwargs={'car_make': self.name})
+
+    @classmethod
+    def get_by_name(cls, name):
+        return cls.objects.get(name=name)
+    #
+    # @classmethod
+    # def get_by_old_id(cls, old_id):
+    #     return cls.objects.get(old_id=old_id)
+
+
+class CarModelNew(models.Model):
+    name = models.CharField(db_index=True, max_length=127)
+    car_make = models.ForeignKey(CarMake)
+    # old_id = models.IntegerField(unique=True, null=True)
+
+    def __str__(self):
+        return self.car_make.name + ' ' + self.name
+
+    @property
+    def safe_name(self):
+        return self.name.replace('/', '%')
+
+    def filter_url(self):
+        return reverse('kreddb:list_modifications',
+                       kwargs=dict(car_make=self.car_make.name, car_model=self.safe_name))
+
+    @classmethod
+    def get_by_safe_name(cls, safe_name, car_make):
+        return cls.objects.get(name=safe_name.replace('%', '/'), car_make=car_make)
+
+    @classmethod
+    def get_by_name(cls, name, car_make):
+        return cls.objects.get(name=name, car_make=car_make)
+    #
+    # @classmethod
+    # def get_by_old_id(cls, old_id):
+    #     return cls.objects.get(old_id=old_id)
+
+
+class GenerationNew(models.Model):
+    name = models.CharField(max_length=127, blank=True)
+    car_make = models.ForeignKey(CarMake)
+    car_model = models.ForeignKey(CarModelNew)
+    year_start = models.IntegerField()
+    year_end = models.IntegerField()
+    # old_id = models.IntegerField(unique=True, null=True)
+
+    class Meta:
+        ordering = ['-year_start']
+        unique_together = (('name', 'car_model', 'year_start', 'year_end'),)
+
+    def __str__(self):
+        return self.car_make.name + ' ' + self.car_model.name + ' ' + self.name
+
+    @property
+    def url_kwargs(self):
+        url_kwargs = {'car_make': self.car_make.name, 'car_model': self.car_model.name, 'name': self.name, 'body': '-',
+                      'engine': '-', 'gear': '-'}
+        return url_kwargs
+
+    def get_absolute_url(self):
+        return reverse('kreddb:list_modifications', kwargs=self.url_kwargs)
+
+    @classmethod
+    def get_for_model(cls, car_make, car_model, **kwargs):
+        return cls.objects.get(car_make=car_make, car_model=car_model, **kwargs)
+
+    @classmethod
+    def get_by_name_and_year(cls, car_model, year_start, year_end, name):
+        try:
+            return cls.objects.get(car_model=car_model, year_start=year_start, year_end=year_end, name=name)
+        except MultipleObjectsReturned as e:
+            print('MOR with {}, {}, {}, {}'.format(car_model, year_start, year_end, name))
+            raise e
+        except ObjectDoesNotExist as e:
+            print('DNE with {}, {}, {}, {}'.format(car_model, year_start, year_end, name))
+            raise e
+
+
+    # @classmethod
+    # def get_by_old_id(cls, old_id):
+    #     return cls.objects.get(old_id=old_id)
+
+
+class BodyNew(models.Model):
+    name = models.CharField(db_index=True, max_length=127)
+    # old_id = models.IntegerField(unique=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    @classmethod
+    def get_by_name(cls, name):
+        return cls.objects.get(name=name)
+
+    # @classmethod
+    # def get_by_old_id(cls, old_id):
+    #     return cls.objects.get(old_id=old_id)
+
+
+class EngineNew(models.Model):
+    name = models.CharField(db_index=True, max_length=127)
+    # old_id = models.IntegerField(unique=True, null=True)
+
+    @classmethod
+    def get_by_name(cls, name):
+        return cls.objects.get(name=name)
+
+    # @classmethod
+    # def get_by_old_id(cls, old_id):
+    #     return cls.objects.get(old_id=old_id)
+
+
+class GearNew(models.Model):
+    name = models.CharField(db_index=True, max_length=127)
+    # old_id = models.IntegerField(unique=True, null=True)
+
+    @classmethod
+    def get_by_name(cls, name):
+        return cls.objects.get(name=name)
+
+    # @classmethod
+    # def get_by_old_id(cls, old_id):
+    #     return cls.objects.get(old_id=old_id)
+
+
+class Equipment(models.Model):
+    name = models.CharField(db_index=True, max_length=255)
+
+
+class Feature(models.Model):
+    name = models.CharField(db_index=True, max_length=255)
+
+
+class ModificationNew(models.Model):
+    name = models.CharField(max_length=127, blank=True)
+    # TODO удалить следующие два поля? это же дублирование!
+    car_make = models.ForeignKey(CarMake)
+    car_model = models.ForeignKey(CarModelNew, db_index=True)
+    generation = models.ForeignKey(GenerationNew)
+    body = models.ForeignKey(BodyNew)
+    gear = models.ForeignKey(GearNew)
+    engine = models.ForeignKey(EngineNew)
+    cost = models.IntegerField(blank=True, null=True)
+    equipment = models.ManyToManyField(Equipment, through='EquipmentCost')
+    features = models.ManyToManyField(Feature, through='ModificationFeatures')
+    old_id = models.IntegerField(unique=True, blank=True, null=True)
+
+    @property
+    def safe_name(self):
+        return self.equipment_name.replace('/', '%')
+
+    def get_absolute_url(self):
+        mod_params = {
+            'car_make': self.car_make.name,
+            'car_model': self.car_model.safe_name,
+            'generation': self.generation.name,
+            'body': self.body.name,
+            'gear': self.gear.name,
+            'engine': self.engine.name,
+            'gen_year_start': self.generation.year_start,
+            'gen_year_end': self.generation.year_end,
+            'modification': self.safe_name,
+        }
+        if self.cost is None:
+            mod_params.update({'mod_id': self.id})
+        else:
+            mod_params.update({'cost': self.cost})
+        # try:
+        url = reverse('kreddb:view_modification', kwargs=mod_params)
+        # except Exception as e:
+        #     print(e.__str__())
+        #     url = ''
+        return url
+
+    @classmethod
+    def get_by_params(cls, generation, body, gear, engine, cost, name):
+        # TODO Это не будет работать!!! Так уникальную модификацию не определить!!!
+        try:
+            return cls.objects.get(generation=generation, body=body, gear=gear, engine=engine, cost=cost, name=name)
+        except MultipleObjectsReturned as e:
+            print('MOR with {}, {}, {}, {}, {}, {}'.format(generation, body, gear, engine, cost, name))
+            raise e
+        except ObjectDoesNotExist as e:
+            print('DNE with {}, {}, {}, {}, {}, {}'.format(generation, body, gear, engine, cost, name))
+            raise e
+
+    # TODO подумать над названием и сигнатурой метода
+    @classmethod
+    def get_by_name_and_gen(cls, **kwargs):
+        # может вернуть несколько объектов!
+        try:
+            modification = cls.objects.get(**kwargs)
+        except MultipleObjectsReturned as e:
+            raise e
+        return modification
+
+    @classmethod
+    def get_by_old_id(cls, old_id):
+        return cls.objects.get(old_id=old_id)
+
+
+class EquipmentCost(models.Model):
+    modification = models.ForeignKey(ModificationNew)
+    equipment = models.ForeignKey(Equipment)
+    cost = models.IntegerField()
+
+    class Meta:
+        unique_together = (('modification', 'equipment'),)
+
+
+class ModificationFeatures(models.Model):
+    modification = models.ForeignKey(ModificationNew)
+    feature = models.ForeignKey(Feature)
+    value = models.CharField(max_length=127)
+
+    class Meta:
+        unique_together = (('modification', 'feature'),)
+
+
 # если max_length=253, значит он выставлен автоматически
 
 
