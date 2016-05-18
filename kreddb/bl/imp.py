@@ -1,3 +1,5 @@
+import re
+
 from kreddb.models import Mark, CarModel, Generation, Body, Engine, Gear, Modification,\
     EquipmentLk
 from kreddb.models import CarMake, CarModelNew, GenerationNew, BodyNew, EngineNew, GearNew, ModificationNew,\
@@ -156,11 +158,10 @@ def import_equipment(run_again=False):
     if not run_again:
         raise Exception('Уже запускалось!')
     print('Начинаю конвертацию деталей комплектаций')
-    # i = 0
+    i = 0
+    RE_OPTION_PACKAGE = re.compile(r'.+:.+(,.+)+')
     for old in get_old_equipment():
-        # i += 1
-        equipment_cost = EquipmentCost()
-        equipment_cost.modification = ModificationNew.get_by_old_id(old.modification_id)
+        i += 1
         # modification_car_make = CarMake.get_by_name(old_modification.mark.name)
         # modification_car_model = CarModelNew.get_by_name(old_modification.car_model.name, modification_car_make)
         # modification_generation = GenerationNew.get_by_name_and_year(modification_car_model,
@@ -184,12 +185,21 @@ def import_equipment(run_again=False):
         #                                                             modification_engine,
         #                                                             modification_cost,
         #                                                             modification_name)
-        equipment, _ = Equipment.objects.get_or_create(name=old.equipment_dict.name)
+        name = old.equipment_dict.name
+        if RE_OPTION_PACKAGE.match(name):
+            print('Пакет опций?\n{}'.format(name))
+            continue
+
+        equipment, _ = Equipment.objects.get_or_create(name=name)
+
+        equipment_cost = EquipmentCost()
+        equipment_cost.modification = ModificationNew.get_by_old_id(old.modification_id)
         equipment_cost.equipment = equipment
         equipment_cost.cost = old.equipment_dict.cost
         equipment_cost.save()
-        # if i % 1000 == 0:
-        #     print(i)
+
+        if i % 1000 == 0:
+            print(i)
     print('Закончил конвертацию деталей комплектаций')
 
 
