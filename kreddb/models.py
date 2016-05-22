@@ -28,7 +28,7 @@ class CarMake(models.Model):
     #     return cls.objects.get(old_id=old_id)
 
 
-class CarModelNew(models.Model):
+class CarModel(models.Model):
     name = models.CharField(db_index=True, max_length=127)
     car_make = models.ForeignKey(CarMake)
     # old_id = models.IntegerField(unique=True, null=True)
@@ -57,10 +57,10 @@ class CarModelNew(models.Model):
     #     return cls.objects.get(old_id=old_id)
 
 
-class GenerationNew(models.Model):
+class Generation(models.Model):
     name = models.CharField(max_length=127, blank=True)
     car_make = models.ForeignKey(CarMake)
-    car_model = models.ForeignKey(CarModelNew)
+    car_model = models.ForeignKey(CarModel)
     year_start = models.IntegerField()
     year_end = models.IntegerField()
     # old_id = models.IntegerField(unique=True, null=True)
@@ -102,7 +102,7 @@ class GenerationNew(models.Model):
     #     return cls.objects.get(old_id=old_id)
 
 
-class BodyNew(models.Model):
+class Body(models.Model):
     name = models.CharField(db_index=True, max_length=127)
     # old_id = models.IntegerField(unique=True, null=True)
 
@@ -118,7 +118,7 @@ class BodyNew(models.Model):
     #     return cls.objects.get(old_id=old_id)
 
 
-class EngineNew(models.Model):
+class Engine(models.Model):
     name = models.CharField(db_index=True, max_length=127)
     # old_id = models.IntegerField(unique=True, null=True)
 
@@ -131,7 +131,7 @@ class EngineNew(models.Model):
     #     return cls.objects.get(old_id=old_id)
 
 
-class GearNew(models.Model):
+class Gear(models.Model):
     name = models.CharField(db_index=True, max_length=127)
     # old_id = models.IntegerField(unique=True, null=True)
 
@@ -152,15 +152,15 @@ class Feature(models.Model):
     name = models.CharField(db_index=True, max_length=255)
 
 
-class ModificationNew(models.Model):
+class Modification(models.Model):
     name = models.CharField(max_length=127, blank=True)
     # TODO удалить следующие два поля? это же дублирование!
     car_make = models.ForeignKey(CarMake)
-    car_model = models.ForeignKey(CarModelNew, db_index=True)
-    generation = models.ForeignKey(GenerationNew)
-    body = models.ForeignKey(BodyNew)
-    gear = models.ForeignKey(GearNew)
-    engine = models.ForeignKey(EngineNew)
+    car_model = models.ForeignKey(CarModel, db_index=True)
+    generation = models.ForeignKey(Generation)
+    body = models.ForeignKey(Body)
+    gear = models.ForeignKey(Gear)
+    engine = models.ForeignKey(Engine)
     cost = models.IntegerField(blank=True, null=True)
     equipment = models.ManyToManyField(Equipment, through='EquipmentCost')
     features = models.ManyToManyField(Feature, through='ModificationFeatures')
@@ -168,7 +168,7 @@ class ModificationNew(models.Model):
 
     @property
     def safe_name(self):
-        return self.equipment_name.replace('/', '%')
+        return self.name.replace('/', '%')
 
     def get_absolute_url(self):
         mod_params = {
@@ -180,7 +180,7 @@ class ModificationNew(models.Model):
             'engine': self.engine.name,
             'gen_year_start': self.generation.year_start,
             'gen_year_end': self.generation.year_end,
-            'modification': self.safe_name,
+            'complect': self.safe_name,
         }
         if self.cost is None:
             mod_params.update({'mod_id': self.id})
@@ -221,7 +221,7 @@ class ModificationNew(models.Model):
 
 
 class EquipmentCost(models.Model):
-    modification = models.ForeignKey(ModificationNew)
+    modification = models.ForeignKey(Modification)
     equipment = models.ForeignKey(Equipment)
     cost = models.IntegerField()
 
@@ -230,7 +230,7 @@ class EquipmentCost(models.Model):
 
 
 class ModificationFeatures(models.Model):
-    modification = models.ForeignKey(ModificationNew)
+    modification = models.ForeignKey(Modification)
     feature = models.ForeignKey(Feature)
     value = models.CharField(max_length=127)
 
@@ -262,7 +262,7 @@ class ModificationFeatures(models.Model):
 #         db_table = 'email'
 
 
-class Body(models.Model):
+class BodyOld(models.Model):
     name = models.CharField(unique=True, max_length=253)
 
     class Meta:
@@ -272,22 +272,22 @@ class Body(models.Model):
     def __str__(self):
         return self.name
 
-    @property
-    def safe_name(self):
-        try:
-            return self.bodycustom.safename
-        except ObjectDoesNotExist as e:
-            model_custom = BodyCustom(body_ptr=self, safename=self.name.translate(SAFE_TRANSLATION))
-            model_custom.save_base(raw=True)  # Обход тикета 7623
-            return model_custom.safename
+    # @property
+    # def safe_name(self):
+    #     try:
+    #         return self.bodycustom.safename
+    #     except ObjectDoesNotExist as e:
+    #         model_custom = BodyCustom(body_ptr=self, safename=self.name.translate(SAFE_TRANSLATION))
+    #         model_custom.save_base(raw=True)  # Обход тикета 7623
+    #         return model_custom.safename
 
     @classmethod
     def get_by_name(cls, name):
         return cls.objects.get(name=name)
 
 
-class BodyCustom(Body):
-    safename = models.CharField(blank=True, max_length=100, db_index=True)
+# class BodyCustom(BodyOld):
+#     safename = models.CharField(blank=True, max_length=100, db_index=True)
 
 
 class Mark(models.Model):
@@ -317,19 +317,19 @@ class Mark(models.Model):
     def get_by_name(cls, name):
         return cls.objects.get(name=name)
 
-    @classmethod
-    def get_by_safe_name(cls, safe_name):
-        return MarkCustom.objects.get(safename=safe_name).mark_ptr
+    # @classmethod
+    # def get_by_safe_name(cls, safe_name):
+    #     return MarkCustom.objects.get(safename=safe_name).mark_ptr
 
 
-class MarkCustom(Mark):
-    safename = models.CharField(blank=True, max_length=100)
+# class MarkCustom(Mark):
+#     safename = models.CharField(blank=True, max_length=100)
+#
+#     class Meta:
+#         managed = True
 
-    class Meta:
-        managed = True
 
-
-class CarModel(models.Model):
+class CarModelOld(models.Model):
     name = models.CharField(unique=True, max_length=253)
     generation_count = models.CharField(max_length=253, blank=True)
     mark = models.ForeignKey(Mark)
@@ -358,14 +358,14 @@ class CarModel(models.Model):
         return cls.objects.get(name=safe_name.replace('%', '/'), mark=mark)
 
 
-class CarModelCustom(CarModel):
-    safename = models.CharField(blank=True, max_length=100, db_index=True)
+# class CarModelCustom(CarModelOld):
+#     safename = models.CharField(blank=True, max_length=100, db_index=True)
 
 
-class Generation(models.Model):
+class GenerationOld(models.Model):
     name = models.CharField(max_length=253)
     cost = models.CharField(max_length=253)
-    car_model = models.ForeignKey(CarModel, db_column='model_id')
+    car_model = models.ForeignKey(CarModelOld, db_column='model_id')
     mark = models.ForeignKey(Mark)
     url = models.CharField(unique=True, max_length=253)
     generation = models.CharField(max_length=253, blank=True)
@@ -413,54 +413,53 @@ class Generation(models.Model):
     #     self._generation = value
 
 
-class Engine(models.Model):
+class EngineOld(models.Model):
     name = models.CharField(unique=True, max_length=253)
 
     class Meta:
         managed = False
         db_table = 'engine'
 
-    @property
-    def safe_name(self):
-        try:
-            return self.enginecustom.safename
-        except ObjectDoesNotExist as e:
-            model_custom = EngineCustom(engine_ptr=self, safename=self.name.translate(SAFE_TRANSLATION))
-            model_custom.save_base(raw=True)  # Обход тикета 7623
-            return model_custom.safename
+    # @property
+    # def safe_name(self):
+    #     try:
+    #         return self.enginecustom.safename
+    #     except ObjectDoesNotExist as e:
+    #         model_custom = EngineCustom(engine_ptr=self, safename=self.name.translate(SAFE_TRANSLATION))
+    #         model_custom.save_base(raw=True)  # Обход тикета 7623
+    #         return model_custom.safename
 
     @classmethod
     def get_by_name(cls, name):
         return cls.objects.get(name=name)
 
 
-class EngineCustom(Engine):
-    safename = models.CharField(blank=True, max_length=100, db_index=True)
+# class EngineCustom(EngineOld):
+#     safename = models.CharField(blank=True, max_length=100, db_index=True)
 
 
-class Gear(GearDB):
+class GearOld(GearDB):
 
     class Meta:
         proxy = True
 
 
-class Modification(models.Model):
+class ModificationOld(models.Model):
     name = models.CharField(max_length=253)
     url = models.CharField(unique=True, max_length=253)
     gear = models.ForeignKey(GearDB)
-    engine = models.ForeignKey(Engine)
+    engine = models.ForeignKey(EngineOld)
     mark = models.ForeignKey(Mark)
-    car_model = models.ForeignKey(CarModel, db_column='model_id')
-    generation = models.ForeignKey(Generation)
+    car_model = models.ForeignKey(CarModelOld, db_column='model_id')
+    generation = models.ForeignKey(GenerationOld)
     complects_url = models.CharField(max_length=253, blank=True)
     cost = models.CharField(max_length=253, blank=True, null=True)
-    body = models.ForeignKey(Body)
+    body = models.ForeignKey(BodyOld)
     equipment_name = models.CharField(max_length=253, blank=True)
     safename = models.CharField(blank=True, max_length=100, db_index=True)
 
     class Meta:
         db_table = 'modification'
-
 
     @property
     def safe_name(self):
@@ -500,8 +499,8 @@ class Modification(models.Model):
         return modification
 
 
-class KredModification(Modification):
-    tie_braker = models.SmallIntegerField(null=True, blank=True)
+# class KredModification(Modification):
+#     tie_braker = models.SmallIntegerField(null=True, blank=True)
 
 
 class EquipmentDict(models.Model):
@@ -516,7 +515,7 @@ class EquipmentDict(models.Model):
 
 class EquipmentLk(models.Model):
     equipment_dict = models.ForeignKey(EquipmentDict)
-    modification = models.ForeignKey(Modification)
+    modification = models.ForeignKey(ModificationOld)
 
     class Meta:
         managed = False
@@ -536,7 +535,7 @@ class FeatureDict(models.Model):
 
 class FeatureLk(models.Model):
     feature_dict = models.ForeignKey(FeatureDict)
-    modification = models.ForeignKey(Modification)
+    modification = models.ForeignKey(ModificationOld)
 
     class Meta:
         managed = False

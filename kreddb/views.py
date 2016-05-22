@@ -17,22 +17,17 @@ from kreddb.serializers import CarModelSerializer
 # Вывод списка марок
 
 
-class MarkListView(ListView):
-    model = models.Mark
+class CarMakeListView(ListView):
+    model = models.CarMake
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        marks = models.Modification.objects.exclude(cost=None).values_list('mark', flat=True).distinct()
-        context['car_makes_new'] = models.Mark.objects.filter(id__in=marks)
-        context['car_makes_new_list'] = list(context['car_makes_new'].values_list('name', flat=True))
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['car_makes'] = models.CarMake.objects.all()
+    #     context['car_makes_list'] = list(context['car_makes'].values_list('name', flat=True))
+    #     return context
 
 
 # Вывод списка моделей
-
-
-def get_new_car_models(mark):
-    return models.Modification.objects.exclude(cost=None).filter(mark=mark).values_list('car_model', flat=True).distinct()
 
 
 class CarModelListView(ListView):
@@ -44,10 +39,9 @@ class CarModelListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        _car_make = self.kwargs['car_make']
-        self.car_make = models.Mark.get_by_name(_car_make)
-        _car_models = get_new_car_models(self.car_make)
-        return queryset.filter(id__in=_car_models)
+        car_make_name = self.kwargs['car_make']
+        self.car_make = models.CarMake.get_by_name(car_make_name)
+        return queryset.filter(car_make=self.car_make)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -66,16 +60,18 @@ class CarModelListView(ListView):
         return context
 
 
-class CarModelListAPIView(views.APIView):
-    # TODO убрать format?
-    def get(self, request, format=None, *args, **kwargs):
-        _car_make = kwargs['car_make']
-        car_make = models.Mark.get_by_name(_car_make)
-        _car_models = get_new_car_models(car_make)
+class CarModelListAPIView(View):
+    def get(self, request, *args, **kwargs):
+        car_make_name = kwargs['car_make']
+        car_make = models.CarMake.get_by_name(car_make_name)
         # TODO раз уж мы получили объект марки, то для оптимизации его id можно будет передать на страницу
-        car_models = list(models.CarModel.objects.filter(id__in=_car_models).values_list('name', flat=True).order_by('name'))
+        car_models = list(models.CarModel
+                          .objects
+                          .filter(car_make=car_make)
+                          .values_list('name', flat=True)
+                          .order_by('name'))
 
-        return response.Response(car_models)
+        return HttpResponse(json.dumps(car_models))
 
 
 # Обработчик селектора
@@ -115,7 +111,7 @@ class ModificationListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         _car_make = self.kwargs['car_make']
-        self.car_make = models.Mark.get_by_name(_car_make)
+        self.car_make = models.CarMake.get_by_name(_car_make)
         _car_model = self.kwargs['car_model']
         self.car_model = models.CarModel.get_by_safe_name(_car_model, self.car_make)
         qs_filter = {'car_model': self.car_model}
@@ -126,16 +122,17 @@ class ModificationListView(ListView):
         # TODO добавить фильтр по году поколения?
         if 'modification' in self.kwargs and self.kwargs['modification'] != '-':
             self.modification = self.kwargs['modification']
-            qs_filter.update({'equipment_name': self.modification})
+            qs_filter.update({'name': self.modification})
         if 'body' in self.kwargs and self.kwargs['body'] != '-':
             self.body = models.Body.objects.get(name=self.kwargs['body'])
             qs_filter.update({'body': self.body})
         if 'engine' in self.kwargs and self.kwargs['engine'] != '-':
-            self.engine = models.EngineCustom.objects.get(name=self.kwargs['engine']).engine_ptr
+            self.engine = models.Engine.objects.get(name=self.kwargs['engine'])
             qs_filter.update({'engine': self.engine})
         if 'gear' in self.kwargs and self.kwargs['gear'] != '-':
             self.gear = models.Gear.objects.get(name=self.kwargs['gear'])
             qs_filter.update({'gear': self.gear})
+        # на данный момент неактуально, но может пригодиться
         if self.kwargs.get('all'):
             return queryset.filter(**qs_filter)
         else:
@@ -157,6 +154,20 @@ class ModificationListView(ListView):
         return context
 
 
+class ModificationDataApiView(View):
+    def get(self, request, *args, **kwargs):
+        modification_id = kwargs['mod_id']
+        features = models.ModificationFeatures.objects.filter(modification_id=modification_id)
+        feature_dict = {feature.feature.name: feature.value for feature in features}
+        equipment = models.EquipmentCost.objects.filter(modification_id=modification_id)
+        equipment_dict = {piece.equipment.name: piece.cost for piece in equipment}
+        return HttpResponse(json.dumps({
+            'mod_id': modification_id,
+            'features': feature_dict,
+            'equipment': equipment_dict
+        }))
+
+
 class ModificationDetailView(DetailView):
     model = models.Modification
 
@@ -164,34 +175,34 @@ class ModificationDetailView(DetailView):
         self.object = None
         # self.kwargs = {}
         super().__init__()
+        self.name = None
         self.car_make = None
         self.car_model = None
         self.generation = None
         self.gen_year_start = None
         self.gen_year_end = None
-        self.complect = None
         self.body = None
-        self.engine = None
         self.gear = None
+        self.engine = None
         self.cost = None
 
     def get(self, request, *args, **kwargs):
-        self.car_make = models.Mark.get_by_name(self.kwargs['car_make'])
+        self.name = self.kwargs['complect'].replace('%', '/')
+        self.car_make = models.CarMake.get_by_name(self.kwargs['car_make'])
         self.car_model = models.CarModel.get_by_safe_name(self.kwargs['car_model'], self.car_make)
-        generation_info = dict(top_age=self.kwargs['gen_year_start'], bottom_age=self.kwargs['gen_year_end'])
+        generation_info = dict(year_start=self.kwargs['gen_year_start'], year_end=self.kwargs['gen_year_end'])
         # if self.kwargs['generation'] == 'None':
         #     self.kwargs['generation'] = None
         if self.kwargs['generation']:
-            generation_info['generation'] = self.kwargs['generation']
+            generation_info['name'] = self.kwargs['generation']
         # TODO создать метод на модели поколения
         self.generation = models.Generation.get_for_model(self.car_make, self.car_model, **generation_info)
-        self.complect = self.kwargs['complect'].replace('%', '/')
         self.body = models.Body.get_by_name(self.kwargs['body'])
         self.engine = models.Engine.get_by_name(self.kwargs['engine'])
         self.gear = models.Gear.objects.get(name=self.kwargs['gear'])
         if self.kwargs.get('cost'):
             self.cost = self.kwargs['cost']
-            qs_kwargs = {'equipment_name': self.complect, 'generation': self.generation, 'body': self.body,
+            qs_kwargs = {'name': self.name, 'generation': self.generation, 'body': self.body,
                          'engine': self.engine, 'gear': self.gear, 'cost': self.cost}
             self.object = models.Modification.get_by_name_and_gen(**qs_kwargs)
         elif self.kwargs.get('mod_id'):
@@ -216,7 +227,7 @@ class ModificationDetailView(DetailView):
             static('kreddb/img/toyota-camry-2.jpg'),
             static('kreddb/img/toyota-camry-3.jpg'),
         ]
-        creditcalc_context['car_name'] = '{} {}'.format(modification.mark.name, modification.car_model.name)
+        creditcalc_context['car_name'] = '{} {}'.format(modification.car_make.name, modification.car_model.name)
         context['creditcalc'] = creditcalc_context
         return context
 
@@ -242,7 +253,7 @@ class ModificationDetailView(DetailView):
 
 
 # class GenerationListView(ListView):
-#     model = models.Generation
+#     model = models.GenerationOld
 #     filter_mark = None
 #     filter_model = None
 #
@@ -264,8 +275,8 @@ class ListModificationsAjaxView(View):
         _mark = request.GET['mark']
         mark = models.Mark.get_by_name(_mark)
         _car_model = request.GET['car_model']
-        car_model = models.CarModel.get_by_name(_car_model, mark)
-        modifications = [''] + list(models.Modification.objects.exclude(cost=None).filter(mark=mark, car_model=car_model).values_list('name', flat=True))
+        car_model = models.CarModelOld.get_by_name(_car_model, mark)
+        modifications = [''] + list(models.ModificationOld.objects.exclude(cost=None).filter(mark=mark, car_model=car_model).values_list('name', flat=True))
         return JsonResponse({'result': modifications})
 
 
@@ -274,12 +285,12 @@ class SearchModificationsAjaxView(View):
         _mark = request.GET['mark']
         mark = models.Mark.get_by_name(_mark)
         _car_model = request.GET['car_model']
-        car_model = models.CarModel.get_by_name(_car_model, mark)
+        car_model = models.CarModelOld.get_by_name(_car_model, mark)
         qs_filter = dict(mark=mark, car_model=car_model)
         _modification = request.GET.get('modification')
         if _modification:
             qs_filter.update(dict(name=_modification))
-        modifications = models.Modification.objects.exclude(cost=None).filter(**qs_filter)
+        modifications = models.ModificationOld.objects.exclude(cost=None).filter(**qs_filter)
         if len(modifications) == 1:
             new_url = modifications.get().get_absolute_url()
         else:
@@ -298,7 +309,7 @@ class ListModificationsAPIView(views.APIView):
         _car_make = kwargs['mark']
         car_make = models.Mark.get_by_name(_car_make)
         _car_model = kwargs['car_model']
-        car_model = models.CarModel.get_by_name(_car_model, car_make)
-        modifications = list(models.Modification.objects.exclude(cost=None).filter(mark=car_make, car_model=car_model).values_list('name', flat=True))
+        car_model = models.CarModelOld.get_by_name(_car_model, car_make)
+        modifications = list(models.ModificationOld.objects.exclude(cost=None).filter(mark=car_make, car_model=car_model).values_list('name', flat=True))
 
         return response.Response(modifications)

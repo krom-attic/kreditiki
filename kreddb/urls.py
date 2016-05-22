@@ -31,12 +31,19 @@ URL_RE_PARTS = {
 
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
-    url(r'^api/v1/carmodels/{car_make}/?$'.format(**URL_RE_PARTS), views.CarModelListAPIView.as_view(), name='test_list'),
-    url(r'^api/v1/modifications/{car_make}/{car_model}/?$'.format(**URL_RE_PARTS), views.ListModificationsAPIView.as_view(), name='test_list'),
+    url(r'^api/v1/carmodels/{car_make}/?$'.format(**URL_RE_PARTS),
+        views.CarModelListAPIView.as_view(),
+        name='test_list'),
+    url(r'^api/modification/{mod_id}/data?$'.format(**URL_RE_PARTS),
+        views.ModificationDataApiView.as_view(),
+        name='modification_data'),
+    url(r'^api/v1/modifications/{car_make}/{car_model}/?$'.format(**URL_RE_PARTS),
+        views.ListModificationsAPIView.as_view(),
+        name='test_list'),
 
-    url(r'^$', views.MarkListView.as_view(), name='list_marks'),
+    url(r'^$', views.CarMakeListView.as_view(), name='list_marks'),
     # "c" поддерживается на обоих языках
-    url(r'^[cс]/$', views.MarkListView.as_view(), name='list_marks'),
+    url(r'^[cс]/$', views.CarMakeListView.as_view(), name='list_marks'),
     url(r'^[cс]/selector/$', views.CarSelectorDispatchView.as_view(), name="carselector"),
     url(r'^[cс]/{car_make}/(?P<all>все/)?$'.format(**URL_RE_PARTS), views.CarModelListView.as_view(), name='list_car_models'),
     url(r'^[cс]/{car_make}/{car_model}/(?P<all>все/)?$'.format(**URL_RE_PARTS), views.ModificationListView.as_view(),

@@ -7,7 +7,7 @@ function populate_select(select, list) {
         .end()
     $.each(list, function(i, item, arr) {
         select
-            .append($("<option></option")
+            .append($("<option></option>")
             .attr("value", item)
             .text(item));
     });
@@ -88,7 +88,7 @@ $(document).ready(function(){
             });
         } else if (!($("#select-marks").val() === "")){
             show_car_models($("#select-marks").val());
-        };
+        }
     });
 
 
@@ -101,6 +101,46 @@ $(document).ready(function(){
     });
     $('.my-tabs a').click(function (e) {
         var tab = $(this);
+
+        var dataUl = tab.parents('ul');
+
+        var setData = function (data) {
+            // alert(data['equipment']);
+            // alert(data['features']);
+            var equipmentList = $('#security' + data['mod_id']);
+            for (var equipment in data['equipment']) {
+                var cost;
+                if (data['equipment'][equipment] != 0) {
+                    cost = ' (' + data['equipment'][equipment] + ' ₽)';
+                } else {
+                    cost = '';
+                }
+
+                equipmentList.append(
+                    '<li class="list-group-item">'
+                    + equipment
+                    + cost
+                    + '</li>'
+                )
+            }
+            var featuresList = $('#features' + data['mod_id']);
+            for (var feature in data['features']) {
+                featuresList.append(
+                    '<li class="list-group-item">'
+                    + feature
+                    + ': '
+                    + data['features'][feature]
+                    + '</li>'
+                )
+            }
+        };
+
+        if (!dataUl.hasClass('loaded')) {
+            var modId = dataUl.attr('data-mod-id');
+            $.getJSON('/api/modification/' + modId + '/data')
+                .done(setData);
+            dataUl.addClass('loaded');
+        }
         if(tab.parents('li').hasClass('active')){
             window.setTimeout(function(){
                 $(".tab-pane").removeClass('active');

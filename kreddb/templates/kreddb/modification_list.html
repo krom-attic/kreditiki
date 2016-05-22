@@ -28,7 +28,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-3">
 				<div class="row">
-					<ul class="nav nav-tabs my-tabs" role="tablist">
+					<ul class="nav nav-tabs my-tabs" role="tablist" data-mod-id="{{ modification.id }}">
 						<li class="col-xs-6 col-sm-12 text-center">
 							<span class="row">
 								<a href="#complectation{{ modification.id }}" aria-controls="complectation{{ modification.id }}" role="tab" data-toggle="tab">Комплектация</a>
@@ -53,12 +53,6 @@
 						<a href="#security{{ modification.id }}" data-toggle="collapse" aria-expanded="false">БЕЗОПАСНОСТЬ</a>
 					</div>
 					<ul id="security{{ modification.id }}" class="list-group panel-collapse collapse">
-						<li class="list-group-item">ABS</li>
-						<li class="list-group-item">ESP</li>
-						<li class="list-group-item">Isofix / LATCH</li>
-						<li class="list-group-item">Подушка безопасности водителя</li>
-						<li class="list-group-item">Подушка безопасности пассажира</li>
-						<li class="list-group-item">Система помощи при старте в гору</li>
 					</ul>
 				</div>
 
@@ -67,14 +61,6 @@
 						<a href="#comfort{{ modification.id }}" data-toggle="collapse" aria-expanded="false">КОМФОРТ</a>
 					</div>
 					<ul id="comfort{{ modification.id }}" class="list-group panel-collapse collapse">
-						<li class="list-group-item">Кондиционер — 30 200 Р</li>
-						<li class="list-group-item">Усилитель руля</li>
-						<li class="list-group-item">Бортовой компьютер</li>
-						<li class="list-group-item">Прикуриватель и пепельница — 2 000 Р</li>
-						<li class="list-group-item">Регулировка руля по высоте</li>
-						<li class="list-group-item">Регулировка руля по вылету</li>
-						<li class="list-group-item">ОБЗОР</li>
-						<li class="list-group-item">Электропривод зеркал</li>
 					</ul>
 				</div>
 
@@ -83,10 +69,6 @@
 						<a href="#interior{{ modification.id }}" data-toggle="collapse" aria-expanded="false">САЛОН</a>
 					</div>
 					<ul id="interior{{ modification.id }}" class="list-group panel-collapse collapse">
-						<li class="list-group-item">Тканевый салон</li>
-						<li class="list-group-item">Электростеклоподъемники передние</li>
-						<li class="list-group-item">Третий задний подголовник</li>
-						<li class="list-group-item">Складывающееся заднее сиденье</li>
 					</ul>
 				</div>
 			</div>
@@ -94,12 +76,14 @@
 			<p>&nbsp;</p>
 
 			<div role="tabpanel" class="tab-pane" id="characteristics{{ modification.id }}">
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                <p>&nbsp;</p>
+
+                    <ul id="features{{ modification.id }}">
+                    </ul>
+
+                <p>&nbsp;</p>
+
 			</div>
 		</div>
 	</div>
