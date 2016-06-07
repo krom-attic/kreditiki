@@ -105,33 +105,39 @@ $(document).ready(function(){
         var dataUl = tab.parents('ul');
 
         var setData = function (data) {
+            // TODO есть ситуации, в которых не все разделы заполнены. они будут "некликабельны"
             // alert(data['equipment']);
-            // alert(data['features']);
-            var equipmentList = $('#security' + data['mod_id']);
-            for (var equipment in data['equipment']) {
-                var cost;
-                if (data['equipment'][equipment] != 0) {
-                    cost = ' (' + data['equipment'][equipment] + ' ₽)';
-                } else {
-                    cost = '';
-                }
+            for (var equipmentGroup in data['equipment']) {
+                var equipmentList = $('#' + equipmentGroup + data['mod_id']);
+                for (var equipment in data['equipment'][equipmentGroup]) {
+                    var cost;
+                    if (data['equipment'][equipmentGroup][equipment] != 0) {
+                        cost = ' (' + data['equipment'][equipmentGroup][equipment] + ' ₽)';
+                    } else {
+                        cost = '';
+                    }
 
-                equipmentList.append(
-                    '<li class="list-group-item">'
-                    + equipment
-                    + cost
-                    + '</li>'
-                )
+                    equipmentList.append(
+                        '<li class="list-group-item">'
+                        + equipment
+                        + cost
+                        + '</li>'
+                    )
+                }
             }
-            var featuresList = $('#features' + data['mod_id']);
-            for (var feature in data['features']) {
-                featuresList.append(
-                    '<li class="list-group-item">'
-                    + feature
-                    + ': '
-                    + data['features'][feature]
-                    + '</li>'
-                )
+
+            // alert(data['features']);
+            for (var featureGroup in data['features']) {
+                var featuresList = $('#' + featureGroup + data['mod_id']);
+                for (var feature in data['features'][featureGroup]) {
+                    featuresList.append(
+                        '<li class="list-group-item">'
+                        + feature
+                        + ': '
+                        + data['features'][featureGroup][feature]
+                        + '</li>'
+                    )
+                }
             }
         };
 

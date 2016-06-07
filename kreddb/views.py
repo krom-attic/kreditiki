@@ -157,10 +157,17 @@ class ModificationListView(ListView):
 class ModificationDataApiView(View):
     def get(self, request, *args, **kwargs):
         modification_id = kwargs['mod_id']
+        # TODO добавить упорядочевание
         features = models.ModificationFeatures.objects.filter(modification_id=modification_id)
-        feature_dict = {feature.feature.name: feature.value for feature in features}
+        feature_dict = {}
+        for feature in features:
+            feature_dict.setdefault(feature.feature.group, {}).update({feature.feature.name: feature.value})
+
         equipment = models.EquipmentCost.objects.filter(modification_id=modification_id)
-        equipment_dict = {piece.equipment.name: piece.cost for piece in equipment}
+        equipment_dict = dict()
+        for piece in equipment:
+            equipment_dict.setdefault(piece.equipment.group, {}).update({piece.equipment.name: piece.cost})
+
         return HttpResponse(json.dumps({
             'mod_id': modification_id,
             'features': feature_dict,
