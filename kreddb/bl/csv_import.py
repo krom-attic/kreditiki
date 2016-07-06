@@ -1,5 +1,7 @@
 from csv import DictReader
 
+from django.core.exceptions import ObjectDoesNotExist
+
 from kreddb.models import Modification, Body, CarMake, CarModel, Engine, Gear, Generation
 
 
@@ -10,12 +12,18 @@ def _parse_row(row: dict) -> Modification:
     modification.body = Body.get_by_name(row['body'])
     modification.car_make = CarMake.get_by_name(row['car_make'])
     modification.car_model = CarModel.get_by_name(row['car_model'], modification.car_make)
-    modification.engine = Engine.get_by_name(row['engine'])
+    try:
+        modification.engine = Engine.get_by_name(row['engine'])
+    except ObjectDoesNotExist:
+        pass  # TODO нужно начинать транзакцию и создавать новый двигатель
     modification.gear = Gear.get_by_name(row['gear'])
-    modification.generation = Generation.get_by_name_and_year(modification.car_model,
-                                                              row['year_start'],
-                                                              row['year_end'],
-                                                              row['generation'])
+    try:
+        modification.generation = Generation.get_by_name_and_year(modification.car_model,
+                                                                  row['year_start'],
+                                                                  row['year_end'],
+                                                                  row['generation'])
+    except ObjectDoesNotExist:
+        pass  # TODO нужно создавать руками
     return modification
 
 

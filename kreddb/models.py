@@ -8,6 +8,7 @@ SAFE_TRANSLATION = str.maketrans(' &+:,/«»³®`×', '----_\\""3R\'x')
 class CarMake(models.Model):
     name = models.CharField(db_index=True, max_length=127)
     # old_id = models.IntegerField(unique=True, null=True)
+    display = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['name']
@@ -31,6 +32,7 @@ class CarModel(models.Model):
     name = models.CharField(db_index=True, max_length=127)
     car_make = models.ForeignKey(CarMake)
     # old_id = models.IntegerField(unique=True, null=True)
+    display = models.BooleanField(default=False)
 
     def __str__(self):
         return self.car_make.name + ' ' + self.name

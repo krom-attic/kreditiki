@@ -1,0 +1,20 @@
+{% block pagetitle %}
+    Загрузка csv-файла
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+
+        <h1 class="text-center my-h1">Загрузка csv-файла</h1>
+        <div>
+            <form method="post" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="csvfile">
+                <input type="submit" value="Загрузить">
+            </form>
+        </div>
+
+    </div>
+
+{% endblock %}
