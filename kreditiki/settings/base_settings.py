@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'kreditiki.wsgi.application'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Etc/UTC'
 
 USE_I18N = True
 
