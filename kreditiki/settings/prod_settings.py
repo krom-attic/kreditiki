@@ -33,8 +33,10 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+
+# TODO Включить, когда будет https
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 
 # TODO поменять?
 # Heroku-recommended settings
