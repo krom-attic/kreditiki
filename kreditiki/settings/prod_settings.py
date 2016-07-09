@@ -4,8 +4,8 @@ from kreditiki.settings.base_settings import *
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# TODO Сделать стэйджинг конфиг с такими параметрами, а тут сделать жёстко False
-DEBUG = True
+# TODO Сделать стэйджинг конфиг с True
+DEBUG = False
 
 # Allow host headers
 ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
@@ -27,7 +27,7 @@ DATABASES = {
 }
 
 # Static asset configuration
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'collected_static')
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 # TODO Включить, когда будет https
 # CSRF_COOKIE_SECURE = True
