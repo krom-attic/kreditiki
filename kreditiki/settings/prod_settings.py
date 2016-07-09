@@ -29,11 +29,6 @@ DATABASES = {
 # Static asset configuration
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'collected_static')
 
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
-
-
 # TODO Включить, когда будет https
 # CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
