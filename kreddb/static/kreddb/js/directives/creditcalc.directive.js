@@ -2,7 +2,7 @@
 * CreditCalc
 * @namespace kreddb.directives
 */
-(function () {
+;(function () {
   'use strict';
 
   angular

@@ -1,5 +1,5 @@
 ;(function () {
-    'use strict';
+    'use strict'
 
     angular
         .module('kreddb', [
@@ -7,16 +7,16 @@
             'kreddb.directives',
             'kreddb.services',
             'kreddb.filters'
-        ]);
+        ])
 
     angular
-        .module('kreddb.controllers', []);
+        .module('kreddb.controllers', [])
 
     angular
-        .module('kreddb.directives', []);
+        .module('kreddb.directives', [])
 
     angular
-        .module('kreddb.services', []);
+        .module('kreddb.services', [])
 
     angular
         .module('kreddb.filters', [])

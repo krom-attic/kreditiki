@@ -2,7 +2,7 @@
 * CreditCalc controller
 * @namespace kreddb.controllers
 */
-(function () {
+;(function () {
     'use strict'
 
     angular

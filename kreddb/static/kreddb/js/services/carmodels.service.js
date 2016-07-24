@@ -2,7 +2,7 @@
 * CarModels
 * @namespace kreddb.services
 */
-(function () {
+;(function () {
   'use strict';
 
   angular
