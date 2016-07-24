@@ -33,4 +33,4 @@ class UploadCarImagesView(LoginRequiredMixin, TemplateView):
         if gen_years == ('', ''):
             gen_years = None
         fake_import_images(BytesIO(file.read()), car_make_name, car_model_name, gen_years)
-        return redirect('kreddb:list_modifications')
+        return redirect('kreddb:service_upload_images')
