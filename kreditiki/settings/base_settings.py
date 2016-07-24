@@ -109,6 +109,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Static asset configuration
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
+# Uploads
+MEDIA_URL = '/media/'
 
 # Измененённый дефолт!
 STATICFILES_FINDERS = (

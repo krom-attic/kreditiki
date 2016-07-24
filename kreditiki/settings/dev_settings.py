@@ -35,4 +35,5 @@ DATABASES = {
 # TODO чё эта?
 # LOGGING_CONFIG = None
 
-STATIC_ROOT = 'static_dev'
+# Static asset configuration
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')

@@ -118,7 +118,7 @@ class ModificationListView(ListView):
         # if 'generation' in self.kwargs and self.kwargs['generation'] != '-':
         #     self.generation = models.Generation.get_by_name(self.kwargs['generation'], self.filter_mark, self.filter_model)
         #     qs_filter.update({'generation': self.generation})
-        # TODO добавить фильтр по году поколения?
+        # TODO добавить фильтр по году поколения
         if 'modification' in self.kwargs and self.kwargs['modification'] != '-':
             self.modification = self.kwargs['modification']
             qs_filter.update({'name': self.modification})
@@ -228,11 +228,9 @@ class ModificationDetailView(DetailView):
             creditcalc_context['price'] = modification.cost
         else:
             creditcalc_context['price'] = None
-        creditcalc_context['photos'] = [
-            static('kreddb/img/toyota-camry-1.jpg'),
-            static('kreddb/img/toyota-camry-2.jpg'),
-            static('kreddb/img/toyota-camry-3.jpg'),
-        ]
+        photo_urls = [generation_image.image.url.rsplit('.')
+                      for generation_image in modification.generation.generationimage_set.all()]
+        creditcalc_context['photos'] = [{'path': url[0], 'ext': url[1]} for url in photo_urls]
         creditcalc_context['car_name'] = '{} {}'.format(modification.car_make.name, modification.car_model.name)
         context['creditcalc'] = creditcalc_context
         return context

@@ -18,10 +18,9 @@ def _parse_row(row: dict) -> Modification:
         pass  # TODO нужно начинать транзакцию и создавать новый двигатель
     modification.gear = Gear.get_by_name(row['gear'])
     try:
-        modification.generation = Generation.get_by_name_and_year(modification.car_model,
-                                                                  row['year_start'],
-                                                                  row['year_end'],
-                                                                  row['generation'])
+        modification.generation = Generation.get_by_year(modification.car_model,
+                                                         row['year_start'],
+                                                         row['year_end'])
     except ObjectDoesNotExist:
         pass  # TODO нужно создавать руками
     return modification

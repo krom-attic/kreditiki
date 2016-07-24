@@ -1,0 +1,32 @@
+{% block pagetitle %}
+    Загрузка фотографий
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+
+        <h1 class="text-center my-h1">Загрузка фотографий</h1>
+        <div>
+            <form method="post" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p><label>Марка
+                    <input type="text" name="car_make">
+                </label></p>
+                <p><label>Модель
+                    <input type="text" name="car_model">
+                </label></p>
+                <p><label>Год начала выпуска
+                    <input type="number" name="car_gen_start">
+                </label></p>
+                <p><label>Год окончания выпуска
+                    <input type="number" name="car_gen_end">
+                </label></p>
+                <p><input type="file" name="zipfile"></p>
+                <p><input type="submit" value="Загрузить"></p>
+            </form>
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -26,9 +26,6 @@ DATABASES = {
     }
 }
 
-# Static asset configuration
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-
 # TODO Включить, когда будет https
 # CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
@@ -37,5 +34,7 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 # Heroku-recommended settings
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+MEDIA_ROOT = os.path.join(os.environ['WWW_ROOT'], os.environ['MEDIA_DIR'])
 
 # TODO See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/ for production optimisations

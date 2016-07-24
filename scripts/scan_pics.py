@@ -2,6 +2,7 @@ import os
 
 top_path = ''
 photos = dict()
+# scandir не работает с питоном ниже 3.5
 for carmake_dir in os.scandir(top_path):
     if not carmake_dir.name.startswith('.') and carmake_dir.is_dir():
         photos[carmake_dir.name] = dict()

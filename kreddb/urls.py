@@ -64,6 +64,7 @@ urlpatterns = [
     url(r'^[cс]/{car_make}/{car_model}/{gen_year_start}-{gen_year_end}/{generation}/{complect}/{body}/{engine}/{gear}/'
         r'(?P<all>all)?/$'.format(**URL_RE_PARTS), views.ModificationListView.as_view(), name='list_modifications'),
     url(r'^service/upload_csv', service.UploadCarCsvView.as_view(), name='service_upload_csv'),
+    url(r'^service/upload_images', service.UploadCarImagesView.as_view(), name='service_upload_images'),
     # url(r'^ajax/car-models', views.ListCarModelsAjaxView.as_view(), name='ajax_list_car_models'),
     url(r'^ajax/modifications', views.ListModificationsAjaxView.as_view(), name='ajax_list_modifications'),
     url(r'^ajax/modification-search', views.SearchModificationsAjaxView.as_view(), name='ajax_list_modifications'),
