@@ -14,7 +14,7 @@ def fix_zip_string(string):
     return string.encode('437').decode('866')
 
 
-def fake_import_images(file, car_make_name=None, car_model_name=None, gen_years=None):
+def import_images(file, car_make_name=None, car_model_name=None, gen_years=None):
     max_depth = 3
     offset = 0
 

@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
 from kreddb.bl.csv_import import fake_parse_csv
-from kreddb.bl.image_import import fake_import_images
+from kreddb.bl.image_import import import_images
 
 
 class UploadCarCsvView(LoginRequiredMixin, TemplateView):
@@ -32,5 +32,5 @@ class UploadCarImagesView(LoginRequiredMixin, TemplateView):
         gen_years = (request.POST['car_gen_start'], request.POST['car_gen_end'])
         if gen_years == ('', ''):
             gen_years = None
-        fake_import_images(BytesIO(file.read()), car_make_name, car_model_name, gen_years)
+        import_images(BytesIO(file.read()), car_make_name, car_model_name, gen_years)
         return redirect('kreddb:service_upload_images')
