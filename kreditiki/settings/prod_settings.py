@@ -5,7 +5,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # TODO Сделать стэйджинг конфиг с True
-DEBUG = False
+DEBUG = os.environ['DEBUG'] == "True"
 
 # Allow host headers
 ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
