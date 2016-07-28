@@ -3,8 +3,35 @@ from django.contrib import admin
 from kreddb import models
 
 
+class CarModelInline(admin.StackedInline):
+    model = models.CarModel
+    extra = 1
+    show_change_link = True
+
+
+class GenerationInline(admin.StackedInline):
+    model = models.Generation
+    extra = 1
+    show_change_link = True
+
+
 class GenerationImageInline(admin.StackedInline):
     model = models.GenerationImage
+    extra = 1
+
+
+class CarMakeAdmin(admin.ModelAdmin):
+    inlines = [
+        CarModelInline,
+    ]
+
+
+class CarModelAdmin(admin.ModelAdmin):
+    inlines = [
+        GenerationInline,
+    ]
+
+    readonly_fields = ('car_make',)
 
 
 class GenerationAdmin(admin.ModelAdmin):
@@ -12,27 +39,15 @@ class GenerationAdmin(admin.ModelAdmin):
         GenerationImageInline,
     ]
 
-    readonly_fields = ('car_make',)
-
-    def render_change_form(self, request, context, add=False, change=False, form_url='', obj=None):
-        context['adminform'].form.fields['car_model'].queryset = models.CarModel.objects.filter(
-            car_make=context['original'].car_make
-        )
-        return super().render_change_form(request, context, add, change, form_url, obj)
+    readonly_fields = ('car_make', 'car_model',  'year_start')
 
 
 class ModificationAdmin(admin.ModelAdmin):
-    readonly_fields = ('car_make', 'car_model')
-
-    def render_change_form(self, request, context, add=False, change=False, form_url='', obj=None):
-        context['adminform'].form.fields['generation'].queryset = models.Generation.objects.filter(
-            car_model=context['original'].car_model
-        )
-        return super().render_change_form(request, context, add, change, form_url, obj)
+    readonly_fields = ('car_make', 'car_model', 'generation',)
 
 
-admin.site.register(models.CarMake)
-admin.site.register(models.CarModel)
+admin.site.register(models.CarMake, CarMakeAdmin)
+admin.site.register(models.CarModel, CarModelAdmin)
 admin.site.register(models.Generation, GenerationAdmin)
 admin.site.register(models.Body)
 admin.site.register(models.Engine)
