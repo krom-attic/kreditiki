@@ -39,7 +39,7 @@ class GenerationAdmin(admin.ModelAdmin):
         GenerationImageInline,
     ]
 
-    readonly_fields = ('car_make', 'car_model',  'year_start')
+    readonly_fields = ('car_make', 'car_model', 'year_start',)
 
 
 class ModificationAdmin(admin.ModelAdmin):

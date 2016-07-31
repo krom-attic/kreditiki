@@ -7,13 +7,17 @@ from django.db import migrations
 
 def clear_end_year_for_legacy_generations(apps, schema_editor):
     Generation = apps.get_model('kreddb', 'Generation')
+    # пробы того, что базу уже чистили
+    one_year_2015_gens = Generation.objects.filter(id__lte=448, year_start=2015, year_end=2015).count()
+    all_2015_gens = Generation.objects.filter(id__lte=448, year_start=2015).count()
+    if one_year_2015_gens < 0.5 * all_2015_gens:
+        return
     for generation in Generation.objects.filter(id__lte=448, year_end=2015):
         generation.year_end = None
         generation.save()
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('kreddb', '0008_auto_20160718_2246'),
     ]

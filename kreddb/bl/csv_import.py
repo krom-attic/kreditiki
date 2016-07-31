@@ -6,21 +6,18 @@ from kreddb.models import Modification, Body, CarMake, CarModel, Engine, Gear, G
 
 
 def _parse_row(row: dict) -> Modification:
+    # TODO нужно начинать транзакцию
     modification = Modification()
     modification.name = row['name']
     modification.cost = row['cost']
     modification.body = Body.get_by_name(row['body'])
     modification.car_make = CarMake.get_by_name(row['car_make'])
     modification.car_model = CarModel.get_by_name(row['car_model'], modification.car_make)
-    try:
-        modification.engine = Engine.get_by_name(row['engine'])
-    except ObjectDoesNotExist:
-        pass  # TODO нужно начинать транзакцию и создавать новый двигатель
+    modification.engine = Engine.get_or_create_by_name(row['engine'])
     modification.gear = Gear.get_by_name(row['gear'])
     try:
         modification.generation = Generation.get_by_year(modification.car_model,
-                                                         row['year_start'],
-                                                         row['year_end'])
+                                                         row['year_start'])
     except ObjectDoesNotExist:
         pass  # TODO нужно создавать руками
     return modification

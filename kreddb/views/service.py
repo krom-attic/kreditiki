@@ -29,8 +29,8 @@ class UploadCarImagesView(LoginRequiredMixin, TemplateView):
         car_model_name = request.POST['car_model']
         if car_model_name == '':
             car_model_name = None
-        gen_years = (request.POST['car_gen_start'], request.POST['car_gen_end'])
-        if gen_years == ('', ''):
-            gen_years = None
-        import_images(BytesIO(file.read()), car_make_name, car_model_name, gen_years)
+        gen_start_year = request.POST['car_gen_start']
+        if gen_start_year == '':
+            gen_start_year = None
+        import_images(BytesIO(file.read()), car_make_name, car_model_name, gen_start_year)
         return redirect('kreddb:service_upload_images')

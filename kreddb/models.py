@@ -62,7 +62,7 @@ class Generation(models.Model):
         unique_together = (('name', 'car_model', 'year_start', 'year_end'),)
 
     def __str__(self):
-        return self.car_make.name + ' ' + self.car_model.name + ' ' + self.name
+        return self.car_make.name + ' ' + self.car_model.name + ' ' + self.name + ' ' + str(self.year_start)
 
     @property
     def url_kwargs(self):
@@ -78,14 +78,14 @@ class Generation(models.Model):
         return cls.objects.get(car_make=car_make, car_model=car_model, **kwargs)
 
     @classmethod
-    def get_by_year(cls, car_model, year_start, year_end):
+    def get_by_year(cls, car_model, year_start):
         try:
-            return cls.objects.get(car_model=car_model, year_start=year_start, year_end=year_end)
+            return cls.objects.get(car_model=car_model, year_start=year_start)
         except MultipleObjectsReturned as e:
-            print('MOR with {}, {}, {}'.format(car_model, year_start, year_end))
+            print('MOR with {}, {}'.format(car_model, year_start))
             raise e
         except ObjectDoesNotExist as e:
-            print('DNE with {}, {}, {}'.format(car_model, year_start, year_end))
+            print('DNE with {}, {}'.format(car_model, year_start))
             raise e
 
 
@@ -134,13 +134,23 @@ class Body(models.Model):
 class Engine(models.Model):
     name = models.CharField(db_index=True, max_length=127)
 
+    def __str__(self):
+        return self.name
+
     @classmethod
     def get_by_name(cls, name):
         return cls.objects.get(name=name)
 
+    @classmethod
+    def get_or_create_by_name(cls, name):
+        return cls.objects.get_or_create(name=name)
+
 
 class Gear(models.Model):
     name = models.CharField(db_index=True, max_length=127)
+
+    def __str__(self):
+        return self.name
 
     @classmethod
     def get_by_name(cls, name):
@@ -200,6 +210,9 @@ class Modification(models.Model):
     features = models.ManyToManyField(Feature, through='ModificationFeatures')
     old_id = models.IntegerField(unique=True, blank=True, null=True)
 
+    def __str__(self):
+        return ' '.join([str(self.generation), self.body.name, self.gear.name, self.engine.name, self.name])
+
     @property
     def safe_name(self):
         return self.name.replace('/', '%')
@@ -213,7 +226,6 @@ class Modification(models.Model):
             'gear': self.gear.name,
             'engine': self.engine.name,
             'gen_year_start': self.generation.year_start,
-            'gen_year_end': self.generation.year_end,
             'complect': self.safe_name,
         }
         if self.cost is None:

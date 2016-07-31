@@ -14,7 +14,7 @@ def fix_zip_string(string):
     return string.encode('437').decode('866')
 
 
-def import_images(file, car_make_name=None, car_model_name=None, gen_years=None):
+def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=None):
     max_depth = 3
     offset = 0
 
@@ -26,8 +26,8 @@ def import_images(file, car_make_name=None, car_model_name=None, gen_years=None)
         if car_model_name is not None:
             params.append(CarModel.get_by_name(car_model_name, params[0]))
             offset = 2
-            if gen_years is not None:
-                params.append(Generation.get_by_year(params[1], gen_years[0], gen_years[1]))
+            if gen_start_year is not None:
+                params.append(Generation.get_by_year(params[1], gen_start_year))
                 offset = 3
 
     zf = ZipFile(file)
@@ -46,13 +46,8 @@ def import_images(file, car_make_name=None, car_model_name=None, gen_years=None)
                 car_model_name = path_parts.pop()
                 params.append(CarModel.get_by_name(fix_zip_string(car_model_name), params[0]))
             elif idx == 2:
-                gen_parts = path_parts.pop().split(' ', 1)
-                gen_years = gen_parts[0].split('-', 1)
-                if len(gen_parts) > 1:
-                    gen_years.append(fix_zip_string(gen_parts[1]))
-                else:
-                    gen_years.append('')
-                params.append(Generation.get_by_year(params[1], gen_years[0], gen_years[1]))
+                gen_start_year = path_parts.pop()
+                params.append(Generation.get_by_year(params[1], gen_start_year))
         else:
             with zf.open(fileinfo) as image_file:
                 generation_image = GenerationImage(generation=params[-1])

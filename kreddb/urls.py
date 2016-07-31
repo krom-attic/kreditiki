@@ -16,7 +16,7 @@ URL_RE_PARTS = {
     'generation': r'(?P<generation>[\w\d \-\(\)\,\+]*)',
     # 'generation': r'(?P<generation>[\w\d\-\(\)\,]*)',
     'gen_year_start': r'(?P<gen_year_start>\d{4})',
-    'gen_year_end': r'(?P<gen_year_end>\d{4})',
+    # 'gen_year_end': r'(?P<gen_year_end>\d{4})',
     'body': r'(?P<body>[\w\d \.\,\-\(\)\+\xc2\xb3\\\'\"]+)',
     # 'body': r'(?P<body>[\w\d\.\-\(\)\\\'\"]+)',
     'engine': r'(?P<engine>[\w \.\-\(\)\xd7]*)',
@@ -47,7 +47,8 @@ urlpatterns = [
     url(r'^[cс]/{car_make}/(?P<all>все/)?$'.format(**URL_RE_PARTS), views.CarModelListView.as_view(), name='list_car_models'),
     url(r'^[cс]/{car_make}/{car_model}/(?P<all>все/)?$'.format(**URL_RE_PARTS), views.ModificationListView.as_view(),
         name='list_modifications'),
-    url(r'^[cс]/{car_make}/{car_model}/{gen_year_start}-{gen_year_end}/{generation}/{complect}/{body}/{engine}/{gear}/'
+    # TODO можно после gen_year_start передавать ещё несколько годов через запятую
+    url(r'^[cс]/{car_make}/{car_model}/{gen_year_start}/{generation}/{complect}/{body}/{engine}/{gear}/'
         r'в кредит за {cost}/$'.format(**URL_RE_PARTS), views.ModificationDetailView.as_view(),
         name='view_modification'),
     # url(r'c/^(?P<car_make>[\w \-\(\)]+)/(?P<car_model>[\w \-\(\)\']+)/$', views.GenerationListView.as_view(), name='list_generations'),
@@ -59,9 +60,9 @@ urlpatterns = [
     # url(r'^c/(?P<car_make>[\w \-\(\)]+)/(?P<car_model>[\w \-\(\)\']+)/(?P<generation>[\w \-\(\)]+)/(?P<body>[\w \.\-\(\)]+)/'
     #     r'(?P<engine>[\w \.\-\(\)\xd7]+)/(?P<gear>[\w \-\(\)]+)/(?P<complect>[\w \.\-\(\)]+)$',
     #     views.ModificationDetailView.as_view(), name='view_modification')
-    url(r'^[cс]/{car_make}/{car_model}/{gen_year_start}-{gen_year_end}/{generation}/{complect}/{body}/{engine}/{gear}/'
+    url(r'^[cс]/{car_make}/{car_model}/{gen_year_start}/{generation}/{complect}/{body}/{engine}/{gear}/'
         r'в кредит/{mod_id}$'.format(**URL_RE_PARTS), views.ModificationDetailView.as_view(), name='view_modification'),
-    url(r'^[cс]/{car_make}/{car_model}/{gen_year_start}-{gen_year_end}/{generation}/{complect}/{body}/{engine}/{gear}/'
+    url(r'^[cс]/{car_make}/{car_model}/{gen_year_start}/{generation}/{complect}/{body}/{engine}/{gear}/'
         r'(?P<all>all)?/$'.format(**URL_RE_PARTS), views.ModificationListView.as_view(), name='list_modifications'),
     url(r'^service/upload_csv', service.UploadCarCsvView.as_view(), name='service_upload_csv'),
     url(r'^service/upload_images', service.UploadCarImagesView.as_view(), name='service_upload_images'),

@@ -186,7 +186,6 @@ class ModificationDetailView(DetailView):
         self.car_model = None
         self.generation = None
         self.gen_year_start = None
-        self.gen_year_end = None
         self.body = None
         self.gear = None
         self.engine = None
