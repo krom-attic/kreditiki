@@ -4,7 +4,9 @@ from io import StringIO
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
+from django.views.generic import View
 
+from kreddb.bl.csv_export import generate_csv_template
 from kreddb.bl.csv_import import fake_parse_csv
 from kreddb.bl.image_import import import_images
 
@@ -16,6 +18,11 @@ class UploadCarCsvView(LoginRequiredMixin, TemplateView):
         file = request.FILES['csvfile']
         fake_parse_csv(StringIO(file.read().decode()))
         return
+
+
+class DownloadCarCsvTemplate(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        return generate_csv_template()
 
 
 class UploadCarImagesView(LoginRequiredMixin, TemplateView):

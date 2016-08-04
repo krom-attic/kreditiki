@@ -7,6 +7,7 @@
     <div class="container">
 
         <h1 class="text-center my-h1">Загрузка csv-файла</h1>
+        <div><a href="{% url 'kreddb:service_download_csv_template' %}">Скачать шаблон</a></div>
         <div>
             <form method="post" action="" enctype="multipart/form-data">
                 {% csrf_token %}
