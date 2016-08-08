@@ -195,7 +195,7 @@ class ModificationDetailView(DetailView):
         self.name = self.kwargs['complect'].replace('%', '/')
         self.car_make = models.CarMake.get_by_name(self.kwargs['car_make'])
         self.car_model = models.CarModel.get_by_safe_name(self.kwargs['car_model'], self.car_make)
-        generation_info = dict(year_start=self.kwargs['gen_year_start'], year_end=self.kwargs['gen_year_end'])
+        generation_info = dict(year_start=self.kwargs['gen_year_start'])  # , year_end=self.kwargs['gen_year_end'])
         # if self.kwargs['generation'] == 'None':
         #     self.kwargs['generation'] = None
         if self.kwargs['generation']:

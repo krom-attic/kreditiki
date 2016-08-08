@@ -27,7 +27,8 @@ def generate_csv_template():
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="template.csv"'
 
-        writer = DictWriter(response, fieldnames=fields)
+        # writer = DictWriter(response, fieldnames=fields)
+        writer = DictWriter(response, fieldnames=modification_fields)
         writer.writeheader()
 
         return response

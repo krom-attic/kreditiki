@@ -26,6 +26,7 @@
 					<span class="price-inner">{{ modification.cost }} <span class="ruble">Р</span></span>
 				</span>
 			</div>
+            {% comment %}
 			<div class="col-xs-12 col-sm-3">
 				<div class="row">
 					<ul class="nav nav-tabs my-tabs" role="tablist" data-mod-id="{{ modification.id }}">
@@ -42,7 +43,9 @@
 					</ul>
 				</div>
 			</div>
+			{% endcomment %}
 		</div>
+        {% comment %}
 		<div class="tab-content my-tab-content">
 			<div role="tabpanel" class="tab-pane" id="complectation{{ modification.id }}">
 
@@ -180,6 +183,7 @@
 
 			</div>
 		</div>
+	    {% endcomment %}
 	</div>
   {% endfor %}
 {% endblock %}
