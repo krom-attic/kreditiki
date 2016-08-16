@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from django.views.generic import View
 
 from kreddb.bl.csv_export import generate_csv_template
-from kreddb.bl.csv_import import fake_parse_csv
+from kreddb.bl.csv_import import parse_csv
 from kreddb.bl.image_import import import_images
 
 
@@ -16,7 +16,7 @@ class UploadCarCsvView(LoginRequiredMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         file = request.FILES['csvfile']
-        fake_parse_csv(StringIO(file.read().decode()))
+        parse_csv(StringIO(file.read().decode()))
         return
 
 

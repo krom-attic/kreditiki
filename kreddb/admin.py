@@ -20,6 +20,13 @@ class GenerationImageInline(admin.StackedInline):
     extra = 1
 
 
+class ModificationInline(admin.StackedInline):
+    model = models.Modification
+    extra = 0
+    show_change_link = True
+    readonly_fields = ('car_make', 'car_model')
+
+
 class CarMakeAdmin(admin.ModelAdmin):
     inlines = [
         CarModelInline,
@@ -37,6 +44,7 @@ class CarModelAdmin(admin.ModelAdmin):
 class GenerationAdmin(admin.ModelAdmin):
     inlines = [
         GenerationImageInline,
+        ModificationInline,
     ]
 
     readonly_fields = ('car_make', 'car_model', 'year_start',)

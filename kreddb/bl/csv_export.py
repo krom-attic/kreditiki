@@ -18,11 +18,11 @@ def generate_csv_template():
             'Год поколения'
         ]
 
-        equipment_fields = list(Equipment.objects.values_list('name', flat=True))
+        # equipment_fields = list(Equipment.objects.values_list('name', flat=True))
 
-        feature_fields = list(Feature.objects.values_list('name', flat=True))
+        # feature_fields = list(Feature.objects.values_list('name', flat=True))
 
-        fields = modification_fields + equipment_fields + feature_fields
+        # fields = modification_fields + equipment_fields + feature_fields
 
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="template.csv"'
