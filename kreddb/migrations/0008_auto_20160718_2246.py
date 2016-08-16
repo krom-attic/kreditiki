@@ -21,6 +21,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='generationimage',
             name='image',
-            field=models.ImageField(upload_to=kreddb.models.generation_image_path),
+            field=models.ImageField(upload_to=kreddb.models.car_image_path),
         ),
     ]

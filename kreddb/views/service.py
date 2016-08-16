@@ -17,7 +17,7 @@ class UploadCarCsvView(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         file = request.FILES['csvfile']
         parse_csv(StringIO(file.read().decode()))
-        return
+        return redirect('kreddb:service_upload_csv')
 
 
 class DownloadCarCsvTemplate(LoginRequiredMixin, View):
@@ -39,5 +39,8 @@ class UploadCarImagesView(LoginRequiredMixin, TemplateView):
         gen_start_year = request.POST['car_gen_start']
         if gen_start_year == '':
             gen_start_year = None
-        import_images(BytesIO(file.read()), car_make_name, car_model_name, gen_start_year)
+        car_body = request.POST['car_body']
+        if car_body == '':
+            car_body = None
+        import_images(BytesIO(file.read()), car_make_name, car_model_name, gen_start_year, car_body)
         return redirect('kreddb:service_upload_images')

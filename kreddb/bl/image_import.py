@@ -3,7 +3,7 @@ from zipfile import ZipFile
 
 from django.core.files.images import ImageFile
 
-from kreddb.models import GenerationImage, Generation, CarMake, CarModel
+from kreddb.models import CarImage, Generation, CarMake, CarModel, Body
 
 
 def is_directory(fileinfo):
@@ -14,8 +14,8 @@ def fix_zip_string(string):
     return string.encode('437').decode('866')
 
 
-def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=None):
-    max_depth = 3
+def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=None, car_body=None):
+    max_depth = 4
     offset = 0
 
     params = []
@@ -29,6 +29,8 @@ def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=
             if gen_start_year is not None:
                 params.append(Generation.get_by_year(params[1], gen_start_year))
                 offset = 3
+                if car_body is not None:
+                    params.append(Body.get_by_name(car_body))
 
     zf = ZipFile(file)
 
@@ -48,11 +50,14 @@ def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=
             elif idx == 2:
                 gen_start_year = path_parts.pop()
                 params.append(Generation.get_by_year(params[1], gen_start_year))
+            elif idx == 3:
+                car_body = path_parts.pop()
+                params.append(Body.get_by_name(fix_zip_string(car_body)))
         else:
             with zf.open(fileinfo) as image_file:
-                generation_image = GenerationImage(generation=params[-1])
+                car_image = CarImage(generation=params[-2], body=params[-1])
                 # Заодно сохранет и сам объект, поскольку save=True
-                generation_image.image.save(
+                car_image.image.save(
                     fix_zip_string('_'.join(path_parts[max_depth - offset:])),
                     ImageFile(BytesIO(image_file.read()))
                 )

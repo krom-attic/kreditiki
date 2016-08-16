@@ -5,8 +5,8 @@ from kreddb import models
 
 
 # TODO Если в этом методе будет ошибка, транзакция будет откачена!!!
-@receiver(post_delete, sender=models.GenerationImage)
-def generation_image_post_delete(instance: models.GenerationImage, **kwargs):
+@receiver(post_delete, sender=models.CarImage)
+def car_image_post_delete(instance: models.CarImage, **kwargs):
     storage, path = instance.image.storage, instance.image.path
     storage.delete(path)
     original_path = path.rsplit('.')

@@ -227,8 +227,8 @@ class ModificationDetailView(DetailView):
             creditcalc_context['price'] = modification.cost
         else:
             creditcalc_context['price'] = None
-        photo_urls = [generation_image.image.url.rsplit('.')
-                      for generation_image in modification.generation.generationimage_set.all()]
+        photo_urls = [car_image.image.url.rsplit('.', 1)
+                      for car_image in modification.generation.carimage_set.filter(body=modification.body)]
         creditcalc_context['photos'] = [{'path': url[0], 'ext': url[1]} for url in photo_urls]
         creditcalc_context['car_name'] = '{} {}'.format(modification.car_make.name, modification.car_model.name)
         context['creditcalc'] = creditcalc_context

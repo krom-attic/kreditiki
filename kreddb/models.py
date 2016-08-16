@@ -89,11 +89,12 @@ class Generation(models.Model):
             raise e
 
 
-def generation_image_path(instance, filename):
-    return 'car_images/{}/{}/{}/{}'.format(instance.generation.car_make.name,
-                                           instance.generation.car_model.name,
-                                           instance.generation.id,
-                                           filename)
+def car_image_path(instance, filename):
+    return 'car_images/{}/{}/{}/{}/{}'.format(instance.generation.car_make.name,
+                                              instance.generation.car_model.name,
+                                              instance.body.name,
+                                              instance.generation.id,
+                                              filename)
 
 
 IMAGE_SIZES = {
@@ -103,9 +104,27 @@ IMAGE_SIZES = {
 }
 
 
-class GenerationImage(models.Model):
+class Body(models.Model):
+    name = models.CharField(db_index=True, max_length=127)
+
+    def __str__(self):
+        return self.name
+
+    @classmethod
+    def get_by_name(cls, name):
+        # точку глотает кто ни попадя
+        if name[-2:] == 'дв':
+            try:
+                return cls.objects.get(name=name+'.')
+            except ObjectDoesNotExist:
+                pass
+        return cls.objects.get(name=name)
+
+
+class CarImage(models.Model):
     generation = models.ForeignKey(Generation, db_index=True)
-    image = models.ImageField(upload_to=generation_image_path)
+    body = models.ForeignKey(Body, db_index=True)
+    image = models.ImageField(upload_to=car_image_path)
     main = models.BooleanField(default=False)
 
     def save(self, **kwargs):
@@ -118,17 +137,6 @@ class GenerationImage(models.Model):
             resized_image = original_image.copy()
             resized_image.thumbnail(dim, Image.ANTIALIAS)
             resized_image.save(original_path[0] + '_' + sz + '.' + original_path[1])
-
-
-class Body(models.Model):
-    name = models.CharField(db_index=True, max_length=127)
-
-    def __str__(self):
-        return self.name
-
-    @classmethod
-    def get_by_name(cls, name):
-        return cls.objects.get(name=name)
 
 
 class Engine(models.Model):

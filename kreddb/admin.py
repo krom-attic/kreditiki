@@ -15,8 +15,8 @@ class GenerationInline(admin.StackedInline):
     show_change_link = True
 
 
-class GenerationImageInline(admin.StackedInline):
-    model = models.GenerationImage
+class CarImageInline(admin.StackedInline):
+    model = models.CarImage
     extra = 1
 
 
@@ -43,7 +43,7 @@ class CarModelAdmin(admin.ModelAdmin):
 
 class GenerationAdmin(admin.ModelAdmin):
     inlines = [
-        GenerationImageInline,
+        CarImageInline,
         ModificationInline,
     ]
 
@@ -65,4 +65,4 @@ admin.site.register(models.Feature)
 admin.site.register(models.Modification, ModificationAdmin)
 admin.site.register(models.EquipmentCost)
 admin.site.register(models.ModificationFeatures)
-admin.site.register(models.GenerationImage)
+admin.site.register(models.CarImage)
