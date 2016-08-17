@@ -7,7 +7,7 @@ SAFE_TRANSLATION = str.maketrans(' &+:,/«»³®`×', '----_\\""3R\'x')
 
 
 class CarMake(models.Model):
-    name = models.CharField(db_index=True, max_length=127)
+    name = models.CharField(unique=True, max_length=127)
     display = models.BooleanField(default=False)
 
     class Meta:
@@ -105,7 +105,7 @@ IMAGE_SIZES = {
 
 
 class Body(models.Model):
-    name = models.CharField(db_index=True, max_length=127)
+    name = models.CharField(unique=True, max_length=127)
 
     def __str__(self):
         return self.name
@@ -144,7 +144,7 @@ class CarImage(models.Model):
 
 
 class Engine(models.Model):
-    name = models.CharField(db_index=True, max_length=127)
+    name = models.CharField(unique=True, max_length=127)
 
     def __str__(self):
         return self.name
@@ -159,7 +159,7 @@ class Engine(models.Model):
 
 
 class Gear(models.Model):
-    name = models.CharField(db_index=True, max_length=127)
+    name = models.CharField(unique=True, max_length=127)
 
     def __str__(self):
         return self.name
@@ -180,12 +180,15 @@ class Equipment(models.Model):
         ('CJ', 'Защита от угона'),
         ('EX', 'Экстерьер'),
     )
-    name = models.CharField(db_index=True, max_length=255)
+    name = models.CharField(unique=True, max_length=255)
     group = models.CharField(max_length=2, choices=GROUP_CHOICES)
     rank = models.SmallIntegerField()
 
     class Meta:
         unique_together = (('group', 'rank'),)
+
+    def __str__(self):
+        return "[" + self.group + "] " + self.name
 
 
 class Feature(models.Model):
@@ -200,7 +203,7 @@ class Feature(models.Model):
         ('VM', 'Объем и масса'),
         ('SB', 'Подвеска и тормоза'),
     )
-    name = models.CharField(db_index=True, max_length=255)
+    name = models.CharField(unique=True, max_length=255)
     group = models.CharField(max_length=2, choices=GROUP_CHOICES)
     rank = models.SmallIntegerField()
 
