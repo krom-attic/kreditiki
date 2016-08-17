@@ -112,13 +112,17 @@ class Body(models.Model):
 
     @classmethod
     def get_by_name(cls, name):
+        return cls.objects.get(name=name)
+
+    @classmethod
+    def get_by_name_loose(cls, name):
         # точку глотает кто ни попадя
         if name[-2:] == 'дв':
             try:
-                return cls.objects.get(name=name+'.')
+                return cls.objects.get(name__iexact=name+'.')
             except ObjectDoesNotExist:
                 pass
-        return cls.objects.get(name=name)
+        return cls.objects.get(name__iexact=name)
 
 
 class CarImage(models.Model):

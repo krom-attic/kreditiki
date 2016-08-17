@@ -30,7 +30,7 @@ def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=
                 params.append(Generation.get_by_year(params[1], gen_start_year))
                 offset = 3
                 if car_body is not None:
-                    params.append(Body.get_by_name(car_body))
+                    params.append(Body.get_by_name_loose(car_body))
 
     zf = ZipFile(file)
 
@@ -52,7 +52,7 @@ def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=
                 params.append(Generation.get_by_year(params[1], gen_start_year))
             elif idx == 3:
                 car_body = path_parts.pop()
-                params.append(Body.get_by_name(fix_zip_string(car_body)))
+                params.append(Body.get_by_name_loose(fix_zip_string(car_body)))
         else:
             with zf.open(fileinfo) as image_file:
                 car_image = CarImage(generation=params[-2], body=params[-1])
