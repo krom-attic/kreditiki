@@ -136,7 +136,7 @@ class CarImage(models.Model):
             self.main = True
         super().save(**kwargs)
         original_image = Image.open(self.image.file)
-        original_path = self.image.path.rsplit('.')
+        original_path = self.image.path.rsplit('.', 1)
         for sz, dim in IMAGE_SIZES.items():
             resized_image = original_image.copy()
             resized_image.thumbnail(dim, Image.ANTIALIAS)

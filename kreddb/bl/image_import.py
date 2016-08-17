@@ -2,6 +2,7 @@ from io import BytesIO
 from zipfile import ZipFile
 
 from django.core.files.images import ImageFile
+from django.db import transaction
 
 from kreddb.models import CarImage, Generation, CarMake, CarModel, Body
 
@@ -14,6 +15,7 @@ def fix_zip_string(string):
     return string.encode('437').decode('866')
 
 
+@transaction.atomic
 def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=None, car_body=None):
     max_depth = 4
     offset = 0
