@@ -179,7 +179,7 @@ class ModificationDetailView(DetailView):
         self.object = None
         # self.kwargs = {}
         super().__init__()
-        self.name = None
+        self.name = ''
         self.car_make = None
         self.car_model = None
         self.generation = None
@@ -190,13 +190,14 @@ class ModificationDetailView(DetailView):
         self.cost = None
 
     def get(self, request, *args, **kwargs):
-        self.name = self.kwargs['complect'].replace('%', '/')
+        if self.kwargs['complect'] != '-':
+            self.name = self.kwargs['complect'].replace('%', '/')
         self.car_make = models.CarMake.get_by_name(self.kwargs['car_make'])
         self.car_model = models.CarModel.get_by_safe_name(self.kwargs['car_model'], self.car_make)
-        generation_info = dict(year_start=self.kwargs['gen_year_start'])  # , year_end=self.kwargs['gen_year_end'])
+        generation_info = dict(year_start=self.kwargs['gen_year_start'])
         # if self.kwargs['generation'] == 'None':
         #     self.kwargs['generation'] = None
-        if self.kwargs['generation']:
+        if self.kwargs['generation'] != '-':
             generation_info['name'] = self.kwargs['generation']
         # TODO создать метод на модели поколения
         self.generation = models.Generation.get_for_model(self.car_make, self.car_model, **generation_info)
@@ -209,7 +210,6 @@ class ModificationDetailView(DetailView):
                          'engine': self.engine, 'gear': self.gear, 'cost': self.cost}
             self.object = models.Modification.get_by_name_and_gen(**qs_kwargs)
         elif self.kwargs.get('mod_id'):
-            # TODO а используется это сейчас где-то?
             self.object = models.Modification.objects.get(id=self.kwargs['mod_id'])
         else:
             raise Exception('Недостаточно данных для идентификации модификации')

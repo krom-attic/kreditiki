@@ -245,12 +245,13 @@ class Modification(models.Model):
         mod_params = {
             'car_make': self.car_make.name,
             'car_model': self.car_model.safe_name,
-            'generation': self.generation.name,
+            # TODO эффективно ли это?
+            'generation': self.generation.name if self.generation.name else '-',
             'body': self.body.name,
             'gear': self.gear.name,
             'engine': self.engine.name,
             'gen_year_start': self.generation.year_start,
-            'complect': self.safe_name,
+            'complect': self.safe_name if self.safe_name else '-',
         }
         if self.cost is None:
             mod_params.update({'mod_id': self.id})
