@@ -24,11 +24,19 @@ class CarMake(models.Model):
         return cls.objects.get(name=name)
 
 
+class CarModelManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(display=True)
+
+
 class CarModel(models.Model):
     name = models.CharField(db_index=True, max_length=127)
     car_make = models.ForeignKey(CarMake)
     # old_id = models.IntegerField(unique=True, null=True)
     display = models.BooleanField(default=False)
+
+    objects = models.Manager()
+    objects_actual = CarModelManager()
 
     def __str__(self):
         return self.car_make.name + ' ' + self.name
@@ -56,6 +64,7 @@ class Generation(models.Model):
     car_model = models.ForeignKey(CarModel)
     year_start = models.IntegerField()
     year_end = models.IntegerField(blank=True, null=True)
+    display = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-year_start']

@@ -1,10 +1,8 @@
 import json
 import random
 
-from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, View
 
 from rest_framework import response, views, viewsets
@@ -19,11 +17,9 @@ from kreddb.serializers import CarModelSerializer
 class CarMakeListView(ListView):
     model = models.CarMake
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['car_makes'] = models.CarMake.objects.all()
-    #     context['car_makes_list'] = list(context['car_makes'].values_list('name', flat=True))
-    #     return context
+    def get_queryset(self):
+        # можно не гонять дополнительные поля, но пока их мало (только display)
+        return super().get_queryset().filter(display=True)
 
 
 # Вывод списка моделей
@@ -40,12 +36,14 @@ class CarModelListView(ListView):
         queryset = super().get_queryset()
         car_make_name = self.kwargs['car_make']
         self.car_make = models.CarMake.get_by_name(car_make_name)
-        return queryset.filter(car_make=self.car_make)
+        # сдаётся мне, что следование структуре джанговских вьюшек менее правильно, чем вынос из контроллера логики,
+        # связанной получением данных из бд...
+        return queryset.filter(car_make=self.car_make, display=True)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['car_make'] = self.car_make
-        # Это - заглушка, пока нет нормальных данных по картинкам
+        # TODO Это - заглушка, пока нет нормальных данных по картинкам
         stub_pics = [
             "http://toyota-tula.ru/images/88/common/all_new_toyota_camry_exterior.jpg",
             "http://i.ytimg.com/vi/_DnbTjf2VtA/maxresdefault.jpg",
@@ -65,7 +63,7 @@ class CarModelListAPIView(View):
         car_make = models.CarMake.get_by_name(car_make_name)
         # TODO раз уж мы получили объект марки, то для оптимизации его id можно будет передать на страницу
         car_models = list(models.CarModel
-                          .objects
+                          .objects_actual
                           .filter(car_make=car_make)
                           .values_list('name', flat=True)
                           .order_by('name'))

@@ -1,7 +1,7 @@
 {% extends "kreddb/base.html" %}
 
 {% block pagetitle %}
-  Кредиты на {{ modification.mark.name }} {{ modification.car_model.name }} {{ modification.generation.generation }} {{ modification.equipment_name }}
+  Кредиты на {{ modification.car_make.name }} {{ modification.car_model.name }} {{ modification.generation.generation }} {{ modification.name }}
 {{ modification.body.name }} {{ modification.engine.name }} {{ modification.gear.name }}
 {% endblock %}
 
@@ -10,7 +10,7 @@
 {% load angular %}
 
 	<div class="container my-margin-top-20">
-	<h1 class="my-h1 my-margin-top-20">{{ modification.mark.name }} {{ modification.car_model.name }} {{ modification.generation.generation }} {{ modification.equipment_name }}
+	<h1 class="my-h1 my-margin-top-20">{{ modification.car_make.name }} {{ modification.car_model.name }} {{ modification.generation.generation }} {{ modification.name }}
 {{ modification.body.name }} {{ modification.engine.name }} {{ modification.gear.name }}</h1>
 
     {% angular_app "creditcalc" %}

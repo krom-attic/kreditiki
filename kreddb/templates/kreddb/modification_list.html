@@ -18,7 +18,7 @@
 		<div class="model">
 			<div class="col-xs-8 col-sm-7">
 				<a class="car-item" href="{{ modification.get_absolute_url }}">
-					<span class="car-item-inner">{{ modification.name}}</span>
+					<span class="car-item-inner">{{ modification.name }} {{ modification.body.name }} {{ modification.engine.name }} {{ modification.gear.name }}</span>
 				</a>
 			</div>
 			<div class="col-xs-4 col-sm-2">
