@@ -157,6 +157,10 @@ class CarImage(models.Model):
     def resized_path(original_path, sz):
         return original_path[0] + '_' + sz + '.' + original_path[1]
 
+    def __str__(self):
+        # TODO добавить последний кусок урла
+        return '{} ({})'.format(self.generation, self.body)
+
 
 class Engine(models.Model):
     name = models.CharField(unique=True, max_length=127)

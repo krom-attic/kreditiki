@@ -54,6 +54,10 @@ class ModificationAdmin(admin.ModelAdmin):
     readonly_fields = ('car_make', 'car_model', 'generation', 'body_id', 'generation_id')
 
 
+class CarImageAdmin(admin.ModelAdmin):
+    readonly_fields = ('body_id', 'generation_id')
+
+
 admin.site.register(models.CarMake, CarMakeAdmin)
 admin.site.register(models.CarModel, CarModelAdmin)
 admin.site.register(models.Generation, GenerationAdmin)
@@ -65,4 +69,4 @@ admin.site.register(models.Feature)
 admin.site.register(models.Modification, ModificationAdmin)
 admin.site.register(models.EquipmentCost)
 admin.site.register(models.ModificationFeatures)
-admin.site.register(models.CarImage)
+admin.site.register(models.CarImage, CarImageAdmin)
