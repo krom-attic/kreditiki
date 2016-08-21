@@ -5,13 +5,11 @@ from kreddb.models import SiteOptions, Generation, Body, CarImage, IMAGE_SIZES
 
 def _get_car_images(body, generation):
     try:
-        original_image = CarImage.objects.values_list('image', flat=True).get(
-            generation=generation, body=body, main=True
-        )
+        original_image = CarImage.objects.get(generation=generation, body=body, main=True).image
     except ObjectDoesNotExist:
         # TODO добавить картинку-заглушку!!!
         return {sz: 'img_stub_' + sz for sz in IMAGE_SIZES}
-    return {sz: CarImage.resized_path(original_image.path.rsplit('.', 1), sz) for sz in IMAGE_SIZES}
+    return {sz: CarImage.resized_path(original_image.url.rsplit('.', 1), sz) for sz in IMAGE_SIZES}
 
 
 def _create_ui_promo_item(generation: Generation, body: Body):
