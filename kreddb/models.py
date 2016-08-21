@@ -316,7 +316,7 @@ class ModificationFeatures(models.Model):
 
 
 class SiteOptions(models.Model):
-    option = models.CharField(max_length=127, db_index=True)
+    option = models.CharField(max_length=127, unique=True)
     json_value = models.TextField()
 
     cache = dict()
