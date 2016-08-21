@@ -8,6 +8,7 @@ from django.views.generic import ListView, DetailView, View
 from rest_framework import response, views, viewsets
 
 from kreddb import models
+from kreddb.bl.site_options import get_promo_items
 from kreddb.serializers import CarModelSerializer
 
 
@@ -20,6 +21,11 @@ class CarMakeListView(ListView):
     def get_queryset(self):
         # можно не гонять дополнительные поля, но пока их мало (только display)
         return super().get_queryset().filter(display=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['promo'] = get_promo_items()
+        return context
 
 
 # Вывод списка моделей

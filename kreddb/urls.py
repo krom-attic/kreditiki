@@ -64,9 +64,10 @@ urlpatterns = [
         r'в кредит/{mod_id}$'.format(**URL_RE_PARTS), views.ModificationDetailView.as_view(), name='view_modification'),
     url(r'^[cс]/{car_make}/{car_model}/{gen_year_start}/{generation}/{complect}/{body}/{engine}/{gear}/'
         r'(?P<all>all)?/$'.format(**URL_RE_PARTS), views.ModificationListView.as_view(), name='list_modifications'),
-    url(r'^service/upload_csv', service.UploadCarCsvView.as_view(), name='service_upload_csv'),
-    url(r'^service/csv_template', service.DownloadCarCsvTemplate.as_view(), name='service_download_csv_template'),
-    url(r'^service/upload_images', service.UploadCarImagesView.as_view(), name='service_upload_images'),
+    url(r'^service/upload_csv/$', service.UploadCarCsvView.as_view(), name='service_upload_csv'),
+    url(r'^service/csv_template/$', service.DownloadCarCsvTemplate.as_view(), name='service_download_csv_template'),
+    url(r'^service/upload_images/$', service.UploadCarImagesView.as_view(), name='service_upload_images'),
+    url(r'^service/set_promo/$', service.SetPromoView.as_view(), name='service_set_promo'),
     # url(r'^ajax/car-models', views.ListCarModelsAjaxView.as_view(), name='ajax_list_car_models'),
     url(r'^ajax/modifications', views.ListModificationsAjaxView.as_view(), name='ajax_list_modifications'),
     url(r'^ajax/modification-search', views.SearchModificationsAjaxView.as_view(), name='ajax_list_modifications'),

@@ -51,7 +51,7 @@ class GenerationAdmin(admin.ModelAdmin):
 
 
 class ModificationAdmin(admin.ModelAdmin):
-    readonly_fields = ('car_make', 'car_model', 'generation',)
+    readonly_fields = ('car_make', 'car_model', 'generation', 'body_id', 'generation_id')
 
 
 admin.site.register(models.CarMake, CarMakeAdmin)

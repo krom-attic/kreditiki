@@ -1,3 +1,5 @@
+import json
+
 from PIL import Image
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.core.urlresolvers import reverse
@@ -149,7 +151,11 @@ class CarImage(models.Model):
         for sz, dim in IMAGE_SIZES.items():
             resized_image = original_image.copy()
             resized_image.thumbnail(dim, Image.ANTIALIAS)
-            resized_image.save(original_path[0] + '_' + sz + '.' + original_path[1])
+            resized_image.save(self.resized_path(original_path, sz))
+
+    @staticmethod
+    def resized_path(original_path, sz):
+        return original_path[0] + '_' + sz + '.' + original_path[1]
 
 
 class Engine(models.Model):
@@ -303,3 +309,31 @@ class ModificationFeatures(models.Model):
 
     class Meta:
         unique_together = (('modification', 'feature'),)
+
+
+class SiteOptions(models.Model):
+    option = models.CharField(max_length=127, db_index=True)
+    json_value = models.TextField()
+
+    cache = dict()
+
+    @classmethod
+    def get_option(cls, option):
+        if option in cls.cache:
+            return cls.cache[option]
+        else:
+            return cls.load_option(option)
+
+    @classmethod
+    def load_option(cls, option):
+        option_value = json.loads(cls.objects.values_list('json_value', flat=True).get(option=option))
+        cls.cache[option] = option_value
+        return option_value
+
+    def set_option(self, option, value):
+        self.option = option
+        self.json_value = json.dumps(value)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.cache[self.option] = self.json_value
+        super().save(force_insert, force_update, using, update_fields)
