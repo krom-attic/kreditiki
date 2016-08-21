@@ -339,5 +339,5 @@ class SiteOptions(models.Model):
         self.json_value = json.dumps(value)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        self.cache[self.option] = self.json_value
+        self.cache[self.option] = json.loads(self.json_value)
         super().save(force_insert, force_update, using, update_fields)
