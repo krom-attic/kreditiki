@@ -1,6 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 
-from kreddb.models import SiteOptions, Generation, Body, CarImage, IMAGE_SIZES
+from kreddb.models import SiteOptions, Generation, Body, CarImage, IMAGE_SIZES, CarInfo
 
 
 def _get_car_images(body, generation):
@@ -12,12 +12,28 @@ def _get_car_images(body, generation):
     return {sz: CarImage.resized_path(original_image.url.rsplit('.', 1), sz) for sz in IMAGE_SIZES}
 
 
+def _get_price_per_day(body, generation):
+    # TODO не нравится мне это место
+    price_per_day, created = CarInfo.objects.values_list('price_per_day', flat=True) \
+        .get_or_create(generation=generation, body=body)
+
+    if created:
+        car_info = price_per_day
+        price_per_day = CarInfo.update_price(car_info, generation, body)
+
+    if price_per_day is None:
+        price_per_day = CarInfo.find_and_update_price(generation, body)
+
+    return price_per_day
+
+
 def _create_ui_promo_item(generation: Generation, body: Body):
     return {
         'images': _get_car_images(body, generation),
         'car_make': generation.car_make.name,
         'car_model': generation.car_model.name,
-        'url': generation.car_model.filter_url()
+        'url': generation.car_model.filter_url(),
+        'price_per_day': _get_price_per_day(body, generation)
     }
 
 

@@ -5,6 +5,9 @@ from PIL import Image
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models import Min
+
+from kreddb.bl.calculator import calculate_best_interest_and_credit
 
 SAFE_TRANSLATION = str.maketrans(' &+:,/«»³®`×', '----_\\""3R\'x')
 
@@ -189,6 +192,32 @@ class Gear(models.Model):
         return cls.objects.get(name=name)
 
 
+class CarInfo(models.Model):
+    generation = models.ForeignKey(Generation, db_index=True)
+    body = models.ForeignKey(Body, db_index=True)
+    price_per_day = models.PositiveIntegerField(null=True, blank=True)
+
+    class Meta:
+        unique_together = (('generation', 'body'),)
+
+    @staticmethod
+    def find_and_update_price(generation: Generation, body: Body):
+        car_info = CarInfo.objects.get_or_create(generation=generation, body=body)[0]
+        return CarInfo.update_price(car_info, generation, body)
+
+    @staticmethod
+    def update_price(car_info, generation: Generation, body: Body):
+        cost = Modification.objects.filter(generation=generation, body=body) \
+            .aggregate(Min('cost'))['cost__min']
+        if cost is not None:
+            car_info.price_per_day = calculate_best_interest_and_credit(cost)
+        else:
+            # TODO залогировать
+            car_info.price_per_day = None
+        car_info.save()
+        return car_info.price_per_day
+
+
 class Equipment(models.Model):
     # используются на фронте, не должны конфликтовать с характеристиками
     GROUP_CHOICES = (
@@ -247,6 +276,10 @@ class Modification(models.Model):
 
     def __str__(self):
         return ' '.join([str(self.generation), self.body.name, self.gear.name, self.engine.name, self.name])
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        CarInfo.find_and_update_price(generation=self.generation, body=self.body)
+        super().save(force_insert, force_update, using, update_fields)
 
     @property
     def safe_name(self):
