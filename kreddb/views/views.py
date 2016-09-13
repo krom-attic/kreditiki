@@ -1,6 +1,7 @@
 import json
 import random
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, View
@@ -24,7 +25,10 @@ class CarMakeListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['promo'] = get_promo_items()
+        try:
+            context['promo'] = get_promo_items()
+        except ObjectDoesNotExist as e:
+            pass  # когда сайт не настроен, промо нет. ну и фиг с ним
         return context
 
 
