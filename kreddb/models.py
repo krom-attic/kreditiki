@@ -123,21 +123,6 @@ class Generation(models.Model):
         return cls.objects.filter(model_family=model_family).order_by('-year_start').first()
 
 
-def car_image_path(instance, filename):
-    return 'car_images/{}/{}/{}/{}/{}'.format(instance.generation.car_make.name,
-                                              instance.generation.model_family.name,
-                                              instance.body.name,
-                                              instance.generation.id,
-                                              filename)
-
-
-IMAGE_SIZES = {
-    'm': (800, 800),
-    's': (365, 365),
-    'xs': (180, 180)
-}
-
-
 class Body(models.Model):
     name = models.CharField(unique=True, max_length=127)
 
@@ -218,12 +203,27 @@ class CarModel(models.Model):
         return self.price_per_day
 
 
+def car_image_path(instance, filename):
+    return 'car_images/{}/{}/{}/{}/{}'.format(instance.car_model.model_family.car_make.name,
+                                              instance.car_model.name,
+                                              instance.car_model.body.name,
+                                              instance.car_model.generation.id,
+                                              filename)
+
+
+IMAGE_SIZES = {
+    'm': (800, 800),
+    's': (365, 365),
+    'xs': (180, 180)
+}
+
+
 class CarImage(models.Model):
     generation = models.ForeignKey(Generation, db_index=True, null=True)
     body = models.ForeignKey(Body, db_index=True, null=True)
     image = models.ImageField(upload_to=car_image_path)
     main = models.BooleanField(default=False)
-    car_model = models.ForeignKey(CarModel, null=True)  # TODO убрать Null
+    car_model = models.ForeignKey(CarModel)  # TODO убрать Null
 
     def save(self, **kwargs):
         if os.path.basename(self.image.name)[:4] == 'main':

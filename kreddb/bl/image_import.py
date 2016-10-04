@@ -51,7 +51,10 @@ def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=
                 params.append(fix_zip_string(car_model_name))
             elif idx == 2:
                 gen_start_year = path_parts.pop()
-                params.append(Generation.get_by_year(params[1], gen_start_year))
+                model_family = CarModel.objects.filter(
+                    model_family__car_make=params[0], name=params[1]
+                ).first().model_family
+                params.append(Generation.get_by_year(model_family, gen_start_year))
             elif idx == 3:
                 car_body = path_parts.pop()
                 params.append(Body.get_by_name_loose(fix_zip_string(car_body)))

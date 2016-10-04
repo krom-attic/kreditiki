@@ -19,6 +19,7 @@ class CarModelInline(admin.StackedInline):
     model = models.CarModel
     extra = 1
     show_change_link = True
+    readonly_fields = ('model_family', )
 
 
 class CarImageInline(admin.StackedInline):

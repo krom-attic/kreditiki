@@ -11,10 +11,8 @@ from kreddb.bl.site_options import get_promo_items
 from kreddb.models import cipher_id, decipher_id
 
 
-# Вывод списка марок
-
-
 class CarMakeListView(ListView):
+    """Вывод списка марок"""
     model = models.CarMake
 
     def get_queryset(self):
@@ -30,10 +28,8 @@ class CarMakeListView(ListView):
         return context
 
 
-# Вывод списка моделей
-
-
 class CarModelListView(ListView):
+    """Вывод списка моделей"""
     model = models.CarModel
 
     def __init__(self, **kwargs):
@@ -81,10 +77,8 @@ class CarModelListAPIView(View):
         return HttpResponse(json.dumps(car_models_list))
 
 
-# Обработчик селектора
-
-
 class CarSelectorDispatchView(View):
+    """Обработчик селектора"""
     def dispatch(self, request, *args, **kwargs):
         car_make = request.GET.get('carmake')
         car_model_id = request.GET.get('carmodel')
@@ -100,10 +94,8 @@ class CarSelectorDispatchView(View):
         return super().dispatch(request, *args, **kwargs)
 
 
-# Вывод списка модификаций
-
-
 class ModificationListView(ListView):
+    """Вывод списка модификаций"""
     # TODO сделать фильтры
     model = models.Modification
 
@@ -161,7 +153,7 @@ class ModificationDetailView(DetailView):
         else:
             creditcalc_context['price'] = None
         photo_urls = [car_image.image.url.rsplit('.', 1)
-                      for car_image in modification.generation.carimage_set.filter(body=modification.body)]
+                      for car_image in modification.car_model.carimage_set.all()]
         creditcalc_context['photos'] = [{'path': url[0], 'ext': url[1]} for url in photo_urls]
         creditcalc_context['car_name'] = '{} {}'.format(modification.car_make.name, modification.model_family.name)
         context['creditcalc'] = creditcalc_context
