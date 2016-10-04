@@ -3,25 +3,25 @@
 * @namespace kreddb.controllers
 */
 ;(function () {
-    'use strict'
+    'use strict';
 
     angular
         .module('kreddb.controllers')
-        .controller('CarSelectorController', CarSelectorController)
+        .controller('CarSelectorController', CarSelectorController);
 
-    CarSelectorController.$inject = ['CarModels']
+    CarSelectorController.$inject = ['CarModels'];
 
     /**
     * @namespace CarSelectorController
     */
     function CarSelectorController(CarModels) {
-        var vm = this
+        var vm = this;
 
-        vm.carmake = null
-        vm.carmodel = null
+        vm.carmake = null;
+        vm.carmodel = null;
 
-        vm.carmodels = []
-        vm.get_carmodels = get_carmodels
+        vm.carmodels = [];
+        vm.get_carmodels = get_carmodels;
 
         /**
         * @name get_carmodels
@@ -37,4 +37,4 @@
                 .then(set_carmodels, set_carmodels)
         }
     }
-})()
+})();

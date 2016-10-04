@@ -3,8 +3,8 @@ from django.contrib import admin
 from kreddb import models
 
 
-class CarModelInline(admin.StackedInline):
-    model = models.CarModel
+class ModelFamilyInline(admin.StackedInline):
+    model = models.ModelFamily
     extra = 1
     show_change_link = True
 
@@ -15,25 +15,32 @@ class GenerationInline(admin.StackedInline):
     show_change_link = True
 
 
+class CarModelInline(admin.StackedInline):
+    model = models.CarModel
+    extra = 1
+    show_change_link = True
+
+
 class CarImageInline(admin.StackedInline):
     model = models.CarImage
     extra = 1
+    fields = ('image', 'main', )
 
 
 class ModificationInline(admin.StackedInline):
     model = models.Modification
     extra = 0
     show_change_link = True
-    readonly_fields = ('car_make', 'car_model')
+    readonly_fields = ('car_make', 'model_family', 'generation', 'old_id', )
 
 
 class CarMakeAdmin(admin.ModelAdmin):
     inlines = [
-        CarModelInline,
+        ModelFamilyInline,
     ]
 
 
-class CarModelAdmin(admin.ModelAdmin):
+class ModelFamilyAdmin(admin.ModelAdmin):
     inlines = [
         GenerationInline,
     ]
@@ -43,15 +50,23 @@ class CarModelAdmin(admin.ModelAdmin):
 
 class GenerationAdmin(admin.ModelAdmin):
     inlines = [
+        CarModelInline
+    ]
+
+    readonly_fields = ('car_make', 'model_family', 'year_start',)
+
+
+class CarModelAdmin(admin.ModelAdmin):
+    inlines = [
         CarImageInline,
         ModificationInline,
     ]
 
-    readonly_fields = ('car_make', 'car_model', 'year_start',)
+    readonly_fields = ('generation', )
 
 
 class ModificationAdmin(admin.ModelAdmin):
-    readonly_fields = ('car_make', 'car_model', 'generation', 'body_id', 'generation_id')
+    readonly_fields = ('car_make', 'model_family', 'generation', 'body_id', 'generation_id')
 
 
 class CarImageAdmin(admin.ModelAdmin):
@@ -59,8 +74,9 @@ class CarImageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.CarMake, CarMakeAdmin)
-admin.site.register(models.CarModel, CarModelAdmin)
+admin.site.register(models.ModelFamily, ModelFamilyAdmin)
 admin.site.register(models.Generation, GenerationAdmin)
+admin.site.register(models.CarModel, CarModelAdmin)
 admin.site.register(models.Body)
 admin.site.register(models.Engine)
 admin.site.register(models.Gear)

@@ -9,6 +9,25 @@ from django.db.models import Min
 
 from kreddb.bl.calculator import calculate_best_interest_and_credit
 
+
+ID_MAP = ['z', 'Q', 'x', 'J', 'k', 'V', 'b', 'P', 'y', 'G']
+
+
+def cipher_id(digit_id: str):
+    letter_id = ['_']
+    for digit in digit_id:
+        letter_id.append(ID_MAP[int(digit)])
+    return ''.join(letter_id)
+
+
+def decipher_id(letter_id) -> str:
+    digit_id = list()
+    for letter in letter_id[1:]:
+        digit_id.append(str(ID_MAP.index(letter)))
+    return ''.join(digit_id)
+
+
+# не используется, но потребуется
 SAFE_TRANSLATION = str.maketrans(' &+:,/«»³®`×', '----_\\""3R\'x')
 
 
@@ -23,26 +42,25 @@ class CarMake(models.Model):
         return self.name
 
     def filter_url(self):
-        return reverse('kreddb:list_car_models', kwargs={'car_make': self.name})
+        return reverse('kreddb:list_model_families', kwargs={'car_make': self.name})
 
     @classmethod
     def get_by_name(cls, name):
         return cls.objects.get(name=name)
 
 
-class CarModelManager(models.Manager):
+class ModelFamilyManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(display=True)
 
 
-class CarModel(models.Model):
+class ModelFamily(models.Model):
     name = models.CharField(db_index=True, max_length=127)
     car_make = models.ForeignKey(CarMake)
-    # old_id = models.IntegerField(unique=True, null=True)
     display = models.BooleanField(default=False)
 
     objects = models.Manager()
-    objects_actual = CarModelManager()
+    objects_actual = ModelFamilyManager()
 
     def __str__(self):
         return self.car_make.name + ' ' + self.name
@@ -50,10 +68,6 @@ class CarModel(models.Model):
     @property
     def safe_name(self):
         return self.name.replace('/', '%')
-
-    def filter_url(self):
-        return reverse('kreddb:list_modifications',
-                       kwargs=dict(car_make=self.car_make.name, car_model=self.safe_name))
 
     @classmethod
     def get_by_safe_name(cls, safe_name, car_make):
@@ -67,46 +81,51 @@ class CarModel(models.Model):
 class Generation(models.Model):
     name = models.CharField(max_length=127, blank=True)
     car_make = models.ForeignKey(CarMake)
-    car_model = models.ForeignKey(CarModel)
+    model_family = models.ForeignKey(ModelFamily)
     year_start = models.IntegerField()
     year_end = models.IntegerField(blank=True, null=True)
     display = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-year_start']
-        unique_together = (('name', 'car_model', 'year_start', 'year_end'),)
+        unique_together = (('name', 'model_family', 'year_start', 'year_end'),)
 
     def __str__(self):
-        return self.car_make.name + ' ' + self.car_model.name + ' ' + self.name + ' ' + str(self.year_start)
+        return self.car_make.name + ' ' + self.model_family.name + ' ' + self.name + ' ' + str(self.year_start)
 
     @property
     def url_kwargs(self):
-        url_kwargs = {'car_make': self.car_make.name, 'car_model': self.car_model.name, 'name': self.name, 'body': '-',
-                      'engine': '-', 'gear': '-'}
+        url_kwargs = {'car_make': self.car_make.name, 'model_family': self.model_family.name, 'name': self.name,
+                      'body': '-', 'engine': '-', 'gear': '-'}
         return url_kwargs
 
     def get_absolute_url(self):
         return reverse('kreddb:list_modifications', kwargs=self.url_kwargs)
 
     @classmethod
-    def get_for_model(cls, car_make, car_model, **kwargs):
-        return cls.objects.get(car_make=car_make, car_model=car_model, **kwargs)
+    def get_for_model(cls, car_make, model_family, year_start):
+        return cls.objects.get(car_make=car_make, model_family=model_family, year_start=year_start)
 
     @classmethod
-    def get_by_year(cls, car_model, year_start):
+    def get_by_year(cls, model_family, year_start):
         try:
-            return cls.objects.get(car_model=car_model, year_start=year_start)
+            return cls.objects.get(model_family=model_family, year_start=year_start)
         except MultipleObjectsReturned as e:
-            print('MOR with {}, {}'.format(car_model, year_start))
+            # TODO Change to logging
+            print('MOR with {}, {}'.format(model_family, year_start))
             raise e
         except ObjectDoesNotExist as e:
-            print('DNE with {}, {}'.format(car_model, year_start))
+            print('DNE with {}, {}'.format(model_family, year_start))
             raise e
+
+    @classmethod
+    def get_latest(cls, model_family):
+        return cls.objects.filter(model_family=model_family).order_by('-year_start').first()
 
 
 def car_image_path(instance, filename):
     return 'car_images/{}/{}/{}/{}/{}'.format(instance.generation.car_make.name,
-                                              instance.generation.car_model.name,
+                                              instance.generation.model_family.name,
                                               instance.body.name,
                                               instance.generation.id,
                                               filename)
@@ -140,11 +159,71 @@ class Body(models.Model):
         return cls.objects.get(name__iexact=name)
 
 
-class CarImage(models.Model):
+class CarModelManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(display=True)
+
+
+class CarModel(models.Model):
+    # TODO сделать, чтобы заполнялось автоматически из семейства, если пустое при сохранении
+    name = models.CharField(max_length=127)
+    model_family = models.ForeignKey(ModelFamily, db_index=True)
     generation = models.ForeignKey(Generation, db_index=True)
     body = models.ForeignKey(Body, db_index=True)
+    display = models.BooleanField(default=False)
+    price_per_day = models.PositiveIntegerField(null=True, blank=True)
+
+    objects = models.Manager()
+    objects_actual = CarModelManager()
+
+    class Meta:
+        unique_together = (('name', 'generation', 'body'),)
+
+    @property
+    def model_name(self):
+        return ' '.join([
+            self.name,
+            self.body.name,
+        ])
+
+    @property
+    def safe_name(self):
+        return self.name.replace('/', '%')
+
+    @classmethod
+    def get_by_name(cls, name, generation: Generation, body: Body):
+        return cls.objects.get(name=name, generation=generation, body=body)
+
+    @classmethod
+    def get_model_family_for_name(cls, car_make: CarMake, name: str) -> ModelFamily:
+        return cls.objects.filter(model_family__car_make=car_make, name=name).first().model_family
+
+    def get_absolute_url(self):
+        return reverse('kreddb:list_modifications', kwargs=dict(
+            car_make=self.model_family.car_make.name,
+            car_model=self.name,
+            gen_year_start=self.generation.year_start,
+            body=self.body.name,
+            object_id=cipher_id(str(self.id)),
+        ))
+
+    def update_price(self):
+        cost = self.modification_set.aggregate(Min('cost'))['cost__min']
+        if cost is not None:
+            self.price_per_day = calculate_best_interest_and_credit(cost)
+        else:
+            # TODO залогировать
+            self.price_per_day = None
+        self.save()
+        return self.price_per_day
+
+
+class CarImage(models.Model):
+    generation = models.ForeignKey(Generation, db_index=True, null=True)
+    body = models.ForeignKey(Body, db_index=True, null=True)
     image = models.ImageField(upload_to=car_image_path)
     main = models.BooleanField(default=False)
+    car_model = models.ForeignKey(CarModel, null=True)  # TODO убрать Null
 
     def save(self, **kwargs):
         if os.path.basename(self.image.name)[:4] == 'main':
@@ -192,32 +271,6 @@ class Gear(models.Model):
         return cls.objects.get(name=name)
 
 
-class CarInfo(models.Model):
-    generation = models.ForeignKey(Generation, db_index=True)
-    body = models.ForeignKey(Body, db_index=True)
-    price_per_day = models.PositiveIntegerField(null=True, blank=True)
-
-    class Meta:
-        unique_together = (('generation', 'body'),)
-
-    @staticmethod
-    def find_and_update_price(generation: Generation, body: Body):
-        car_info = CarInfo.objects.get_or_create(generation=generation, body=body)[0]
-        return CarInfo.update_price(car_info, generation, body)
-
-    @staticmethod
-    def update_price(car_info, generation: Generation, body: Body):
-        cost = Modification.objects.filter(generation=generation, body=body) \
-            .aggregate(Min('cost'))['cost__min']
-        if cost is not None:
-            car_info.price_per_day = calculate_best_interest_and_credit(cost)
-        else:
-            # TODO залогировать
-            car_info.price_per_day = None
-        car_info.save()
-        return car_info.price_per_day
-
-
 class Equipment(models.Model):
     # используются на фронте, не должны конфликтовать с характеристиками
     GROUP_CHOICES = (
@@ -262,11 +315,13 @@ class Feature(models.Model):
 
 class Modification(models.Model):
     name = models.CharField(max_length=127, blank=True)
-    # TODO удалить следующие два поля? это же дублирование!
+    # TODO удалить следующие четыре поля? это же дублирование!
     car_make = models.ForeignKey(CarMake)
-    car_model = models.ForeignKey(CarModel, db_index=True)
+    model_family = models.ForeignKey(ModelFamily, db_index=True)
     generation = models.ForeignKey(Generation)
     body = models.ForeignKey(Body)
+
+    car_model = models.ForeignKey(CarModel, db_index=True, null=True)
     gear = models.ForeignKey(Gear)
     engine = models.ForeignKey(Engine)
     cost = models.IntegerField(blank=True, null=True)
@@ -278,7 +333,7 @@ class Modification(models.Model):
         return ' '.join([str(self.generation), self.body.name, self.gear.name, self.engine.name, self.name])
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        CarInfo.find_and_update_price(generation=self.generation, body=self.body)
+        self.car_model.update_price()
         super().save(force_insert, force_update, using, update_fields)
 
     @property
@@ -296,25 +351,10 @@ class Modification(models.Model):
             'engine': self.engine.name,
             'gen_year_start': self.generation.year_start,
             'complect': self.safe_name if self.safe_name else '-',
+            'object_id': cipher_id(str(self.id))
         }
-        if self.cost is None:
-            mod_params.update({'mod_id': self.id})
-        else:
-            mod_params.update({'cost': self.cost})
         url = reverse('kreddb:view_modification', kwargs=mod_params)
         return url
-
-    @classmethod
-    def get_by_params(cls, generation, body, gear, engine, cost, name):
-        # TODO Это не будет работать!!! Так уникальную модификацию не определить!!!
-        try:
-            return cls.objects.get(generation=generation, body=body, gear=gear, engine=engine, cost=cost, name=name)
-        except MultipleObjectsReturned as e:
-            print('MOR with {}, {}, {}, {}, {}, {}'.format(generation, body, gear, engine, cost, name))
-            raise e
-        except ObjectDoesNotExist as e:
-            print('DNE with {}, {}, {}, {}, {}, {}'.format(generation, body, gear, engine, cost, name))
-            raise e
 
     # TODO подумать над названием и сигнатурой метода
     @classmethod

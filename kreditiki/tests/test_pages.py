@@ -6,13 +6,13 @@ class TestPages:
     def test_find_db_errors(self):
         errors = {}
         BASE_URL = 'http://127.0.0.1:8000'
-        r = requests.get(BASE_URL + '/c/')
+        r = requests.get(BASE_URL + '/credit/')
         tree = html.fromstring(r.text)
         nodes = tree.xpath('//ul[@id="marks"]/li/a')
         for node in nodes:
             r = requests.get(BASE_URL + node.attrib['href'])
             tree = html.fromstring(r.text)
-            nodes = tree.xpath('//ul[@id="car_models"]/li/a')
+            nodes = tree.xpath('//ul[@id="model_family"]/li/a')
             for node in nodes:
                 r = requests.get(BASE_URL + node.attrib['href'])
                 tree = html.fromstring(r.text)

@@ -2,7 +2,7 @@ from csv import DictReader
 
 from django.db import transaction
 
-from kreddb.models import Modification, Body, CarMake, CarModel, Engine, Gear, Generation
+from kreddb.models import Modification, Body, CarMake, ModelFamily, Engine, Gear, Generation, CarModel
 
 
 def _parse_row(row: dict) -> Modification:
@@ -11,10 +11,15 @@ def _parse_row(row: dict) -> Modification:
     modification.cost = row['cost']
     modification.body = Body.get_by_name(row['body'])
     modification.car_make = CarMake.get_by_name(row['car_make'])
-    modification.car_model = CarModel.get_by_name(row['car_model'], modification.car_make)
+    # TODO сделать заголовок csv-файла соответствующим семантике
+    modification.model_family = ModelFamily.get_by_name(row['car_model'], modification.car_make)
     modification.engine = Engine.get_or_create_by_name(row['engine'])[0]
     modification.gear = Gear.get_by_name(row['gear'])
-    modification.generation = Generation.get_by_year(modification.car_model, row['year_start'])
+    modification.generation = Generation.get_by_year(modification.model_family, row['year_start'])
+    modification.car_model = CarModel.objects.get(
+        generation=modification.generation,
+        body=modification.body
+    )
     return modification
 
 

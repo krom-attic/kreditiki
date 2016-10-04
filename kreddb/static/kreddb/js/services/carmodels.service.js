@@ -36,7 +36,7 @@
     * @memberOf kreddb.services.CarModels
     */
     function get_carmodels(carmake) {
-      return $http.get('/api/v1/carmodels/' + carmake +'/');
+      return $http.get('/api/car_makes/' + carmake +'/car_models/');
     }
   }
 })();

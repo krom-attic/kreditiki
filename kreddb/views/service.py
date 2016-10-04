@@ -36,16 +36,16 @@ class UploadCarImagesView(LoginRequiredMixin, TemplateView):
         car_make_name = request.POST['car_make']
         if car_make_name == '':
             car_make_name = None
-        car_model_name = request.POST['car_model']
-        if car_model_name == '':
-            car_model_name = None
+        model_family_name = request.POST['car_model_family']
+        if model_family_name == '':
+            model_family_name = None
         gen_start_year = request.POST['car_gen_start']
         if gen_start_year == '':
             gen_start_year = None
         car_body = request.POST['car_body']
         if car_body == '':
             car_body = None
-        import_images(BytesIO(file.read()), car_make_name, car_model_name, gen_start_year, car_body)
+        import_images(BytesIO(file.read()), car_make_name, model_family_name, gen_start_year, car_body)
         return redirect('kreddb:service_upload_images')
 
 
@@ -66,6 +66,6 @@ class SetPromoView(LoginRequiredMixin, TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
-            promo_list = [(request.POST['gen_' + str(i)], request.POST['body_' + str(i)]) for i in range(6)]
+            promo_list = [request.POST['car_model_' + str(i)] for i in range(6)]
             save_promo_settings(promo_list)
             return redirect('kreddb:service_set_promo')

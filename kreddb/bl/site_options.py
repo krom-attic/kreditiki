@@ -1,39 +1,32 @@
 from django.core.exceptions import ObjectDoesNotExist
 
-from kreddb.models import SiteOptions, Generation, Body, CarImage, IMAGE_SIZES, CarInfo
+from kreddb.models import SiteOptions, CarImage, IMAGE_SIZES, CarModel
 
 
-def _get_car_images(body, generation):
+def _get_car_images(car_model: CarModel):
     try:
-        original_image = CarImage.objects.get(generation=generation, body=body, main=True).image
+        original_image = CarImage.objects.get(car_model=car_model, main=True).image
     except ObjectDoesNotExist:
         # TODO добавить картинку-заглушку!!!
         return {sz: 'img_stub_' + sz for sz in IMAGE_SIZES}
     return {sz: CarImage.resized_path(original_image.url.rsplit('.', 1), sz) for sz in IMAGE_SIZES}
 
 
-def _get_price_per_day(body, generation):
-    # TODO не нравится мне это место
-    price_per_day, created = CarInfo.objects.values_list('price_per_day', flat=True) \
-        .get_or_create(generation=generation, body=body)
-
-    if created:
-        car_info = price_per_day
-        price_per_day = CarInfo.update_price(car_info, generation, body)
-
-    if price_per_day is None:
-        price_per_day = CarInfo.find_and_update_price(generation, body)
-
-    return price_per_day
+def get_price_per_day(car_model: CarModel):
+    if car_model.price_per_day is None:
+        return car_model.update_price()
+    else:
+        return car_model.price_per_day
 
 
-def _create_ui_promo_item(generation: Generation, body: Body):
+def _create_ui_promo_item(car_model: CarModel):
+    # возвращаем объект для UI
     return {
-        'images': _get_car_images(body, generation),
-        'car_make': generation.car_make.name,
-        'car_model': generation.car_model.name,
-        'url': generation.car_model.filter_url(),
-        'price_per_day': _get_price_per_day(body, generation)
+        'images': _get_car_images(car_model),
+        'car_make': car_model.model_family.car_make.name,
+        'car_model': car_model.name,
+        'url': car_model.get_absolute_url(),
+        'price_per_day': get_price_per_day(car_model)
     }
 
 
@@ -42,8 +35,7 @@ def get_promo_items():
 
     return [
         _create_ui_promo_item(
-            Generation.objects.get(pk=car['gen']),
-            Body.objects.get(pk=car['body'])
+            CarModel.objects.get(pk=car['car_model']),
         )
         for car in cars
         ]
@@ -53,8 +45,7 @@ def save_promo_settings(promo_list):
     promo_option = SiteOptions()
     promo_option_value = [
         {
-            'gen': promo_item[0],
-            'body': promo_item[1]
+            'car_model': promo_item,
         } for promo_item in promo_list]
     promo_option.set_option('promo', promo_option_value)
     promo_option.save()

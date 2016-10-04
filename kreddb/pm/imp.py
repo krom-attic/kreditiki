@@ -4,7 +4,7 @@
 #
 # from kreddb.models import Mark, CarModelOld, GenerationOld, BodyOld, EngineOld, GearOld, ModificationOld,\
 #     EquipmentLk, FeatureLk
-# from kreddb.models import CarMake, CarModel, Generation, Body, Engine, Gear, Modification,\
+# from kreddb.models import CarMake, ModelFamily, Generation, Body, Engine, Gear, Modification,\
 #     EquipmentCost, Equipment, ModificationFeatures, Feature
 #
 #
@@ -26,23 +26,23 @@
 #     print('Закончил конвертацию марок')
 #
 #
-# def get_old_car_models():
-#     available_models = ModificationOld.objects.exclude(cost=None).values_list('car_model', flat=True).distinct()
+# def get_old_model_families():
+#     available_models = ModificationOld.objects.exclude(cost=None).values_list('model_family', flat=True).distinct()
 #     return CarModelOld.objects.filter(id__in=available_models)
 #
 #
-# def import_car_models(run_again=False):
+# def import_model_families(run_again=False):
 #     if not run_again:
 #         raise Exception('Уже запускалось!')
-#     car_models = get_old_car_models()
+#     model_family = get_old_model_families()
 #     print('Начинаю конвертацию моделей')
-#     for old in car_models:
-#         car_model = CarModel()
-#         car_model.name = old.name
-#         # car_model.car_make = CarMake.get_by_old_id(old.mark_id)
-#         car_model.car_make = CarMake.get_by_name(old.mark.name)
-#         # car_model.old_id = old.id
-#         car_model.save()
+#     for old in model_family:
+#         model_family = ModelFamily()
+#         model_family.name = old.name
+#         # model_family.car_make = CarMake.get_by_old_id(old.mark_id)
+#         model_family.car_make = CarMake.get_by_name(old.mark.name)
+#         # model_family.old_id = old.id
+#         model_family.save()
 #     print('Закончил конвертацию моделей')
 #
 #
@@ -64,8 +64,8 @@
 #             generation.name = ''
 #         # generation.car_make = CarMake.get_by_old_id(old.mark_id)
 #         generation.car_make = CarMake.get_by_name(old.mark.name)
-#         # generation.car_model = CarModel.get_by_old_id(old.car_model_id)
-#         generation.car_model = CarModel.get_by_name(old.car_model.name, generation.car_make)
+#         # generation.model_family = ModelFamily.get_by_old_id(old.model_family_id)
+#         generation.model_family = ModelFamily.get_by_name(old.model_family.name, generation.car_make)
 #         generation.year_start = old.top_age
 #         generation.year_end = old.bottom_age
 #         # generation.old_id = old.id
@@ -141,8 +141,8 @@
 #             modification.name = ''
 #         # modification.car_make = CarMake.get_by_old_id(old.mark_id)
 #         modification.car_make = CarMake.get_by_name(old.mark.name)
-#         modification.car_model = CarModel.get_by_name(old.car_model.name, modification.car_make)
-#         modification.generation = Generation.get_by_name_and_year(modification.car_model,
+#         modification.model_family = ModelFamily.get_by_name(old.model_family.name, modification.car_make)
+#         modification.generation = Generation.get_by_name_and_year(modification.model_family,
 #                                                                      old.generation.top_age,
 #                                                                      old.generation.bottom_age,
 #                                                                      old.generation.generation or '')
@@ -171,8 +171,8 @@
 #     for old in get_old_equipment():
 #         i += 1
 #         # modification_car_make = CarMake.get_by_name(old_modification.mark.name)
-#         # modification_car_model = CarModel.get_by_name(old_modification.car_model.name, modification_car_make)
-#         # modification_generation = Generation.get_by_name_and_year(modification_car_model,
+#         # modification_model_family = ModelFamily.get_by_name(old_modification.model_family.name, modification_car_make)
+#         # modification_generation = Generation.get_by_name_and_year(modification_model_family,
 #         #                                                              old_modification.generation.top_age,
 #         #                                                              old_modification.generation.bottom_age,
 #         #                                                              old_modification.generation.generation or '')
@@ -249,7 +249,7 @@
 # def imp():
 #     print('Начинаю очистку')
 #     CarMake.objects.all().delete()
-#     CarModel.objects.all().delete()
+#     ModelFamily.objects.all().delete()
 #     Generation.objects.all().delete()
 #     Body.objects.all().delete()
 #     Engine.objects.all().delete()
@@ -261,7 +261,7 @@
 #     Feature.objects.all().delete()
 #     print('Закончил очистку')
 #     import_car_makes(True)
-#     import_car_models(True)
+#     import_model_families(True)
 #     import_generations(True)
 #     import_bodies(True)
 #     import_engines(True)

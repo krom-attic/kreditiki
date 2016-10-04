@@ -1,21 +1,18 @@
 {% block pagetitle %}
-    Выбор поколений для главной страницы
+    Выбор моделей для главной страницы
 {% endblock %}
 
 {% block content %}
 
     <div class="container">
 
-        <h1 class="text-center my-h1">Выбор поколений для главной страницы</h1>
+        <h1 class="text-center my-h1">Выбор моделей для главной страницы</h1>
         <div>
             <form method="post" action="">
                 {% csrf_token %}
                 {% for promo in promo_list %}
-                    <p><label>ID кузова {{ forloop.counter }}
-                        <input type="number" name="body_{{ forloop.counter0 }}" value="{{ promo.body }}">
-                    </label></p>
-                    <p><label>ID поколения {{ forloop.counter }}
-                        <input type="number" name="gen_{{ forloop.counter0 }}" value="{{ promo.gen }}">
+                    <p><label>ID модели {{ forloop.counter }}
+                        <input type="number" name="car_model_{{ forloop.counter0 }}" value="{{ promo.car_model }}">
                     </label></p>
                 {% endfor %}
                 <p><input type="submit" value="Сохранить"></p>

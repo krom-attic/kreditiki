@@ -24,7 +24,7 @@ function clear_select(select) {
 //    window.location.href = new_url;
 //};
 //
-//function show_car_models(mark){
+//function show_model_families(mark){
 //    window.location.href = "/c/" + mark;
 //};
 
