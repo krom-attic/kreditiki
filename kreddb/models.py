@@ -202,6 +202,14 @@ class CarModel(models.Model):
         self.save()
         return self.price_per_day
 
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        try:
+            if not self.model_family:
+                self.model_family = self.generation.model_family
+        except ModelFamily.DoesNotExist:
+            self.model_family = self.generation.model_family
+        super().save(force_insert, force_update, using, update_fields)
+
 
 def car_image_path(instance, filename):
     return 'car_images/{}/{}/{}/{}/{}'.format(instance.car_model.model_family.car_make.name,

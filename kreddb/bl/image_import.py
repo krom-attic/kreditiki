@@ -51,6 +51,7 @@ def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=
                 params.append(fix_zip_string(car_model_name))
             elif idx == 2:
                 gen_start_year = path_parts.pop()
+                # TODO вынести этот код в модель
                 model_family = CarModel.objects.filter(
                     model_family__car_make=params[0], name=params[1]
                 ).first().model_family
