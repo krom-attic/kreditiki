@@ -36,7 +36,7 @@ def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=
 
     zf = ZipFile(file)
 
-    for fileinfo in zf.infolist():
+    for fileinfo in sorted(zf.infolist(), key=lambda e: e.orig_filename):
         path_parts = fileinfo.orig_filename.strip('/').split('/')
         if is_directory(fileinfo):
             if len(path_parts) > max_depth - offset:
@@ -52,9 +52,10 @@ def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=
             elif idx == 2:
                 gen_start_year = path_parts.pop()
                 # TODO вынести этот код в модель
-                model_family = CarModel.objects.filter(
-                    model_family__car_make=params[0], name=params[1]
-                ).first().model_family
+                first_car_model = CarModel.objects.filter(model_family__car_make=params[0], name=params[1]).first()
+                if first_car_model is None:
+                    raise CarModel.DoesNotExist
+                model_family = first_car_model.model_family
                 params.append(Generation.get_by_year(model_family, gen_start_year))
             elif idx == 3:
                 car_body = path_parts.pop()
