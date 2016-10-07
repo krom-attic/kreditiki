@@ -15,7 +15,7 @@ URL_RE_PARTS = {
     # 'gen_year_end': r'(?P<gen_year_end>\d{4})',
     'body': r'(?P<body>[\w\d \.\,\-\(\)\+\xc2\xb3\\\'\"]+)',
     # 'body': r'(?P<body>[\w\d\.\-\(\)\\\'\"]+)',
-    'engine': r'(?P<engine>[\w \.\-\(\)\xd7]*)',
+    'engine': r'(?P<engine>[\w \.\-\(\)\+\xd7]*)',
     # 'engine': r'(?P<engine>[\w\.\-\(\)]*)',
     'gear': r'(?P<gear>[\w\-\(\)]*)',
     'complect': r'(?P<complect>[\w\d \.\-\(\)\+\xc2\xbb\xc2\xab\&\"\,\xc2\xae\`%]*)',
