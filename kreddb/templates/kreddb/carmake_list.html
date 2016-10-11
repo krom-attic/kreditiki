@@ -1,139 +1,149 @@
 {% extends "kreddb/base.html" %}
 
 {% block pagetitle %}
-Честный калькулятор автокредитов
+  Честный калькулятор автокредитов
 {% endblock %}
 
 {% block content %}
 
-<div class="container">
+  <div class="container">
 
-<carselector data-ng-cloak data-ng-init="carmakes = [{% for car_make in carmake_list %}'{{ car_make.name }}', {% endfor %}]"></carselector>
+    <carselector data-ng-cloak
+                 data-ng-init="carmakes = [{% for car_make in carmake_list %}'{{ car_make.name }}', {% endfor %}]"></carselector>
 
-<button class="btn btn-primary btn-block btn-popular-models visible-xs-block" type="button">Посмотреть самые популярные модели</button>
+    <button class="btn btn-primary btn-block btn-popular-models visible-xs-block" type="button">Посмотреть самые
+      популярные модели
+    </button>
 
-<div class="row">
+    <div class="row">
 
-<div class="hidden-xs" id="popular-models">
+      <div class="hidden-xs" id="popular-models">
 
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-padding">
-		<div style="background: url({{ promo.0.images.m }}) no-repeat; background-position: 50%; background-size: cover;">
-		<div class="my-filter-content">
-			<h3 class="my-white">{{ promo.0.car_make }} {{ promo.0.car_model }}</h3>
-			<h3 class="my-white">За {{ promo.0.price_per_day }} рублей в день</h3>
-			<a href="{{ promo.0.url }}" class="btn btn-default" role="button">Подробнее</a>
-		</div>
-		</div>
-	</div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-padding">
+          <div
+              style="background: url({{ promo.0.images.m }}) no-repeat; background-position: 50%; background-size: cover;">
+            <div class="my-filter-content">
+              <h3 class="my-white">{{ promo.0.car_make }} {{ promo.0.car_model }}</h3>
+              <h3 class="my-white">За {{ promo.0.price_per_day }} рублей в день</h3>
+              <a href="{{ promo.0.url }}" class="btn btn-default" role="button">Подробнее</a>
+            </div>
+          </div>
+        </div>
 
-	<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-padding">
-		<div style="background: url({{ promo.1.images.m }}) no-repeat; background-position: 50%; background-size: cover;">
-		<div class="my-filter-content">
-			<h3 class="my-white">{{ promo.1.car_make }} {{ promo.1.car_model }}</h3>
-			<h3 class="my-white">За {{ promo.1.price_per_day }} рублей в день</h3>
-			<a href="{{ promo.1.url }}" class="btn btn-default" role="button">Подробнее</a>
-		</div>
-		</div>
-	</div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-padding">
+          <div
+              style="background: url({{ promo.1.images.m }}) no-repeat; background-position: 50%; background-size: cover;">
+            <div class="my-filter-content">
+              <h3 class="my-white">{{ promo.1.car_make }} {{ promo.1.car_model }}</h3>
+              <h3 class="my-white">За {{ promo.1.price_per_day }} рублей в день</h3>
+              <a href="{{ promo.1.url }}" class="btn btn-default" role="button">Подробнее</a>
+            </div>
+          </div>
+        </div>
 
-	<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-padding">
-		<div style="background: url({{ promo.2.images.m }}) no-repeat; background-position: 50%; background-size: cover;">
-		<div class="my-filter-content">
-			<h3 class="my-white">{{ promo.2.car_make }} {{ promo.2.car_model }}</h3>
-			<h3 class="my-white">За {{ promo.2.price_per_day }} рублей в день</h3>
-			<a href="{{ promo.2.url }}" class="btn btn-default" role="button">Подробнее</a>
-		</div>
-		</div>
-	</div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-padding">
+          <div
+              style="background: url({{ promo.2.images.m }}) no-repeat; background-position: 50%; background-size: cover;">
+            <div class="my-filter-content">
+              <h3 class="my-white">{{ promo.2.car_make }} {{ promo.2.car_model }}</h3>
+              <h3 class="my-white">За {{ promo.2.price_per_day }} рублей в день</h3>
+              <a href="{{ promo.2.url }}" class="btn btn-default" role="button">Подробнее</a>
+            </div>
+          </div>
+        </div>
 
 
-	<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 my-padding">
-		<div style="background: url({{ promo.3.images.m }}) no-repeat; background-position: 50%; background-size: cover;">
-		<div class="my-filter-content">
-			<h3 class="my-white">{{ promo.3.car_make }} {{ promo.3.car_model }}</h3>
-			<h3 class="my-white">За {{ promo.3.price_per_day }} рублей в день</h3>
-			<a href="{{ promo.3.url }}" class="btn btn-default" role="button">Подробнее</a>
-		</div>
-		</div>
-	</div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 my-padding">
+          <div
+              style="background: url({{ promo.3.images.m }}) no-repeat; background-position: 50%; background-size: cover;">
+            <div class="my-filter-content">
+              <h3 class="my-white">{{ promo.3.car_make }} {{ promo.3.car_model }}</h3>
+              <h3 class="my-white">За {{ promo.3.price_per_day }} рублей в день</h3>
+              <a href="{{ promo.3.url }}" class="btn btn-default" role="button">Подробнее</a>
+            </div>
+          </div>
+        </div>
 
-	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 my-padding">
-		<div style="background: url({{ promo.4.images.m }}) no-repeat; background-position: 50%; background-size: cover;">
-		<div class="my-filter-content">
-			<h3 class="my-white">{{ promo.4.car_make }} {{ promo.4.car_model }}</h3>
-			<h3 class="my-white">За {{ promo.4.price_per_day }} рублей в день</h3>
-			<a href="{{ promo.4.url }}" class="btn btn-default" role="button">Подробнее</a>
-		</div>
-		</div>
-	</div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 my-padding">
+          <div
+              style="background: url({{ promo.4.images.m }}) no-repeat; background-position: 50%; background-size: cover;">
+            <div class="my-filter-content">
+              <h3 class="my-white">{{ promo.4.car_make }} {{ promo.4.car_model }}</h3>
+              <h3 class="my-white">За {{ promo.4.price_per_day }} рублей в день</h3>
+              <a href="{{ promo.4.url }}" class="btn btn-default" role="button">Подробнее</a>
+            </div>
+          </div>
+        </div>
 
-	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 my-padding">
-		<div style="background: url({{ promo.5.images.m }}) no-repeat; background-position: 50%; background-size: cover;">
-		<div class="my-filter-content">
-			<h3 class="my-white">{{ promo.5.car_make }} {{ promo.5.car_model }}</h3>
-			<h3 class="my-white">За {{ promo.5.price_per_day }} рублей в день</h3>
-			<a href="{{ promo.5.url }}" class="btn btn-default" role="button">Подробнее</a>
-		</div>
-		</div>
-	</div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 my-padding">
+          <div
+              style="background: url({{ promo.5.images.m }}) no-repeat; background-position: 50%; background-size: cover;">
+            <div class="my-filter-content">
+              <h3 class="my-white">{{ promo.5.car_make }} {{ promo.5.car_model }}</h3>
+              <h3 class="my-white">За {{ promo.5.price_per_day }} рублей в день</h3>
+              <a href="{{ promo.5.url }}" class="btn btn-default" role="button">Подробнее</a>
+            </div>
+          </div>
+        </div>
 
-</div>
+      </div>
 
-</div>
+    </div>
 
-<div class="row">
-	<br/><h2 class="text-center my-h1">Почему мы?</h2>
-	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 my-padding2">
-	<b>БЫСТРО</b>
-	<br/>Среднее время ответа на запрос кредита - 8 минут.
-	</div>
+    <div class="row">
+      <br/>
+      <h2 class="text-center my-h1">Почему мы?</h2>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 my-padding2">
+        <b>БЫСТРО</b>
+        <br/>Среднее время ответа на запрос кредита - 8 минут.
+      </div>
 
-	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 my-padding2">
-	<b>В ЛЮБОЕ ВРЕМЯ</b>
-	<br/>Мы обрабатываем запросы 24 часа 7 дней в неделю.
-	</div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 my-padding2">
+        <b>В ЛЮБОЕ ВРЕМЯ</b>
+        <br/>Мы обрабатываем запросы 24 часа 7 дней в неделю.
+      </div>
 
-	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 my-padding2">
-	<b>УДОБНО</b>
-	<br/>Получайте уведомления на e-mail или мобильный телефон.
-	</div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 my-padding2">
+        <b>УДОБНО</b>
+        <br/>Получайте уведомления на e-mail или мобильный телефон.
+      </div>
 
-	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 my-padding2">
-	<b>НАДЕЖНО</b>
-	<br/>Ваши персональные данные будут надежно защищены от мошенников.
-	</div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 my-padding2">
+        <b>НАДЕЖНО</b>
+        <br/>Ваши персональные данные будут надежно защищены от мошенников.
+      </div>
 
-	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 my-padding2">
-	<b>ВЫГОДНО</b>
-	<br/>Большой выбор банков, процентные ставки - от 8% годовых.
-	</div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 my-padding2">
+        <b>ВЫГОДНО</b>
+        <br/>Большой выбор банков, процентные ставки - от 8% годовых.
+      </div>
 
-	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 my-padding2">
-	<b>УДАЧНО</b>
-	<br/>95% наших заявок одобряются банками.
-	</div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 my-padding2">
+        <b>УДАЧНО</b>
+        <br/>95% наших заявок одобряются банками.
+      </div>
 
-</div>
+    </div>
 
-<!-- <div><button type="button" id="show-all-marks">Показать все марки</button></div>
-<div id="marks"> -->
-	<div class="row">
-  <br/><h2 class="text-center my-h1">Все марки</h2>
+    <div class="row">
+      <br/>
+      <h2 class="text-center my-h1">Все марки</h2>
 
-  <br/><ul id="list-marks">
-  {% for car_make in carmake_list %}
-    <li class="col-lg-2 col-md-2 col-sm-3 col-xs-6"><a href="{{ car_make.filter_url }}">{{ car_make.name }}</a></li>
-  {% endfor %}
-  </ul>
+      <br/>
+      <ul id="list-marks">
+        {% for car_make in carmake_list %}
+          <li class="col-lg-2 col-md-2 col-sm-3 col-xs-6"><a href="{{ car_make.filter_url }}">{{ car_make.name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
 
-	</div>
+    </div>
 
-<div>
-    Приведённые условия кредитов не являются офертой, а расчитаны усреднённо с учётом следующих допущений:
-    первоначальный взнос &mdash; 50%, срок &mdash; 60 месяцев, самая дешёвая комплектация.
-</div>
-
-</div>
+    <div>
+      Приведённые условия кредитов не являются офертой, а расчитаны усреднённо с учётом следующих допущений:
+      первоначальный взнос &mdash; 50%, срок &mdash; 60 месяцев, самая дешёвая комплектация.
+    </div>
 
   </div>
- {% endblock %}
+
+{% endblock %}

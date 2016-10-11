@@ -231,7 +231,7 @@ class CarImage(models.Model):
     body = models.ForeignKey(Body, db_index=True, null=True)
     image = models.ImageField(upload_to=car_image_path)
     main = models.BooleanField(default=False)
-    car_model = models.ForeignKey(CarModel)  # TODO убрать Null
+    car_model = models.ForeignKey(CarModel)
 
     def save(self, **kwargs):
         if os.path.basename(self.image.name)[:4] == 'main':

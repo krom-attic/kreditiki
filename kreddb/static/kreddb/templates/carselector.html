@@ -1,23 +1,25 @@
 <div id="car-select">
   <div class="row">
-  	<h2 class="car-select-title">Чтобы подобрать кредит, выберите марку и модель</h2>
+    <h2 class="car-select-title">Чтобы подобрать кредит, выберите марку и модель</h2>
     <form class="car-select-form" action="/credit/selector" method="get">
       <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 my-padding">
-        <select id="select-marks" class="form-control" data-ng-model="vm.carmake" data-ng-change="vm.get_carmodels()" name="carmake">
+        <select id="select-marks" class="form-control" data-ng-model="vm.carmake" data-ng-change="vm.get_carmodels()"
+                name="carmake">
           <option value="" style="display:none;">Выберите марку...</option>
-          <option data-ng-repeat="carmake in carmakes" value="{{carmake}}">{{carmake}}</option>
+          <option data-ng-repeat="carmake in carmakes" value="{{ carmake }}">{{ carmake }}</option>
         </select>
       </div>
       <div class="col-lg-5 col-md-5  col-sm-6 col-xs-12 my-padding">
-        <select id="select-models" class="form-control" name="carmodel">
+        <select id="select-models" class="form-control" name="carmodel" ng-disabled="!vm.carmake">
           <option value="" style="display:none;">Выберите модель...</option>
-          <option data-ng-repeat="carmodel in vm.carmodels | orderBy: 'name'" value="{{carmodel.id}}">{{carmodel.name}}</option>
+          <option data-ng-repeat="carmodel in vm.carmodels | orderBy: 'name'"
+                  value="{{ carmodel.id }}">{{ carmodel.name }}</option>
         </select>
       </div>
       <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 my-padding">
         <input type="submit" id="search-btn" class="btn btn-primary btn-block" value="Найти">
       </div>
-	<div class="clearfix"></div>
+      <div class="clearfix"></div>
     </form>
   </div>
 </div>
