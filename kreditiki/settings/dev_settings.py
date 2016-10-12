@@ -32,6 +32,8 @@ DATABASES = {
     }
 }
 
+MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+
 # TODO чё эта?
 # LOGGING_CONFIG = None
 

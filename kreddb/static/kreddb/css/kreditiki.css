@@ -1,10 +1,15 @@
 header {
 	margin: 20px 0 0;
 }
-header h1 {
+header .h1 {
 	margin: 0;
     color: #007cbf;
     text-align: right;
+}
+
+.centered-h1 {
+    text-align: center;
+    margin: 30px 0 -20px 0;
 }
 
 .my-h1 {
@@ -67,17 +72,17 @@ li {
 	padding-bottom: 25px;
 	border: 1px solid #c4c4c4;}
 
-.my-content-calc {	
+.my-content-calc {
 	padding: 25px;
 	border-left: 1px solid #c4c4c4;
 	border-right: 1px solid #c4c4c4;
 	border-bottom: 1px solid #c4c4c4;}
-	
-.my-content-calc-text {	
-	margin-right:-25px; 
+
+.my-content-calc-text {
+	margin-right:-25px;
 	padding-bottom:20px;
 	font-weight:bold;}
-	
+
 .my-line-calc {background:#007cbf;}
 
 .my-calc{
@@ -87,23 +92,23 @@ li {
 
 .my-calc-months {
 	height: 20px;}
-	
+
 .my-padding-0 {
-	padding: 0;}	
-	
+	padding: 0;}
+
 .my-padding-calc-month {
 	padding-left: 9%;
 	padding-right: 9%;}
-	
+
 .my-content-right-text {
-	margin-top: 20px; 
+	margin-top: 20px;
 	padding-left: 35px;
-	padding-right: 25px; 
-	padding-top: 35px; 
+	padding-right: 25px;
+	padding-top: 35px;
 	padding-bottom: 25px;
 	border: 1px solid #c4c4c4;}
-	
-.my-content-right-down-text {	
+
+.my-content-right-down-text {
 	padding-left: 25px;
 	padding-right: 25px;
 	padding-top: 40px;
@@ -111,24 +116,24 @@ li {
 	border-left: 1px solid #c4c4c4;
 	border-right: 1px solid #c4c4c4;
 	border-bottom: 1px solid #c4c4c4;}
-	
+
 .my-header-app {
-	background:#007cbf; 
-	margin-top:20px; 
-	padding-top:10px; 
+	background:#007cbf;
+	margin-top:20px;
+	padding-top:10px;
 	padding-bottom:20px;}
 
-.my-content-app	{	
-	border-left: 1px solid #c4c4c4; 
+.my-content-app	{
+	border-left: 1px solid #c4c4c4;
 	border-right: 1px solid #c4c4c4;
 	border-bottom: 1px solid #c4c4c4;}
 
 .my-button-app {
-	padding-left: 30px; 
-	padding-right: 30px; 
-	padding-top: 10px; 
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-top: 10px;
 	padding-bottom: 10px;}
-	
+
 .logo {
 	max-width: 250px;
 	display: block;}
@@ -215,26 +220,26 @@ footer {
 
 @media screen and (max-width:767px) {
 
-	header h1 {
+	header .h1 {
 		font-size: 18px;}
-	
+
 	.my-padding-left-calc-month {
 		padding-left: 11%;
 		text-align:right;}
-		
+
 	.my-carousel-block-none {display: none;}
 	.my-button-app-margin-top-20 {margin-top: 20px;}
-	
+
 }
 
 @media screen and (min-width:768px) and (max-width:991px) {
 
 	.my-padding-left-calc-month {padding-left: 13%;}
-	
+
 	.my-padding-calc-month {
 		padding-left: 10%;
 		padding-right: 9%;}
-		
+
 	.my-carousel-block-none {display: none;}
 
 }
@@ -242,25 +247,25 @@ footer {
 @media screen and (min-width:992px) and (max-width:1199px) {
 
 	.my-padding-left-calc-month {padding-left: 9%;}
-	
+
 	.my-padding-calc-month {
 		padding-left: 9%;
 		padding-right: 9%;}
-	
-	.my-margin-left-content-0 {margin-left: 0px;}	
+
+	.my-margin-left-content-0 {margin-left: 0px;}
 	.my-padding-top-content-8 {padding-top: 8px;}
 	.my-padding-bottom-content-9 {padding-bottom: 9px;}
-	
+
 }
 
 @media screen and (min-width:1199px) {
-	
+
 	.my-padding-left-calc-month {padding-left: 11%;}
-	
+
 	.my-padding-calc-month {
 		padding-left: 9%;
 		padding-right: 9%;}
-		
+
 	.my-margin-left-content-0 {margin-left: 0px;}
 
 }

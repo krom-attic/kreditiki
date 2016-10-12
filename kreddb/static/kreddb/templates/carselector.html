@@ -1,6 +1,6 @@
 <div id="car-select">
   <div class="row">
-    <h2 class="car-select-title">Чтобы подобрать кредит, выберите марку и модель</h2>
+    <p class="car-select-title h3">Чтобы подобрать кредит, выберите марку и модель</p>
     <form class="car-select-form" action="/credit/selector" method="get">
       <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 my-padding">
         <select id="select-marks" class="form-control" data-ng-model="vm.carmake" data-ng-change="vm.get_carmodels()"
@@ -17,7 +17,7 @@
         </select>
       </div>
       <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 my-padding">
-        <input type="submit" id="search-btn" class="btn btn-primary btn-block" value="Найти">
+        <input type="submit" id="search-btn" class="btn btn-primary btn-block" ng-disabled="!vm.carmake" value="Найти">
       </div>
       <div class="clearfix"></div>
     </form>
