@@ -202,6 +202,12 @@ class CarModel(models.Model):
         self.save()
         return self.price_per_day
 
+    def get_price_per_day(self):
+        if self.price_per_day is None:
+            return self.update_price()
+        else:
+            return self.price_per_day
+
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         try:
             if not self.model_family:
@@ -247,6 +253,10 @@ class CarImage(models.Model):
     @staticmethod
     def resized_path(original_path, sz):
         return original_path[0] + '_' + sz + '.' + original_path[1]
+
+    @classmethod
+    def get_main_car_image(cls, car_model: CarModel):
+        return cls.objects.get(car_model=car_model, main=True).image
 
     def __str__(self):
         # TODO добавить последний кусок урла

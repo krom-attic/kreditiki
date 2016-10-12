@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, View
 
 from kreddb import models
+from kreddb.bl.image_works import get_car_main_images
 from kreddb.bl.site_options import get_promo_items
 from kreddb.models import cipher_id, decipher_id
 
@@ -47,17 +48,9 @@ class CarModelListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['car_make'] = self.car_make
-        # TODO Показывать main картинки для каждой модели
-        stub_pics = [
-            "http://toyota-tula.ru/images/88/common/all_new_toyota_camry_exterior.jpg",
-            "http://i.ytimg.com/vi/_DnbTjf2VtA/maxresdefault.jpg",
-            "http://recyclemag.ru/wp-content/uploads/2015/10/01-bmw-zagato-coupe.jpg",
-            "http://carrrsmag.com/data_images/makes/audi/audi-01.jpg",
-            "http://auto.sibkray.ru/images/uploads/autoproizv/skoda_rapid/skoda_7.jpg",
-            "http://i.ytimg.com/vi/WV0XxP3kaic/maxresdefault.jpg",
-        ]
         for car_model in context.get('carmodel_list', []):
-            car_model.main_img_url = random.choice(stub_pics)
+            car_model.main_img_urls = get_car_main_images(car_model)
+            car_model.get_price_per_day()
         return context
 
 
