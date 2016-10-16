@@ -48,3 +48,5 @@ ADMINS = [
 MANAGERS = ADMINS + [
     (os.environ['MANAGER_NAME'], os.environ['MANAGER_EMAIL'])
 ]
+
+SERVER_EMAIL = os.environ['SERVER_EMAIL']

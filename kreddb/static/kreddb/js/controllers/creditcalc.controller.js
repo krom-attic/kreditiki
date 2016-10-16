@@ -73,6 +73,12 @@
         };
 
         vm.submit = function () {
+            vm.application["url"] = window.location.href;
+            vm.application["first_payment"] = vm.first_payment;
+            vm.application["credit_length"] = vm.credit_length;
+            vm.application["no_insurance"] = vm.no_insurance;
+            vm.application["no_confirmation"] = vm.no_confirmation;
+            vm.application["variation"] = vm.variation;
             $http({
                 method: "POST",
                 url: "/кредит/заявка/",
