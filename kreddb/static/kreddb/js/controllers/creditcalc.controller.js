@@ -28,7 +28,7 @@
         vm.credit_length = 12;
         vm.no_insurance = false;
         vm.no_confirmation = false;
-        vm.variation = 'real';
+        vm.variation = 'better';
 
         vm.credit = [];
         vm.total_credit = null;
