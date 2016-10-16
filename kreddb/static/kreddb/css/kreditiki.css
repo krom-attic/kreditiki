@@ -5,11 +5,12 @@ header .h1 {
 	margin: 0;
     color: #007cbf;
     text-align: right;
+	font-size: 20px;
 }
 
 .centered-h1 {
     text-align: center;
-    margin: 30px 0 -20px 0;
+    margin: 30px 0 0 0;
 }
 
 .my-h1 {

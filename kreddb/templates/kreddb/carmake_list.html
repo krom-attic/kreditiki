@@ -1,17 +1,17 @@
 {% extends "kreddb/base.html" %}
 
 {% block page_description %}
-  Рассчитайте ежемесячный платеж и оформите заявку на кредит онлайн в СПб
+  Рассчитайте процентную ставку и условия для кредита на новую машину в СПб
 {% endblock %}
 
 {% block pagetitle %}
-  Честный калькулятор автокредитов
+  ЦентПроцент - калькулятор автокредитов в Санкт-Петербурге
 {% endblock %}
 
 {% block content %}
 
   <div class="container">
-    <h1 class="h2 centered-h1">Лучшие предложения по автокредитам в Санкт-Петербурге находятся здесь</h1>
+    <h1 class="text-center my-h1">Выберите марку и модель и оформите заявку на выгодный автокредит</h1>
 
     <carselector data-ng-cloak
                  data-ng-init="carmakes = [{% for car_make in carmake_list %}'{{ car_make.name }}', {% endfor %}]"></carselector>

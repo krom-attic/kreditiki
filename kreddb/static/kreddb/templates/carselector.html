@@ -1,7 +1,6 @@
 <div id="car-select">
   <div class="row">
-    <p class="car-select-title h3">Чтобы подобрать кредит, выберите марку и модель</p>
-    <form class="car-select-form" action="/credit/selector" method="get">
+    <form class="car-select-form" action="/selector" method="get">
       <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 my-padding">
         <select id="select-marks" class="form-control" data-ng-model="vm.carmake" data-ng-change="vm.get_carmodels()"
                 name="carmake">

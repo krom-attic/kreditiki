@@ -93,6 +93,7 @@ class ModificationListView(ListView):
     model = models.Modification
 
     def __init__(self, **kwargs):
+        self.car_make = None
         self.car_model = None
         super().__init__(**kwargs)
 
@@ -100,12 +101,20 @@ class ModificationListView(ListView):
         queryset = super().get_queryset()
 
         qs_filter = queryset.filter(car_model__id=decipher_id(self.kwargs['object_id']))
-
+        first_car_model = qs_filter.first()
+        self.car_make = first_car_model.car_make
+        self.car_model = first_car_model.car_model
         # на данный момент неактуально, но может пригодиться
         if self.kwargs.get('all'):
             return qs_filter
         else:
             return qs_filter.exclude(cost=None)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['car_make'] = self.car_make
+        context['car_model'] = self.car_model
+        return context
 
 
 class ModificationDataApiView(View):

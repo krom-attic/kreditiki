@@ -1,8 +1,13 @@
 {% extends "kreddb/base.html" %}
 
+{% block page_description %}
+  Рассчитайте ежемесячный платеж по кредиту и оставьте заявку онлайн
+{% endblock %}
+
 {% block pagetitle %}
-  Кредиты на {{ modification.car_make.name }} {{ modification.car_model.name }} {{ modification.generation.generation }} {{ modification.name }}
-{{ modification.body.name }} {{ modification.engine.name }} {{ modification.gear.name }}
+  Купить {{ modification.car_make.name }} {{ modification.car_model.name }} {{ modification.car_model.body.name }}
+  {{ modification.generation.year_start }} {{ modification.generation.name }} {{ modification.name }}
+  {{ modification.engine.name }} {{ modification.gear.name }}
 {% endblock %}
 
 {% block content %}
@@ -10,10 +15,19 @@
 {% load angular %}
 
 	<div class="container my-margin-top-20">
-	<h1 class="my-h1 my-margin-top-20">{{ modification.car_make.name }} {{ modification.car_model.name }} {{ modification.generation.generation }} {{ modification.name }}
-{{ modification.body.name }} {{ modification.engine.name }} {{ modification.gear.name }}</h1>
+	<h1 class="my-h1 my-margin-top-20">Расчет автокредита на {{ modification.car_make.name }}
+    {{ modification.car_model.name }} {{ modification.car_model.body.name }}
+    {{ modification.generation.year_start }} {{ modification.generation.name }} {{ modification.name }}
+    {{ modification.engine.name }} {{ modification.gear.name }}</h1>
     {% csrf_token %}
     {% angular_app "creditcalc" %}
+
+    На нашем сайте Вы можете рассчитать кредит онлайн на {{ modification.car_make.name }}
+    {{ modification.car_model.name }} {{ modification.car_model.body.name }}
+    {{ modification.generation.year_start }} {{ modification.generation.name }} {{ modification.name }}
+    {{ modification.engine.name }} {{ modification.gear.name }}, а также оставить заявку на кредит.
+    Посмотрите так же другие комплектации модели
+    <a href="{{ modification.car_model.get_absolute_url }}">{{ modification.car_make.name }} {{ modification.car_model.name }}</a>
 
 	</div>
 

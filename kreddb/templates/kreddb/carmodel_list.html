@@ -1,14 +1,18 @@
 {% extends "kreddb/base.html" %}
 
+{% block page_description %}
+  {{ car_make }} в кредит - рассчитайте ежемесячный платеж и оформите заявку онлайн
+{% endblock %}
+
 {% block pagetitle %}
-  Кредиты на автомобили {{ car_make }}
+  Купить {{ car_make }} в кредит в СПб
 {% endblock %}
 
 {% block content %}
 
 <div class="container">
 
-  <h1 class="text-center my-h1">Модели {{ car_make }} в кредит</h1>
+  <h1 class="text-center my-h1">Автокредит на новый автомобиль {{ car_make }}</h1>
 
 <div class="row" id="model_families">
 {% for carmodel in carmodel_list %}

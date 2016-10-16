@@ -1,12 +1,16 @@
 {% extends "kreddb/base.html" %}
 
+{% block page_description %}
+  Рассчитайте ежемесячный платеж по кредиту на {{ car_make.name }} {{ car_model.name }}
+{% endblock %}
+
 {% block pagetitle %}
-  Кредиты на {{ car_make.name }} {{ car_model.name }}
+  Купить {{ car_make.name }} {{ car_model.name }} в кредит в СПб - автокредитный калькулятор {{ car_make.name }} {{ car_model.name }}
 {% endblock %}
 
 {% block content %}
 
-	<h2 class="mod-list-h2">{{ car_make.name }} {{ car_model.name }} в кредит</h2>
+	<h2 class="mod-list-h2">Расчет автокредита на {{ car_make.name }} {{ car_model.name }}</h2>
 	<p class="mod-list-txt">Выберите комплектацию:</p>
 
 	<hr>

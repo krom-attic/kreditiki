@@ -36,20 +36,20 @@ urlpatterns = [
 
     # TODO заменить credit на кредит
     url(r'^$', views.CarMakeListView.as_view(), name='list_marks'),
-    url(r'^credit/$', views.CarMakeListView.as_view(), name='list_marks'),
+    url(r'^кредит/$', views.CarMakeListView.as_view(), name='list_marks'),
 
-    url(r'^credit/selector/$', views.CarSelectorDispatchView.as_view(), name="carselector"),
+    url(r'^selector/$', views.CarSelectorDispatchView.as_view(), name="carselector"),
 
-    url(r'^credit/{car_make}/(?P<all>все/)?$'.format(**URL_RE_PARTS), views.CarModelListView.as_view(), name='list_model_families'),
+    url(r'^кредит/{car_make}/(?P<all>все/)?$'.format(**URL_RE_PARTS), views.CarModelListView.as_view(), name='list_model_families'),
 
-    url(r'^credit/{car_make}/{car_model}/{gen_year_start}/{body}/{object_id}/(?P<all>все/)?$'.format(**URL_RE_PARTS),
+    url(r'^кредит/{car_make}/{car_model}/{body}/{gen_year_start}/{object_id}/(?P<all>все/)?$'.format(**URL_RE_PARTS),
         views.ModificationListView.as_view(), name='list_modifications'),
 
     # TODO можно после gen_year_start передавать ещё несколько годов через запятую
-    url(r'^credit/{car_make}/{car_model}/{gen_year_start}/{generation}/{complect}/{body}/{engine}/{gear}/'
+    url(r'^кредит/{car_make}/{car_model}/{body}/{gen_year_start}/{generation}/{complect}/{engine}/{gear}/'
         r'{object_id}/$'.format(**URL_RE_PARTS), views.ModificationDetailView.as_view(),
         name='view_modification'),
-    url(r'^credit/{car_make}/{car_model}/{gen_year_start}/{generation}/{complect}/{body}/{engine}/{gear}/'
+    url(r'^кредит/{car_make}/{car_model}/{body}/{gen_year_start}/{generation}/{complect}/{engine}/{gear}/'
         r'{object_id}$'.format(**URL_RE_PARTS), views.ModificationDetailView.as_view(), name='view_modification'),
 
     url(r'^кредит/заявка/', views.CreditApplicationView.as_view(), name='credit_application'),
