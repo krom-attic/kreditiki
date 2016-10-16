@@ -1,5 +1,7 @@
 from kreditiki.settings.base_settings import *
 
+INTERNAL_IPS = ['127.0.0.1']
+
 INSTALLED_APPS.append('debug_toolbar')
 
 # DEBUG_TOOLBAR_PANELS_DEFAULT = [
@@ -32,7 +34,9 @@ DATABASES = {
     }
 }
 
-MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+# You should include the Debug Toolbar middleware as early as possible in the list. However, it must come after
+# any other middleware that encodes the response’s content, such as GZipMiddleware.
+MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 # Static asset configuration
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
