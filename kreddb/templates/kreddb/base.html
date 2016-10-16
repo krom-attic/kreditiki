@@ -42,6 +42,7 @@
 
 <div class="container">
   <div class="row">
+    {% if debug %}<b><span style="color: red; ">DEBUG IS ENABLED</span></b>{% endif %}
     {% block content %}App body here{% endblock %}
   </div>
 </div>
