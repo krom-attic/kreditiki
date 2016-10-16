@@ -3,7 +3,7 @@ from kreddb.models import SiteOptions, CarModel
 
 
 def _create_ui_promo_item(car_model: CarModel):
-    # возвращаем объект для UI
+    """возвращаем объект для UI"""
     return {
         'images': get_car_main_images(car_model),
         'car_make': car_model.model_family.car_make.name,

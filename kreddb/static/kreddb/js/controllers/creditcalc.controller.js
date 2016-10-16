@@ -9,11 +9,11 @@
         .module('kreddb.controllers')
         .controller('CreditCalcController', CreditCalcController);
 
-    CreditCalcController.$inject = [];
+    CreditCalcController.$inject = ['$http'];
     /**
     * @namespace CreditCalcController
     */
-    function CreditCalcController() {
+    function CreditCalcController($http) {
 
         var INITIAL_PAYMENT = 0.1;
 
@@ -56,7 +56,7 @@
             vm.total_credit = credit_calculation['total'];
         };
 
-        vm.init = function(app_context) {
+        vm.init = function (app_context) {
         // TODO нужно разварачивать словарь app_context прямо в vm
             vm.price = app_context["price"];
             vm.photos = app_context["photos"];
@@ -66,6 +66,21 @@
             vm.first_payment = vm.payment_min;
             vm.recalculate_interest();
             vm.calculate_credit()
+        };
+
+        vm.application = {
+
+        };
+
+        vm.submit = function () {
+            $http({
+                method: "POST",
+                url: "/кредит/заявка/",
+                data: vm.application
+            })
+                .success(function () {
+                    alert('Спасибо за заявку!\nНаш менеджер свяжется с Вами в ближайшее время.')
+                })
         }
     }
 })();

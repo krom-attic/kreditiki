@@ -1,7 +1,7 @@
 import json
-import random
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import mail_managers
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, View
@@ -151,3 +151,14 @@ class ModificationDetailView(DetailView):
         creditcalc_context['car_name'] = '{} {}'.format(modification.car_make.name, modification.model_family.name)
         context['creditcalc'] = creditcalc_context
         return context
+
+
+class CreditApplicationView(View):
+    # TODO проверить сигнатуру метода
+    def post(self, request, *args, **kwargs):
+        params = json.loads(request.body.decode())
+        mail_managers(
+            'Новая заявка на кредит',
+            str(params),
+        )
+        return HttpResponse('OK')

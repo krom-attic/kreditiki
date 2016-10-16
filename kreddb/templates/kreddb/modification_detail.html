@@ -12,60 +12,9 @@
 	<div class="container my-margin-top-20">
 	<h1 class="my-h1 my-margin-top-20">{{ modification.car_make.name }} {{ modification.car_model.name }} {{ modification.generation.generation }} {{ modification.name }}
 {{ modification.body.name }} {{ modification.engine.name }} {{ modification.gear.name }}</h1>
-
+    {% csrf_token %}
     {% angular_app "creditcalc" %}
 
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-margin-bottom-35">
-			<div class="row my-header-app">
-				<h2 class="text-center my-font-size-25 my-color-fff">Время взять автокредит</h2>
-			</div>
-			<div class="row my-content-app">
-				<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-md-offset-2 my-padding-bottom-25">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-margin-top-40 my-margin-bottom-30">
-						<span class="my-font-size-22">Как Вас зовут</span>
-					</div>
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="form-group">
-							<input type="email" class="form-control my-padding-25" id="exampleInputEmail1" placeholder="ФИО*">
-						</div>
-					</div>
-					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-						<div class="form-group">
-							<input type="email" class="form-control my-padding-25" id="exampleInputEmail1" placeholder="Мобильный телефон*">
-						</div>
-					</div>
-					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-						<div class="form-group">
-							<input type="email" class="form-control my-padding-25" id="exampleInputEmail1" placeholder="Электронная почта">
-						</div>
-					</div>
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="form-group">
-							<input type="email" class="form-control my-padding-25" id="exampleInputEmail1" placeholder="Регион проживания">
-						</div>
-					</div>
-					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-						<div class="form-group">
-							<input type="email" class="form-control my-padding-25" id="exampleInputEmail1" placeholder="Стаж на текущем месте работы">
-						</div>
-					</div>
-					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-						<div class="form-group">
-							<input type="email" class="form-control my-padding-25" id="exampleInputEmail1" placeholder="Дата рождения">
-						</div>
-					</div>
-					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox1" value="option1">Я согласен с <a href="">условиями передачи информации</a>
-							</label>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-right">
-						<a href="#" class="btn btn-primary right my-button-app my-button-app-margin-top-20" role="button">Отправить</a>
-					</div>
-
-				</div>
-			</div>
-		</div>
 	</div>
 
 {% endblock %}

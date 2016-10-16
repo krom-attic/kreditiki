@@ -34,6 +34,7 @@ urlpatterns = [
         views.ModificationDataApiView.as_view(),
         name='modification_data'),
 
+    # TODO заменить credit на кредит
     url(r'^$', views.CarMakeListView.as_view(), name='list_marks'),
     url(r'^credit/$', views.CarMakeListView.as_view(), name='list_marks'),
 
@@ -50,6 +51,8 @@ urlpatterns = [
         name='view_modification'),
     url(r'^credit/{car_make}/{car_model}/{gen_year_start}/{generation}/{complect}/{body}/{engine}/{gear}/'
         r'{object_id}$'.format(**URL_RE_PARTS), views.ModificationDetailView.as_view(), name='view_modification'),
+
+    url(r'^кредит/заявка/', views.CreditApplicationView.as_view(), name='credit_application'),
 
     url(r'^service/upload_csv/$', service.UploadCarCsvView.as_view(), name='service_upload_csv'),
     url(r'^service/csv_template/$', service.DownloadCarCsvTemplate.as_view(), name='service_download_csv_template'),

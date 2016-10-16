@@ -120,3 +120,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
+
+# это обнулятор стандартной настройки логирования, чтобы она не путалась с кастомной
+# LOGGING_CONFIG = None

@@ -1,138 +1,188 @@
-		<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-			<div class="row my-content-header-text">
-				<h2 class="my-font-size-25">Автокредитный калькулятор {{ vm.car_name }}</h2>
-				Рассчитайте на калькуляторе в режиме онлайн ежемесячный платеж и переплату по кредиту
-			</div>
-			<div class="row my-content-calc">
-				<div class="row my-padding-top-30">
-					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-content-calc-text">Стоимость авто</div>
-          <!-- для подержанных машин контрол нужен будет -->
-         <!--<h3>Похоже, это корыто уже не продаётся. Но всегда кто-то ищет лоха, которому можно сбагрить свой зачуханный тарантас.</h3>-->
-        <!--<p>Серьёзно, не расстраивайтесь. Просто введите сумму сами.</p>-->
-      		<!-- <input type="number" id="price" data-ng-model="vm.price" data-ng-change="vm.calculate_credit()" /> -->
-					<!--<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-padding-bottom-20">-->
-						<!--<div class="my-line-calc">&nbsp;</div>-->
-						<!--<div class="my-margin-top-5">-->
-							<!--<span class="my-calc text-left">1 млн</span>-->
-							<!--<span class="my-calc text-center">1,5 млн</span>-->
-							<!--<span class="my-calc text-right">2 млн</span>-->
-						<!--</div>-->
-					<!--</div>-->
-					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">{{ vm.price | currency : "₽" : 0 }}</div>
+<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+  <div class="row my-content-header-text">
+    <h2 class="my-font-size-25">Автокредитный калькулятор {{ vm.car_name }}</h2>
+    Рассчитайте на калькуляторе в режиме онлайн ежемесячный платеж и переплату по кредиту
+  </div>
+  <div class="row my-content-calc">
+    <div class="row my-padding-top-30">
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-content-calc-text">Стоимость авто</div>
+      <!-- для подержанных машин контрол нужен будет -->
+      <!-- <input type="number" id="price" data-ng-model="vm.price" data-ng-change="vm.calculate_credit()" /> -->
+      <!--<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-padding-bottom-20">-->
+      <!--<div class="my-line-calc">&nbsp;</div>-->
+      <!--<div class="my-margin-top-5">-->
+      <!--<span class="my-calc text-left">1 млн</span>-->
+      <!--<span class="my-calc text-center">1,5 млн</span>-->
+      <!--<span class="my-calc text-right">2 млн</span>-->
+      <!--</div>-->
+      <!--</div>-->
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">
+        {{ vm.price | currency : "₽" : 0 }}</div>
 
-				</div>
-				<div class="row my-padding-top-30">
-					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-content-calc-text">Первый взнос</div>
-					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-padding-bottom-20">
-						<div><input type="range" id="first_payment" min="{{ vm.payment_min }}" max="{{ vm.payment_max }}" step="1000" data-ng-model="vm.first_payment" data-ng-change="vm.recalculate_interest()" /></div>
-						<div class="my-margin-top-5">
-							<div class="col-xs-4 my-padding-0 text-left">{{ vm.payment_min | currency : "₽" : 0 }}</div>
-							<div class="col-xs-4 text-center">{{ (vm.payment_max + vm.payment_min) / 2 | currency : "₽" : 0 }}</div>
-							<div class="col-xs-4 my-padding-0 text-right">{{ vm.payment_max | currency : "₽" : 0 }}</div>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">{{ vm.first_payment | currency : "₽" : 0 }}</div>
-				</div>
-				<div class="row my-padding-top-30">
-					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-content-calc-text">Срок кредита</div>
-					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-padding-bottom-20">
-						<div><input type="range" id="months" min="6" max="60" data-ng-model="vm.credit_length" data-ng-change="vm.recalculate_interest()" /></div>
-						<div class="my-calc-months my-margin-top-5">
-							<div class="col-xs-1 my-calc-month my-padding-0 text-left">6</div>
-							<div class="col-xs-2 my-calc-month my-padding-0 text-left">12</div>
-							<div class="col-xs-2 my-calc-month text-center">24</div>
-							<div class="col-xs-2 my-calc-month my-padding-0 text-right">36</div>
-							<div class="col-xs-3 my-calc-month text-right">48</div>
-							<div class="col-xs-2 my-calc-month my-padding-0 text-right">60</div>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">{{ vm.credit_length }} месяцев</div>
-				</div>
-				<div class="row my-padding-top-30">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-content-calc-text">Кредитная история</div>
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-padding-bottom-20">
-						<div class="btn-group"> <!-- TODO data-toggle="buttons" -->
-              <label class="btn btn-default" for="variation_best">
-                <input type="radio" name="variation" id="variation_best" data-ng-model="vm.variation" value="best" data-ng-change="vm.recalculate_interest()" />Хорошая
-              </label>
-              <label class="btn btn-default" for="variation_better">
-                <input type="radio" name="variation" id="variation_better" data-ng-model="vm.variation" value="better" data-ng-change="vm.recalculate_interest()" />Нет кредитной истории
-              </label>
-              <label class="btn btn-default" for="variation_real">
-                <input type="radio" name="variation" id="variation_real" data-ng-model="vm.variation" value="real" checked data-ng-change="vm.recalculate_interest()" />Плохая
-              </label>
-						</div>
-					</div>
-				</div>
-				<div class="row my-margin-top-20 margin-bottom-10">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-content-calc-text">Дополнительно</div>
-					<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-						<label class="checkbox-inline">
-							<input type="checkbox" id="no_confirmation" data-ng-model="vm.no_confirmation" data-ng-change="vm.recalculate_interest()" />Без подтверждения дохода
-						</label>
-					</div>
-					<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-						<label class="checkbox-inline">
-							<input type="checkbox" id="no_insurance" data-ng-model="vm.no_insurance" data-ng-change="vm.recalculate_interest()" />Без КАСКО
-						</label>
-					</div>
-				</div>
-			</div>
-		</div>
+    </div>
+    <div class="row my-padding-top-30">
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-content-calc-text">Первый взнос</div>
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-padding-bottom-20">
+        <div><input type="range" id="first_payment" min="{{ vm.payment_min }}" max="{{ vm.payment_max }}" step="1000"
+                    data-ng-model="vm.first_payment" data-ng-change="vm.recalculate_interest()"/></div>
+        <div class="my-margin-top-5">
+          <div class="col-xs-4 my-padding-0 text-left">{{ vm.payment_min | currency : "₽" : 0 }}</div>
+          <div class="col-xs-4 text-center">{{ (vm.payment_max + vm.payment_min) / 2 | currency : "₽" : 0 }}</div>
+          <div class="col-xs-4 my-padding-0 text-right">{{ vm.payment_max | currency : "₽" : 0 }}</div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">
+        {{ vm.first_payment | currency : "₽" : 0 }}</div>
+    </div>
+    <div class="row my-padding-top-30">
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-content-calc-text">Срок кредита</div>
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-padding-bottom-20">
+        <div><input type="range" id="months" min="6" max="60" data-ng-model="vm.credit_length"
+                    data-ng-change="vm.recalculate_interest()"/></div>
+        <div class="my-calc-months my-margin-top-5">
+          <div class="col-xs-1 my-calc-month my-padding-0 text-left">6</div>
+          <div class="col-xs-2 my-calc-month my-padding-0 text-left">12</div>
+          <div class="col-xs-2 my-calc-month text-center">24</div>
+          <div class="col-xs-2 my-calc-month my-padding-0 text-right">36</div>
+          <div class="col-xs-3 my-calc-month text-right">48</div>
+          <div class="col-xs-2 my-calc-month my-padding-0 text-right">60</div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">{{ vm.credit_length }}
+        месяцев
+      </div>
+    </div>
+    <div class="row my-padding-top-30">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-content-calc-text">Кредитная история</div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-padding-bottom-20">
+        <div class="btn-group"> <!-- TODO data-toggle="buttons" -->
+          <label class="btn btn-default" for="variation_best">
+            <input type="radio" name="variation" id="variation_best" data-ng-model="vm.variation" value="best"
+                   data-ng-change="vm.recalculate_interest()"/>Хорошая
+          </label>
+          <label class="btn btn-default" for="variation_better">
+            <input type="radio" name="variation" id="variation_better" data-ng-model="vm.variation" value="better"
+                   checked data-ng-change="vm.recalculate_interest()"/>Нет кредитной истории
+          </label>
+          <label class="btn btn-default" for="variation_real">
+            <input type="radio" name="variation" id="variation_real" data-ng-model="vm.variation" value="real"
+                   data-ng-change="vm.recalculate_interest()"/>Плохая
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row my-margin-top-20 margin-bottom-10">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-content-calc-text">Дополнительно</div>
+      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+        <label class="checkbox-inline">
+          <input type="checkbox" id="no_confirmation" data-ng-model="vm.no_confirmation"
+                 data-ng-change="vm.recalculate_interest()"/>Без подтверждения дохода
+        </label>
+      </div>
+      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+        <label class="checkbox-inline">
+          <input type="checkbox" id="no_insurance" data-ng-model="vm.no_insurance"
+                 data-ng-change="vm.recalculate_interest()"/>Без КАСКО
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
 
-		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-			<div class="row my-margin-top-20 my-carousel-block-none my-margin-left-content-0">
-				<div id="carousel-example-generic" class="carousel slide">
-					<ol class="carousel-indicators hidden-xs">
-						<li data-target="#carousel-example-generic" data-slide-to="{{ $index }}" ng-class="{active: $index==0}" ng-repeat="photo in vm.photos"></li>
-					</ol>
-					<div class="carousel-inner">
-						<div class="item" ng-class="{active: $index==0}" ng-repeat="photo in vm.photos">
-							<picture class="img-responsive img-full" >
-                                <img data-ng-src="{{ photo.path + '_s.' + photo.ext }}" alt="">
-                            </picture>
-						</div>
-					</div>
-					<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev"><span class="icon-prev"></span></a>
-					<a class="right carousel-control" href="#carousel-example-generic" data-slide="next"><span class="icon-next"></span></a>
-				</div>
-			</div>
-			<div class="row my-content-right-text my-margin-left-content-0">
-				<span class="my-font-size-16">Ежемесячный платеж</span>
-				<h2 class="my-font-size-50">{{ vm.total_credit / vm.credit_length | currency : "₽" : 0 }}</h2>
-			</div>
-			<div class="row my-content-right-down-text my-margin-left-content-0">
-				<div class="row my-padding-bottom-25 my-padding-top-content-8">
-					<div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">Общая сумма по кредиту</div>
-					<div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 my-font-size-16  my-font-weight-bold">{{ vm.total_credit | currency : "₽" : 0 }}</div>
-				</div>
-				<div class="row my-padding-bottom-25">
-					<div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">Переплата по кредиту</div>
-					<div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 my-font-size-16  my-font-weight-bold">{{ vm.total_credit - vm.price | currency : "₽" : 0 }}</div>
-				</div>
-				<div class="row my-padding-bottom-content-9">
-					<div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">Процентная ставка</div>
-					<div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 my-font-size-16  my-font-weight-bold">{{ vm.percent }}%</div>
-				</div>
-			</div>
-		</div>
+<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+  <div class="row my-margin-top-20 my-carousel-block-none my-margin-left-content-0">
+    <div id="carousel-example-generic" class="carousel slide">
+      <ol class="carousel-indicators hidden-xs">
+        <li data-target="#carousel-example-generic" data-slide-to="{{ $index }}" ng-class="{active: $index==0}"
+            ng-repeat="photo in vm.photos"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="item" ng-class="{active: $index==0}" ng-repeat="photo in vm.photos">
+          <picture class="img-responsive img-full">
+            <img data-ng-src="{{ photo.path + '_s.' + photo.ext }}" alt="">
+          </picture>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev"><span
+          class="icon-prev"></span></a>
+      <a class="right carousel-control" href="#carousel-example-generic" data-slide="next"><span
+          class="icon-next"></span></a>
+    </div>
+  </div>
+  <div class="row my-content-right-text my-margin-left-content-0">
+    <span class="my-font-size-16">Ежемесячный платеж</span>
+    <h2 class="my-font-size-50">{{ vm.total_credit / vm.credit_length | currency : "₽" : 0 }}</h2>
+  </div>
+  <div class="row my-content-right-down-text my-margin-left-content-0">
+    <div class="row my-padding-bottom-25 my-padding-top-content-8">
+      <div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">Общая сумма по кредиту</div>
+      <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 my-font-size-16  my-font-weight-bold">
+        {{ vm.total_credit | currency : "₽" : 0 }}</div>
+    </div>
+    <div class="row my-padding-bottom-25">
+      <div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">Переплата по кредиту</div>
+      <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 my-font-size-16  my-font-weight-bold">
+        {{ vm.total_credit - vm.price | currency : "₽" : 0 }}</div>
+    </div>
+    <div class="row my-padding-bottom-content-9">
+      <div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">Процентная ставка</div>
+      <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 my-font-size-16  my-font-weight-bold">{{ vm.percent }}%</div>
+    </div>
+  </div>
+</div>
 
-<!--<h2>Расчёт кредита</h2>-->
-<!--<p id="result">-->
-	<!--<table id="credit-calc" style='width:30%'>-->
-		<!--<thead>-->
-			<!--<tr>-->
-				<!--<th>Месяц</th>-->
-				<!--<th>Долг</th>-->
-				<!--<th>Проценты</th>-->
-				<!--<th>Тело</th>-->
-			<!--</tr>-->
-		<!--</thead>-->
-		<!--<tr data-ng-repeat="month in vm.credit">-->
-			<!--<td>{{month.num}}</td>-->
-			<!--<td>{{month.debt}}</td>-->
-			<!--<td>{{month.interest}}</td>-->
-			<!--<td>{{month.installment}}</td>-->
-		<!--</tr>-->
-	<!--</table>-->
-<!--</p>-->
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-margin-bottom-35">
+  <form data-ng-submit="vm.submit()">
+    <div class="row my-header-app">
+      <h2 class="text-center my-font-size-25 my-color-fff">Время взять автокредит</h2>
+    </div>
+    <div class="row my-content-app">
+      <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-md-offset-2 my-padding-bottom-25">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-margin-top-40 my-margin-bottom-30">
+          <span class="my-font-size-22"></span>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <input type="text" class="form-control" ng-model="vm.application.firstName" required placeholder="Имя">
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <input type="tel" class="form-control" ng-model="vm.application.mobilePhone" required placeholder="Мобильный телефон">
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <input type="email" class="form-control" ng-model="vm.application.eMail" required placeholder="Электронная почта">
+          </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <input type="text" class="form-control" ng-model="vm.application.region" required placeholder="Регион проживания">
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <input type="number" class="form-control" ng-model="vm.application.recordOfWork" required placeholder="Стаж на текущем месте работы">
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <input type="date" class="form-control" ng-model="vm.application.birthday" required placeholder="Дата рождения">
+          </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+          <label class="checkbox-inline">
+              <input type="checkbox" ng-model="vm.application.agree" required>Я согласен с <a href="">условиями передачи
+            информации</a>
+          </label>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-right">
+          <button type="submit" class="btn btn-primary right my-button-app my-button-app-margin-top-20">Отправить
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </form>
+</div>

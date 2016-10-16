@@ -1,5 +1,5 @@
 ;(function () {
-    'use strict'
+    'use strict';
 
     angular
         .module('kreddb', [
@@ -8,15 +8,19 @@
             'kreddb.services',
             'kreddb.filters'
         ])
+        .config(['$httpProvider', function ($httpProvider) {
+            $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+            $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+        }]);
 
     angular
-        .module('kreddb.controllers', [])
+        .module('kreddb.controllers', []);
 
     angular
-        .module('kreddb.directives', [])
+        .module('kreddb.directives', []);
 
     angular
-        .module('kreddb.services', [])
+        .module('kreddb.services', []);
 
     angular
         .module('kreddb.filters', [])

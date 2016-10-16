@@ -37,4 +37,14 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 MEDIA_ROOT = os.path.join(os.environ['WWW_ROOT'], os.environ['MEDIA_DIR'])
 
-# TODO See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/ for production optimisations
+EMAIL_HOST = os.environ['EMAIL_HOST']
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+
+ADMINS = [
+    (os.environ['ADMIN_NAME'], os.environ['ADMIN_EMAIL'])
+]
+
+MANAGERS = ADMINS + [
+    (os.environ['MANAGER_NAME'], os.environ['MANAGER_EMAIL'])
+]

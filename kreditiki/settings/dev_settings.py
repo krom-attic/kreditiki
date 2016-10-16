@@ -34,8 +34,12 @@ DATABASES = {
 
 MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
 
-# TODO чё эта?
-# LOGGING_CONFIG = None
-
 # Static asset configuration
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# если удалить, не будут отправляться письма через mail_managers()
+MANAGERS = [
+    'Dummy manager', 'manager@example.com'
+]
