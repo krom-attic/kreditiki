@@ -65,13 +65,13 @@ def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=
             with zf.open(fileinfo) as image_file:
                 car_image = CarImage(car_model=car_model)
                 # Заодно сохранет и сам объект, поскольку save=True
+                image_file = ImageFile(BytesIO(image_file.read()))
                 try:
-                    image_file = ImageFile(BytesIO(image_file.read()))
+                    car_image.image.save(
+                        fix_zip_string('_'.join(path_parts[max_depth - offset:])),
+                        image_file
+                    )
                 except OSError:
                     # TODO залогировать название файла, который оказался не картинкой
                     continue
-                car_image.image.save(
-                    fix_zip_string('_'.join(path_parts[max_depth - offset:])),
-                    image_file
-                )
                 image_file.close()
