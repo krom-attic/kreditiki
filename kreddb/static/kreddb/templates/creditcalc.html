@@ -16,8 +16,8 @@
       <!--<span class="my-calc text-right">2 млн</span>-->
       <!--</div>-->
       <!--</div>-->
-      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">
-        {{ vm.price | currency : "₽" : 0 }}</div>
+      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">a
+        {{ vm.price | currency : "₽" : 0 }} <span class="ruble">Р</span></div>
 
     </div>
     <div class="row my-padding-top-30">
@@ -26,13 +26,13 @@
         <div><input type="range" id="first_payment" min="{{ vm.payment_min }}" max="{{ vm.payment_max }}" step="1000"
                     data-ng-model="vm.first_payment" data-ng-change="vm.recalculate_interest()"/></div>
         <div class="my-margin-top-5">
-          <div class="col-xs-4 my-padding-0 text-left">{{ vm.payment_min | currency : "₽" : 0 }}</div>
-          <div class="col-xs-4 text-center">{{ (vm.payment_max + vm.payment_min) / 2 | currency : "₽" : 0 }}</div>
-          <div class="col-xs-4 my-padding-0 text-right">{{ vm.payment_max | currency : "₽" : 0 }}</div>
+          <div class="col-xs-4 my-padding-0 text-left">{{ vm.payment_min | currency : "₽" : 0 }} <span class="ruble">Р</span></div>
+          <div class="col-xs-4 text-center">{{ (vm.payment_max + vm.payment_min) / 2 | currency : "₽" : 0 }} <span class="ruble">Р</span></div>
+          <div class="col-xs-4 my-padding-0 text-right">{{ vm.payment_max | currency : "₽" : 0 }} <span class="ruble">Р</span></div>
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">
-        {{ vm.first_payment | currency : "₽" : 0 }}</div>
+        {{ vm.first_payment | currency : "₽" : 0 }} <span class="ruble">Р</span></div>
     </div>
     <div class="row my-padding-top-30">
       <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-content-calc-text">Срок кредита</div>
@@ -111,18 +111,18 @@
   </div>
   <div class="row my-content-right-text my-margin-left-content-0">
     <span class="my-font-size-16">Ежемесячный платеж</span>
-    <h2 class="my-font-size-50">{{ vm.total_credit / vm.credit_length | currency : "₽" : 0 }}</h2>
+    <h2 class="my-font-size-50">{{ vm.total_credit / vm.credit_length | currency : "₽" : 0 } <span class="ruble">Р</span>}</h2>
   </div>
   <div class="row my-content-right-down-text my-margin-left-content-0">
     <div class="row my-padding-bottom-25 my-padding-top-content-8">
       <div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">Общая сумма по кредиту</div>
       <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 my-font-size-16  my-font-weight-bold">
-        {{ vm.total_credit | currency : "₽" : 0 }}</div>
+        {{ vm.total_credit | currency : "₽" : 0 }} <span class="ruble">Р</span></div>
     </div>
     <div class="row my-padding-bottom-25">
       <div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">Переплата по кредиту</div>
       <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 my-font-size-16  my-font-weight-bold">
-        {{ vm.total_credit - vm.price | currency : "₽" : 0 }}</div>
+        {{ vm.total_credit - vm.price | currency : "₽" : 0 }} <span class="ruble">Р</span></div>
     </div>
     <div class="row my-padding-bottom-content-9">
       <div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">Процентная ставка</div>

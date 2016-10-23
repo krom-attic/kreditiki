@@ -41,6 +41,9 @@ header .h1 {
 	background-color: rgba(0,0,0,.5);
 	padding: 3%;}
 
+.my-filter-content h3 {
+	min-height: 52px;}
+
 .my-white {
   color:#fff;}
 
@@ -164,6 +167,22 @@ li {
 .car-item-inner {
 	display: table-cell;
 	vertical-align: middle;}
+
+.model-item {
+	position: relative;
+	overflow: hidden;}
+
+.model-item img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	max-width: 100%;
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	z-index: -1;}
 
 .price {
 	display: table;
