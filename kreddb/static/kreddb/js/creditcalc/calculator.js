@@ -2,11 +2,11 @@ var calculator = (function () {
 
     // py_start
     var INTEREST_RATE = {
-        'less_5': {'from_10': 22, 'from_20': 21, 'from_30': 20, 'from_40': 18, 'from_50': 16},
-        'less_4': {'from_10': 22, 'from_20': 21, 'from_30': 20, 'from_40': 16, 'from_50': 15},
-        'less_3': {'from_10': 21, 'from_20': 20, 'from_30': 18, 'from_40': 15, 'from_50': 12},
-        'less_2': {'from_10': 20, 'from_20': 18, 'from_30': 15, 'from_40': 13, 'from_50': 10},
-        'less_1': {'from_10': 18, 'from_20': 16, 'from_30': 14, 'from_40': 12, 'from_50': 9}
+        'less_5': {'from_10': 23, 'from_20': 22, 'from_30': 21, 'from_40': 19, 'from_50': 17},
+        'less_4': {'from_10': 23, 'from_20': 22, 'from_30': 21, 'from_40': 17, 'from_50': 16},
+        'less_3': {'from_10': 22, 'from_20': 21, 'from_30': 19, 'from_40': 16, 'from_50': 13},
+        'less_2': {'from_10': 21, 'from_20': 19, 'from_30': 16, 'from_40': 14, 'from_50': 11},
+        'less_1': {'from_10': 19, 'from_20': 17, 'from_30': 15, 'from_40': 13, 'from_50': 10}
     };
 
     var AMOUNT_MODIFIER = [[1000000, 1], [1500000, 1.1], [2500000, 1.2], [Infinity, 1.3]];
