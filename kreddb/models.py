@@ -433,5 +433,8 @@ class SiteOptions(models.Model):
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         self.cache[self.option] = json.loads(self.json_value)
         if self.id is None:
-            self.id = SiteOptions.objects.values_list('id', flat=True).get(option=self.option)
+            try:
+                self.id = SiteOptions.objects.values_list('id', flat=True).get(option=self.option)
+            except SiteOptions.DoesNotExist:
+                pass  # сохраним новый элемент без ID
         super().save(force_insert, force_update, using, update_fields)
