@@ -5,6 +5,7 @@ from django.core.mail import mail_managers
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, View
+from django.views.generic import TemplateView
 
 from kreddb import models
 from kreddb.bl.image_works import get_car_main_images
@@ -171,3 +172,7 @@ class CreditApplicationView(View):
             str(params),
         )
         return HttpResponse('OK')
+
+
+class ContactUsView(TemplateView):
+    template_name = "kreddb/contact_us.html"

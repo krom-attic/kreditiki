@@ -36,6 +36,8 @@ urlpatterns = [
 
     # TODO заменить credit на кредит
     url(r'^$', views.CarMakeListView.as_view(), name='list_marks'),
+    url(r'^contact-us$', views.ContactUsView.as_view(), name='contact_us'),
+
     url(r'^кредит/$', views.CarMakeListView.as_view(), name='list_marks'),
 
     url(r'^selector/$', views.CarSelectorDispatchView.as_view(), name="carselector"),
