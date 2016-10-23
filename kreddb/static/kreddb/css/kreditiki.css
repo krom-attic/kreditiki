@@ -233,7 +233,9 @@ li {
 
 .my-tab-content .panel-heading a {
 	display: block;}
-
+.carousel-inner>.item {
+	max-width: 270px;
+}
 footer {
 	margin: 30px 0 0;
 	padding: 30px 0;
