@@ -1,11 +1,11 @@
 {% extends "kreddb/base.html" %}
 
 {% block page_description %}
-  Рассчитайте процентную ставку и условия для кредита на новую машину в СПб
+  Рассчитайте ежемесячный платеж и оформите заявку на кредит на новую машину со ставкой от 7% годовых онлайн в СПб
 {% endblock %}
 
 {% block pagetitle %}
-  ЦентПроцент - калькулятор автокредитов в Санкт-Петербурге
+  ЦентПроцент &mdash; калькулятор автокредитов в Санкт-Петербурге
 {% endblock %}
 
 {% block content %}
@@ -16,10 +16,13 @@
     <carselector data-ng-cloak
                  data-ng-init="carmakes = [{% for car_make in carmake_list %}'{{ car_make.name }}', {% endfor %}]"></carselector>
 
-  <p>CentPercent &mdash; удобный автокредитный калькулятор. Не нужно вручную вводить сумму кредита, сверяясь с сайтом
-    дилера, просто выберите понравившийся автомобиль: мы мониторим цены и ставки онлайн и держим их актуальными. Не
-    подходит ежемесячный платёж по машине? Смените марку или модель в один клик и CentPercent автоматически все
-    пересчитает. На вашу заявку наши специалисты ответят в течение 8 минут.</p>
+    <p>CentPercent &mdash; удобный автокредитный калькулятор. Не нужно вручную вводить сумму кредита, сверяясь с сайтом
+      дилера, просто выберите понравившийся автомобиль: мы мониторим цены и ставки онлайн и держим их актуальными.</p>
+    <p>Не подходит ежемесячный платёж по машине? Смените марку или модель в один клик и CentPercent автоматически все
+      пересчитает. На вашу заявку наши специалисты ответят в течение 8 минут.</p>
+    <p>Мы работаем со всеми основными банками, в том числе Сбербанк и ВТБ 24. Возможно оформление кредита в том числе
+      без первоначального взноса, с государственной поддержкой по программе 2016 года или с плохой кредитной
+      историей</p>
 
     <button class="btn btn-primary btn-block btn-popular-models visible-xs-block" type="button">Посмотреть самые
       популярные модели
@@ -31,7 +34,9 @@
 
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-padding">
           <div class="model-item">
-            <img scr="{{ promo.0.images.m }}" alt="">
+            <img src="{{ promo.0.images.m }}"
+                 alt="Новая {{ promo.0.car_make }} {{ promo.0.car_model }} в кредит в Петербурге"
+                 title="Новая {{ promo.0.car_make }} {{ promo.0.car_model }} в кредит в Петербурге">
             <div class="my-filter-content">
               <h3 class="my-white">{{ promo.0.car_make }} {{ promo.0.car_model }}</h3>
               <h3 class="my-white">За {{ promo.0.price_per_day }} рублей в день</h3>
@@ -42,7 +47,9 @@
 
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-padding">
           <div class="model-item">
-            <img scr="{{ promo.1.images.m }}" alt="">
+            <img src="{{ promo.1.images.m }}"
+                 alt="Новая {{ promo.1.car_make }} {{ promo.1.car_model }} в кредит в Петербурге"
+                 title="Новая {{ promo.1.car_make }} {{ promo.1.car_model }} в кредит в Петербурге">
             <div class="my-filter-content">
               <h3 class="my-white">{{ promo.1.car_make }} {{ promo.1.car_model }}</h3>
               <h3 class="my-white">За {{ promo.1.price_per_day }} рублей в день</h3>
@@ -53,7 +60,9 @@
 
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-padding">
           <div class="model-item">
-            <img scr="{{ promo.2.images.m }}" alt="">
+            <img src="{{ promo.2.images.m }}"
+                 alt="Новая {{ promo.2.car_make }} {{ promo.2.car_model }} в кредит в Петербурге"
+                 title="Новая {{ promo.2.car_make }} {{ promo.2.car_model }} в кредит в Петербурге">
             <div class="my-filter-content">
               <h3 class="my-white">{{ promo.2.car_make }} {{ promo.2.car_model }}</h3>
               <h3 class="my-white">За {{ promo.2.price_per_day }} рублей в день</h3>
@@ -65,7 +74,9 @@
 
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 my-padding">
           <div class="model-item">
-            <img scr="{{ promo.3.images.m }}" alt="">
+            <img src="{{ promo.3.images.m }}"
+                 alt="Новая {{ promo.3.car_make }} {{ promo.3.car_model }} в кредит в Петербурге"
+                 title="Новая {{ promo.3.car_make }} {{ promo.3.car_model }} в кредит в Петербурге">
             <div class="my-filter-content">
               <h3 class="my-white">{{ promo.3.car_make }} {{ promo.3.car_model }}</h3>
               <h3 class="my-white">За {{ promo.3.price_per_day }} рублей в день</h3>
@@ -76,7 +87,9 @@
 
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 my-padding">
           <div class="model-item">
-            <img scr="{{ promo.4.images.m }}" alt="">
+            <img src="{{ promo.4.images.m }}"
+                 alt="Новая {{ promo.4.car_make }} {{ promo.4.car_model }} в кредит в Петербурге"
+                 title="Новая {{ promo.4.car_make }} {{ promo.4.car_model }} в кредит в Петербурге">
             <div class="my-filter-content">
               <h3 class="my-white">{{ promo.4.car_make }} {{ promo.4.car_model }}</h3>
               <h3 class="my-white">За {{ promo.4.price_per_day }} рублей в день</h3>
@@ -87,7 +100,9 @@
 
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 my-padding">
           <div class="model-item">
-            <img scr="{{ promo.5.images.m }}" alt="">
+            <img src="{{ promo.5.images.m }}"
+                 alt="Новая {{ promo.5.car_make }} {{ promo.5.car_model }} в кредит в Петербурге"
+                 title="Новая {{ promo.5.car_make }} {{ promo.5.car_model }} в кредит в Петербурге">
             <div class="my-filter-content">
               <h3 class="my-white">{{ promo.5.car_make }} {{ promo.5.car_model }}</h3>
               <h3 class="my-white">За {{ promo.5.price_per_day }} рублей в день</h3>

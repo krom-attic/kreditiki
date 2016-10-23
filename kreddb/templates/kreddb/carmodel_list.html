@@ -1,32 +1,34 @@
 {% extends "kreddb/base.html" %}
 
 {% block page_description %}
-  {{ car_make }} в кредит - рассчитайте ежемесячный платеж и оформите заявку онлайн
+  {{ car_make }} в кредит &mdash; рассчитайте ежемесячный платеж и оформите заявку на кредит под низкую процентную
+  ставку в Петербурге
 {% endblock %}
 
 {% block pagetitle %}
-  Купить {{ car_make }} в кредит в СПб
+  Купить автомобиль {{ car_make }} в кредит онлайн в СПб
 {% endblock %}
 
 {% block content %}
 
-<div class="container">
+  <div class="container">
 
-  <h1 class="text-center my-h1">Автокредит на новый автомобиль {{ car_make }}</h1>
+    <h1 class="text-center my-h1">Автокредит на новую машину {{ car_make }}</h1>
 
-<div class="row" id="model_families">
-{% for carmodel in carmodel_list %}
-  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-padding">
-    <div style="background: url({{ carmodel.main_img_urls.m }}) no-repeat; background-position: 50%; background-size: cover;">
-    <div class="my-filter-content">
-      <h3 class="my-white">{{ carmodel.model_name }}</h3>
-      <h4 class="my-white">От {{ carmodel.price_per_day }} руб. в день</h4>
-      <a href="{{ carmodel.get_absolute_url }}" class="btn btn-default" role="button">Подробнее</a>
-    </div>
+    <div class="row" id="model_families">
+      {% for carmodel in carmodel_list %}
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-padding">
+          <div
+              style="background: url({{ carmodel.main_img_urls.m }}) no-repeat; background-position: 50%; background-size: cover;">
+            <div class="my-filter-content">
+              <h3 class="my-white">{{ carmodel.model_name }}</h3>
+              <h4 class="my-white">От {{ carmodel.price_per_day }} руб. в день</h4>
+              <a href="{{ carmodel.get_absolute_url }}" class="btn btn-default" role="button">Подробнее</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
     </div>
   </div>
-  {% endfor %}
-</div>
-</div>
 
 {% endblock %}

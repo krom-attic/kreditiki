@@ -202,18 +202,18 @@ li {
 .ruble:before,
 .ruble:after {
 	position: absolute;
-	right: 8px;
+	right: 0.2em;
 	display: block;
-	width: 5px;
-	height: 2px;
+	width: 0.5em;
+	height: 0.08em;
 	content:' ';
 	background-color: #000000;}
 
 .ruble:before {
-	top: 8px;}
+	top: 0.52em;}
 
 .ruble:after {
-	top: 11px;}
+	top: 0.72em;}
 
 .my-tabs li {
 	background-color: #f5f5f5;

@@ -157,7 +157,7 @@ class ModificationDetailView(DetailView):
         photo_urls = [car_image.image.url.rsplit('.', 1)
                       for car_image in modification.car_model.carimage_set.all()]
         creditcalc_context['photos'] = [{'path': url[0], 'ext': url[1]} for url in photo_urls]
-        creditcalc_context['car_name'] = '{} {}'.format(modification.car_make.name, modification.model_family.name)
+        creditcalc_context['car_name'] = '{} {}'.format(modification.car_make.name, modification.car_model.model_name)
         context['creditcalc'] = creditcalc_context
         return context
 

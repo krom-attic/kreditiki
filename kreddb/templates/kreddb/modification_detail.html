@@ -1,13 +1,14 @@
 {% extends "kreddb/base.html" %}
 
 {% block page_description %}
-  Рассчитайте ежемесячный платеж по кредиту и оставьте заявку онлайн
+  Рассчитайте условия кредита, оставьте заявку онлайн и получите автокредит в СПб на выгодных условиях с минимальной
+  процентной ставкой
 {% endblock %}
 
 {% block pagetitle %}
   Купить {{ modification.car_make.name }} {{ modification.car_model.name }} {{ modification.car_model.body.name }}
   {{ modification.generation.year_start }} {{ modification.generation.name }} {{ modification.name }}
-  {{ modification.engine.name }} {{ modification.gear.name }}
+  {{ modification.engine.name }} {{ modification.gear.name }} в день в кредит
 {% endblock %}
 
 {% block content %}
@@ -15,10 +16,10 @@
 {% load angular %}
 
 	<div class="container my-margin-top-20">
-	<h1 class="my-h1 my-margin-top-20">Расчет автокредита на {{ modification.car_make.name }}
+	<h1 class="my-h1 my-margin-top-20">Купить {{ modification.car_make.name }}
     {{ modification.car_model.name }} {{ modification.car_model.body.name }}
     {{ modification.generation.year_start }} {{ modification.generation.name }} {{ modification.name }}
-    {{ modification.engine.name }} {{ modification.gear.name }}</h1>
+    {{ modification.engine.name }} {{ modification.gear.name }} за {{ modification.cost }} в кредит в Петербурге</h1>
     {% csrf_token %}
     {% angular_app "creditcalc" %}
 
@@ -26,7 +27,7 @@
     {{ modification.car_model.name }} {{ modification.car_model.body.name }}
     {{ modification.generation.year_start }} {{ modification.generation.name }} {{ modification.name }}
     {{ modification.engine.name }} {{ modification.gear.name }}, а также оставить заявку на кредит.
-    Посмотрите так же другие комплектации модели
+    Посмотрите также другие комплектации модели
     <a href="{{ modification.car_model.get_absolute_url }}">{{ modification.car_make.name }} {{ modification.car_model.name }}</a>
 
 	</div>
