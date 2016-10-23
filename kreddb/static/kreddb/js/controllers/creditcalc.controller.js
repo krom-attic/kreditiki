@@ -81,7 +81,7 @@
             vm.application["variation"] = vm.variation;
             $http({
                 method: "POST",
-                url: "заявка/",
+                url: "/заявка/",
                 data: vm.application
             })
                 .success(function () {
