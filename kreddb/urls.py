@@ -27,6 +27,7 @@ URL_RE_PARTS = {
 urlpatterns = [
     url(r'^$', views.CarMakeListView.as_view(), name='list_marks'),
     url(r'^contact-us/$', views.ContactUsView.as_view(), name='contact_us'),
+    url(r'^personal-data/$', views.PersonalDataView.as_view(), name='personal_data'),
 
     url(r'^кредит на/$', views.CarMakeListView.as_view(), name='list_marks'),
 

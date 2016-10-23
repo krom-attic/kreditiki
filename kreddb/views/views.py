@@ -176,3 +176,7 @@ class CreditApplicationView(View):
 
 class ContactUsView(TemplateView):
     template_name = "kreddb/contact_us.html"
+
+
+class PersonalDataView(TemplateView):
+    template_name = "kreddb/personal_data.html"
