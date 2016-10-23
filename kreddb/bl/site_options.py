@@ -15,13 +15,14 @@ def _create_ui_promo_item(car_model: CarModel):
 
 def get_promo_items():
     cars = SiteOptions.get_option('promo')
-
-    return [
-        _create_ui_promo_item(
-            CarModel.objects.get(pk=car['car_model']),
-        )
-        for car in cars
-        ]
+    promo_items = []
+    for car in cars:
+        try:
+            car_id = int(car['car_model'])
+            promo_items.append(_create_ui_promo_item(CarModel.objects.get(pk=car_id)))
+        except ValueError:
+            pass
+    return promo_items
 
 
 def save_promo_settings(promo_list):
