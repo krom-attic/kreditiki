@@ -356,7 +356,7 @@ class Modification(models.Model):
 
     @property
     def safe_name(self):
-        return self.name.replace('/', '%')
+        return self.name.replace('/', '\\')
 
     def get_absolute_url(self):
         mod_params = {

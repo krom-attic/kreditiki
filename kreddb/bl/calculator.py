@@ -37,4 +37,4 @@ def calculate_interest_and_credit(price, first_payment, credit_length, no_insura
 
 
 def calculate_best_interest_and_credit(price):
-    return calculate_interest_and_credit(price, 0.5*price, 60, False, False, 'real')
+    return calculate_interest_and_credit(price, 0.6*price, 60, False, False, 'best')
