@@ -18,7 +18,7 @@ URL_RE_PARTS = {
     'engine': r'(?P<engine>[\w \.\-\(\)\+\xd7]*)',
     # 'engine': r'(?P<engine>[\w\.\-\(\)]*)',
     'gear': r'(?P<gear>[\w\-\(\)]*)',
-    'complect': r'(?P<complect>[\w\d \.\-\(\)\+\xc2\xbb\xc2\xab\&\"\,\xc2\xae\`%]*)',
+    'complect': r'(?P<complect>[\w\d \.\-\(\)\+\xc2\xbb\xc2\xab\&\"\,\xc2\xae\`\\]*)',
     # 'complect': r'(?P<complect>[\w\d\.\-\(\)\"\']*)',
     'cost': r'(?P<cost>\d+)',
     'object_id': r'(?P<object_id>[_zQxJkVbPyG]+)'
