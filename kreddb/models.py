@@ -67,11 +67,11 @@ class ModelFamily(models.Model):
 
     @property
     def safe_name(self):
-        return self.name.replace('/', '%')
+        return self.name.replace('/', '\\')
 
     @classmethod
     def get_by_safe_name(cls, safe_name, car_make):
-        return cls.objects.get(name=safe_name.replace('%', '/'), car_make=car_make)
+        return cls.objects.get(name=safe_name.replace('\\', '/'), car_make=car_make)
 
     @classmethod
     def get_by_name(cls, name, car_make):
@@ -173,7 +173,7 @@ class CarModel(models.Model):
 
     @property
     def safe_name(self):
-        return self.name.replace('/', '%')
+        return self.name.replace('/', '\\')
 
     @classmethod
     def get_by_name(cls, name, generation: Generation, body: Body):
