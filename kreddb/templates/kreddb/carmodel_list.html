@@ -22,9 +22,8 @@
             <img src="{{ carmodel.main_img_urls.m }}" alt="{{ carmodel.model_name }} в кредит"
                  title="{{ carmodel.model_name }}">
             <div class="my-filter-content">
-              <h3 class="my-white">{{ carmodel.model_name }}</h3>
+              <a href="{{ carmodel.get_absolute_url }}"><h3 class="my-white">{{ carmodel.model_name }}</h3></a>
               <h4 class="my-white">От {{ carmodel.price_per_day }} руб. в день</h4>
-              <a href="{{ carmodel.get_absolute_url }}" class="btn btn-default" role="button">Подробнее</a>
             </div>
           </div>
         </div>
