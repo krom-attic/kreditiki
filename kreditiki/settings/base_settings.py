@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import logging.config
 import os
 
 # Нужно подняться на два уровня
@@ -24,7 +24,7 @@ PROJECT_ROOT = os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__f
 SECRET_KEY = '9pb4en8!fqh9jtk@iipkk%hc4rb__78aadii))3fj+vqi87t+_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -159,6 +159,7 @@ LOGGING = {
             'filters': ['require_debug_false'],
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': os.environ['LOG_ROOT'] + 'server.log',
+            'formatter': 'django.server',
         },
         'mail_admins': {
             'level': 'ERROR',
@@ -178,3 +179,5 @@ LOGGING = {
         },
     }
 }
+
+logging.config.dictConfig(LOGGING)
