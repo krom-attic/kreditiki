@@ -104,16 +104,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
-
 STATIC_URL = '/static/'
 
-# Static asset configuration
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
-# Uploads
 MEDIA_URL = '/media/'
 
 # Измененённый дефолт!
@@ -124,4 +118,66 @@ STATICFILES_FINDERS = (
 )
 
 # это обнулятор стандартной настройки логирования, чтобы она не путалась с кастомной
-# LOGGING_CONFIG = None
+LOGGING_CONFIG = None
+
+# https://docs.djangoproject.com/en/1.10/topics/logging/#django-s-default-logging-configuration
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'formatters': {
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[%(server_time)s] %(message)s',
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+        },
+        'to_file': {  # на проде -- в файл
+            'level': 'INFO',
+            'filters': ['require_debug_false'],
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.environ['LOG_ROOT'] + 'app.log',
+        },
+        'django.server': {
+            'level': 'INFO',
+            'filters': ['require_debug_true'],  # в дефолтном -- всегда
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server',
+        },
+        'django.server_to_file': {  # на проде -- в файл
+            'level': 'INFO',
+            'filters': ['require_debug_false'],
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.environ['LOG_ROOT'] + 'server.log',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'to_file', 'mail_admins'],
+            'level': 'INFO',
+        },
+        'django.server': {
+            'handlers': ['django.server', 'django.server_to_file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    }
+}
