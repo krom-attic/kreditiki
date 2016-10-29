@@ -85,10 +85,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'kreditiki.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-# Set in env-specific settings
+# Database settings are set in env-specific settings
 
 
 # Internationalization
