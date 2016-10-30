@@ -8,7 +8,7 @@ from kreddb.views import views, service
 URL_RE_PARTS = {
     'car_make': r'(?P<car_make>[\w \-\(\)]+)',
     # 'mark': r'(?P<mark>[\w\-\(\)]+)',
-    'car_model': r'(?P<car_model>[\w \.\-\(\)\'\&\,\+\!\xc2\xbb\xc2\xab\:%]+)',
+    'car_model': r'(?P<car_model>[\w \.\-\(\)\'\&\,\+\!\xc2\xbb\xc2\xab\:\\]+)',
     # 'car_model': r'(?P<car_model>[\w\.\-\(\)\'\,\!\"\\ ]+)',
     'generation': r'(?P<generation>[\w\d \-\(\)\,\+]*)',
     # 'generation': r'(?P<generation>[\w\d\-\(\)\,]*)',
@@ -27,10 +27,13 @@ URL_RE_PARTS = {
 
 urlpatterns = [
     url(r'^$', views.CarMakeListView.as_view(), name='list_car_makes'),
-    url(r'^contact-us/$', views.ContactUsView.as_view(), name='contact_us'),
-    url(r'^personal-data/$', views.PersonalDataView.as_view(), name='personal_data'),
+    url(r'^кредит на/$',
+        RedirectView.as_view(pattern_name='kreddb:list_car_makes', permanent=True, query_string=True),
+        name='redirect_list_car_makes'),
 
-    url(r'^кредит на/$', views.CarMakeListView.as_view(), name='list_car_makes'),
+    url(r'^contact-us/$', views.ContactUsView.as_view(), name='contact_us'),
+
+    url(r'^personal-data/$', views.PersonalDataView.as_view(), name='personal_data'),
 
     url(r'^selector/$', views.CarSelectorDispatchView.as_view(), name="carselector"),
 

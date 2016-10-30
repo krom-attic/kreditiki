@@ -17,9 +17,6 @@ import os
 PROJECT_ROOT = os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '9pb4en8!fqh9jtk@iipkk%hc4rb__78aadii))3fj+vqi87t+_'
 
@@ -38,11 +35,11 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps'
 ]
 
 THIRDPARTY_APPS = [
     'compressor',
-    'rest_framework',
 ]
 
 HOMEBREW_APPS = [

@@ -34,6 +34,7 @@ SAFE_TRANSLATION = str.maketrans(' &+:,/«»³®`×', '----_\\""3R\'x')
 class CarMake(models.Model):
     name = models.CharField(unique=True, max_length=127)
     display = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['name']
@@ -157,6 +158,7 @@ class CarModel(models.Model):
     body = models.ForeignKey(Body, db_index=True)
     display = models.BooleanField(default=False)
     price_per_day = models.PositiveIntegerField(null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     objects = models.Manager()
     objects_actual = CarModelManager()
@@ -186,7 +188,7 @@ class CarModel(models.Model):
     def get_absolute_url(self):
         return reverse('kreddb:list_modifications', kwargs=dict(
             car_make=self.model_family.car_make.name,
-            car_model=self.name,
+            car_model=self.safe_name,
             gen_year_start=self.generation.year_start,
             body=self.body.name,
             object_id=cipher_id(str(self.id)),
@@ -214,6 +216,7 @@ class CarModel(models.Model):
                 self.model_family = self.generation.model_family
         except ModelFamily.DoesNotExist:
             self.model_family = self.generation.model_family
+        self.model_family.car_make.save()
         super().save(force_insert, force_update, using, update_fields)
 
 
@@ -346,12 +349,14 @@ class Modification(models.Model):
     equipment = models.ManyToManyField(Equipment, through='EquipmentCost')
     features = models.ManyToManyField(Feature, through='ModificationFeatures')
     old_id = models.IntegerField(unique=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return ' '.join([str(self.generation), self.body.name, self.gear.name, self.engine.name, self.name])
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         self.car_model.update_price()
+        self.car_model.save()
         super().save(force_insert, force_update, using, update_fields)
 
     @property

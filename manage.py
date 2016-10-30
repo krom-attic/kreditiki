@@ -10,6 +10,7 @@ if __name__ == "__main__":
                 os.environ[key] = value
     except FileNotFoundError:
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "kreditiki.settings.dev_settings")
+        os.environ.setdefault("LOG_ROOT", "")
 
     from django.core.management import execute_from_command_line
 
