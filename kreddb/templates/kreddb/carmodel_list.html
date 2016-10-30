@@ -19,13 +19,13 @@
       {% for carmodel in carmodel_list %}
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-padding">
           <div class="model-item">
-            <img src="{{ carmodel.main_img_urls.m }}" alt="{{ carmodel.model_name }} в кредит"
+            <a href="{{ carmodel.get_absolute_url }}"><img src="{{ carmodel.main_img_urls.m }}" alt="{{ carmodel.model_name }} в кредит"
                  title="{{ carmodel.model_name }}">
             <div class="my-filter-content">
-              <a href="{{ carmodel.get_absolute_url }}"><h3 class="my-white">{{ carmodel.model_name }}</h3></a>
+              <h3 class="my-white">{{ carmodel.model_name }}</h3>
               <h4 class="my-white">От {{ carmodel.price_per_day }} руб. в день</h4>
             </div>
-          </div>
+            </a></div>
         </div>
       {% endfor %}
     </div>

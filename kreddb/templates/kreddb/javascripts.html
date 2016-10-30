@@ -8,7 +8,6 @@
 
 {% compress js %}
 <script src="{% static 'kreddb/js/main.js' %}"></script>
-
 <script src="{% static 'kreddb/js/kreddb.js' %}"></script>
 <script src="{% static 'kreddb/js/creditcalc/calculator.js' %}"></script>
 <script src="{% static 'kreddb/js/directives/carselector.directive.js' %}"></script>
@@ -17,9 +16,10 @@
 <script src="{% static 'kreddb/js/directives/creditcalc.directive.js' %}"></script>
 <script src="{% static 'kreddb/js/controllers/creditcalc.controller.js' %}"></script>
 <script src="{% static 'kreddb/js/filters/round.filter.js' %}"></script>
+{% endcompress %}
+
 <script src="{% static 'kreddb/js/google_analytics.js' %}"></script>
 <!-- Yandex.Metrika counter -->
 <script src="{% static 'kreddb/js/yandex_metrika.js' %}"></script>
 <noscript><div><img src="https://mc.yandex.ru/watch/40481505" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
-{% endcompress %}

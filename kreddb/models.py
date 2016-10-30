@@ -95,8 +95,12 @@ class Generation(models.Model):
         return self.car_make.name + ' ' + self.model_family.name + ' ' + self.name + ' ' + str(self.year_start)
 
     @property
+    def safe_name(self):
+        return self.name.replace('/', '\\')
+
+    @property
     def url_kwargs(self):
-        url_kwargs = {'car_make': self.car_make.name, 'model_family': self.model_family.name, 'name': self.name,
+        url_kwargs = {'car_make': self.car_make.name, 'model_family': self.model_family.name, 'name': self.safe_name,
                       'body': '-', 'engine': '-', 'gear': '-'}
         return url_kwargs
 
@@ -368,7 +372,7 @@ class Modification(models.Model):
             'car_make': self.car_make.name,
             'car_model': self.car_model.safe_name,
             # TODO эффективно ли это?
-            'generation': self.generation.name if self.generation.name else '-',
+            'generation': self.generation.safe_name if self.generation.safe_name else '-',
             'body': self.body.name,
             'gear': self.gear.name,
             'engine': self.engine.name,
