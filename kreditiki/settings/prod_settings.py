@@ -25,11 +25,14 @@ DATABASES = {
     }
 }
 
+# безопасность
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-
+X_FRAME_OPTIONS = 'DENY'
+SECURE_SSL_REDIRECT = True
 # настройка определения безопасного соединения, прошедшего через прокси
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
+
 
 MEDIA_ROOT = os.path.join(os.environ['WWW_ROOT'], os.environ['MEDIA_DIR'])
 
