@@ -1,3 +1,11 @@
+/env.json
+/t.sh
+/terminal.bat
+/static/CACHE
+tsconfig.json
+/media/car_images
+*.d.ts
+
 # VS Code
 .vscode/
 
