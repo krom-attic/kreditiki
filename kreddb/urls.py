@@ -10,7 +10,7 @@ URL_RE_PARTS = {
     # 'mark': r'(?P<mark>[\w\-\(\)]+)',
     'car_model': r'(?P<car_model>[\w \.\-\(\)\'\&\,\+\!\xc2\xbb\xc2\xab\:\\]+)',
     # 'car_model': r'(?P<car_model>[\w\.\-\(\)\'\,\!\"\\ ]+)',
-    'generation': r'(?P<generation>[\w\d \-\(\)\,\+]*)',
+    'generation': r'(?P<generation>[\w\d \-\(\)\,\+\\]*)',
     # 'generation': r'(?P<generation>[\w\d\-\(\)\,]*)',
     'gen_year_start': r'(?P<gen_year_start>\d{4})',
     # 'gen_year_end': r'(?P<gen_year_end>\d{4})',
