@@ -1,3 +1,4 @@
+import logging
 from io import BytesIO
 from zipfile import ZipFile
 
@@ -5,6 +6,9 @@ from django.core.files.images import ImageFile
 from django.db import transaction
 
 from kreddb.models import CarImage, Generation, CarMake, Body, CarModel
+
+
+logger = logging.getLogger(__name__)
 
 
 def is_directory(fileinfo):
@@ -64,14 +68,15 @@ def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=
             car_model = CarModel.get_by_name(name=params[-3], generation=params[-2], body=params[-1])
             with zf.open(fileinfo) as image_file:
                 car_image = CarImage(car_model=car_model)
-                # Заодно сохранет и сам объект, поскольку save=True
                 image_file = ImageFile(BytesIO(image_file.read()))
                 try:
+                    # Заодно сохранет и сам объект, поскольку по умолчанию save=True
                     car_image.image.save(
                         fix_zip_string('_'.join(path_parts[max_depth - offset:])),
                         image_file
                     )
-                except OSError:
-                    # TODO залогировать название файла, который оказался не картинкой
-                    continue
+                except OSError as e:
+                    logger.exception('File {} is not an image'.format(fileinfo.orig_filename), e)
+                    if car_image.image:
+                        car_image.image.delete(False)
                 image_file.close()

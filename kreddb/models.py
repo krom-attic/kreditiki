@@ -247,10 +247,10 @@ class CarImage(models.Model):
     car_model = models.ForeignKey(CarModel)
 
     def save(self, **kwargs):
+        original_image = Image.open(self.image.file)
         if os.path.basename(self.image.name)[:4] == 'main':
             self.main = True
         super().save(**kwargs)
-        original_image = Image.open(self.image.file)
         original_path = self.image.path.rsplit('.', 1)
         for sz, dim in IMAGE_SIZES.items():
             resized_image = original_image.copy()
@@ -266,8 +266,7 @@ class CarImage(models.Model):
         return cls.objects.get(car_model=car_model, main=True).image
 
     def __str__(self):
-        # TODO добавить последний кусок урла
-        return '{} ({})'.format(self.generation, self.body)
+        return '{} ({})'.format(self.car_model, self.image.path.rsplit(os.sep, 1)[1])
 
 
 class Engine(models.Model):
