@@ -130,7 +130,10 @@ LOGGING = {
     'formatters': {
         'django.server': {
             '()': 'django.utils.log.ServerFormatter',
-            'format': '[%(server_time)s] %(message)s',
+            'format': '%(levelname)s: [%(server_time)s] %(message)s',
+        },
+        'default_formatter': {
+            'format': '[%(levelname)5.5s] %(asctime)s [%(module)s] %(message)s'
         }
     },
     'handlers': {
@@ -144,28 +147,26 @@ LOGGING = {
             'filters': ['require_debug_false'],
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': os.environ['LOG_ROOT'] + 'app.log',
+            'formatter': 'default_formatter'
         },
         'django.server': {
             'level': 'INFO',
-            'filters': ['require_debug_true'],  # в дефолтном -- всегда
             'class': 'logging.StreamHandler',
-            'formatter': 'django.server',
-        },
-        'django.server_to_file': {  # на проде -- в файл
-            'level': 'INFO',
-            'filters': ['require_debug_false'],
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.environ['LOG_ROOT'] + 'server.log',
             'formatter': 'django.server',
         },
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True
         }
     },
     'loggers': {
         'django': {
+            'handlers': ['console', 'to_file', 'mail_admins'],
+            'level': 'INFO',
+        },
+        'kreddb': {
             'handlers': ['console', 'to_file', 'mail_admins'],
             'level': 'INFO',
         },
