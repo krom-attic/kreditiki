@@ -171,7 +171,7 @@ LOGGING = {
             'level': 'INFO',
         },
         'django.server': {
-            'handlers': ['django.server', 'django.server_to_file'],
+            'handlers': ['django.server'],
             'level': 'INFO',
             'propagate': False,
         },
