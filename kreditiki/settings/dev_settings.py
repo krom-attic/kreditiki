@@ -1,30 +1,15 @@
 from kreditiki.settings.base_settings import *
 
+SECRET_KEY = '9pb4en8!fqh9jtk@iipkk%hc4rb__78aadii))3fj+vqi87t+_'
+
 DEBUG = True
+
+# включить это если нужно будет сделать DEBUG = False
 # ALLOWED_HOSTS = ['127.0.0.1']
 
 INTERNAL_IPS = ['127.0.0.1']
 
 INSTALLED_APPS.append('debug_toolbar')
-
-# DEBUG_TOOLBAR_PANELS_DEFAULT = [
-#     'debug_toolbar.panels.versions.VersionsPanel',
-#     'debug_toolbar.panels.timer.TimerPanel',
-#     'debug_toolbar.panels.settings.SettingsPanel',
-#     'debug_toolbar.panels.headers.HeadersPanel',
-#     'debug_toolbar.panels.request.RequestPanel',
-#     'debug_toolbar.panels.sql.SQLPanel',
-#     'debug_toolbar.panels.staticfiles.StaticFilesPanel',
-#     'debug_toolbar.panels.templates.TemplatesPanel',
-#     'debug_toolbar.panels.cache.CachePanel',
-#     'debug_toolbar.panels.signals.SignalsPanel',
-#     'debug_toolbar.panels.logging.LoggingPanel',
-#     'debug_toolbar.panels.redirects.RedirectsPanel',
-# ]
-#
-# DEBUG_TOOLBAR_PANELS = DEBUG_TOOLBAR_PANELS_DEFAULT + [
-#     'debug_toolbar.panels.profiling.ProfilingPanel',
-# ]
 
 DATABASES = {
     'default': {
