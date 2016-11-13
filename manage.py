@@ -11,6 +11,8 @@ if __name__ == '__main__':
     except FileNotFoundError:
         raise Exception('env.json should be present and contain configuration')
 
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "kreditiki.settings")
+
     from django.core.management import execute_from_command_line
 
     execute_from_command_line(sys.argv)

@@ -6,7 +6,7 @@ import logging.config
 import os
 
 # Нужно подняться на два уровня
-PROJECT_ROOT = os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
+PROJECT_ROOT = os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 
 # Application definition
 
@@ -124,7 +124,7 @@ LOGGING = {
             'level': 'INFO',
             'filters': ['require_debug_false'],
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.environ['LOG_ROOT'] + 'app.log',
+            'filename': os.environ.get('LOG_ROOT', '') + 'app.log',
             'formatter': 'default_formatter'
         },
         'django.server': {
