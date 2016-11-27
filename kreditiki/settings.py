@@ -163,10 +163,11 @@ logging.config.dictConfig(LOGGING)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.environ.get('DEBUG') == "True"
+
 if SECRET_KEY is None:
     SECRET_KEY = '9pb4en8!fqh9jtk@iipkk%hc4rb__78aadii))3fj+vqi87t+_'
-
-    DEBUG = os.environ.get('DEBUG') != 'False'
 
     INTERNAL_IPS = ['127.0.0.1']
 
@@ -186,9 +187,6 @@ if SECRET_KEY is None:
         'Dummy manager', 'manager@example.com'
     ]
 else:
-    # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = os.environ['DEBUG'] == "True"
-
     # безопасность
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True

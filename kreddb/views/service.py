@@ -3,7 +3,9 @@ from io import StringIO
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.utils.datastructures import MultiValueDictKeyError
 from django.views.generic import TemplateView
 from django.views.generic import View
 
@@ -11,6 +13,7 @@ from kreddb.bl.csv_export import generate_csv_template
 from kreddb.bl.csv_import import parse_csv
 from kreddb.bl.image_import import import_images
 from kreddb.bl.site_options import save_promo_settings
+from kreddb.exceptions import CsvUploadException
 from kreddb.models import SiteOptions
 
 
@@ -18,8 +21,14 @@ class UploadCarCsvView(LoginRequiredMixin, TemplateView):
     template_name = 'kreddb/service/upload_car_csv.html'
 
     def post(self, request, *args, **kwargs):
-        file = request.FILES['csvfile']
-        parse_csv(StringIO(file.read().decode()))
+        try:
+            file = request.FILES['csvfile']
+        except MultiValueDictKeyError:
+            return HttpResponse("Не указан файл для загрузки")
+        try:
+            parse_csv(StringIO(file.read().decode()))
+        except CsvUploadException as e:
+            return HttpResponse("Ошибка в поле {}".format(e.field))
         return redirect('kreddb:service_upload_csv')
 
 

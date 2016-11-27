@@ -13,7 +13,7 @@
         <div>
             <form method="post" action="" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="file" name="csvfile">
+                <input type="file" name="csvfile" required="required">
                 <input type="submit" value="Загрузить">
             </form>
         </div>

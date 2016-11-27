@@ -2,14 +2,18 @@ from csv import DictReader
 
 from django.db import transaction
 
-from kreddb.models import Modification, Body, CarMake, ModelFamily, Engine, Gear, Generation, CarModel
+from kreddb.exceptions import CsvUploadException
+from kreddb.models import Modification, Body, CarMake, Engine, Gear, Generation, CarModel
 
 
 def _parse_row(row: dict) -> Modification:
     modification = Modification()
     modification.name = row['name']
     modification.cost = row['cost']
-    modification.body = Body.get_by_name(row['body'])
+    try:
+        modification.body = Body.get_by_name(row['body'])
+    except Body.DoesNotExist:
+        raise CsvUploadException("body")
     modification.car_make = CarMake.get_by_name(row['car_make'])
     # TODO вынести этот код в модель
     modification.model_family = CarModel.objects.filter(
