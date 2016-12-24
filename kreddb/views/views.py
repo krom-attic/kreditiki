@@ -103,6 +103,10 @@ class ModificationListView(ListView):
 
         qs_filter = queryset.filter(car_model__id=decipher_id(self.kwargs['object_id']))
         first_car_model = qs_filter.first()
+        if first_car_model is None:
+            mail_managers('Обнаружена машина без модификаций!', 'Пользователю попытались показать все модификации ' +
+                          '{car_make} {car_model} {body} {gen_year_start}, но ничего не нашлось'.format(**self.kwargs))
+        # TODO не стоит после этого валиться с 500
         self.car_make = first_car_model.car_make
         self.car_model = first_car_model.car_model
         # на данный момент неактуально, но может пригодиться
@@ -143,7 +147,7 @@ class ModificationDetailView(DetailView):
     model = models.Modification
 
     def get(self, request, *args, **kwargs):
-        self.object = models.Modification.objects.get(pk=decipher_id(self.kwargs['object_id']))
+        self.object = models.Modification.objects.get_object_or_404(pk=decipher_id(self.kwargs['object_id']))
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 
