@@ -3,7 +3,7 @@ import json
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import mail_managers
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, View
 from django.views.generic import TemplateView
 
@@ -147,7 +147,7 @@ class ModificationDetailView(DetailView):
     model = models.Modification
 
     def get(self, request, *args, **kwargs):
-        self.object = models.Modification.objects.get_object_or_404(pk=decipher_id(self.kwargs['object_id']))
+        self.object = get_object_or_404(models.Modification, pk=decipher_id(self.kwargs['object_id']))
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 
