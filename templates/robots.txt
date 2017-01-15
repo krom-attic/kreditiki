@@ -1,9 +1,8 @@
 User-agent: Yandex
 Disallow: /admin
-Host: centpercent.ru
 
 User-agent: Googlebot
 Disallow: /admin
-Host: centpercent.ru
+Host: https://centpercent.ru
 
 Sitemap: https://centpercent.ru/sitemap.xml
