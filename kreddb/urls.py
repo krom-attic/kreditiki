@@ -27,7 +27,7 @@ URL_RE_PARTS = {
 
 urlpatterns = [
     url(r'^$', views.CarMakeListView.as_view(), name='list_car_makes'),
-    url(r'^кредит на/$',
+    url(r'^кредит/$',
         RedirectView.as_view(pattern_name='kreddb:list_car_makes', permanent=True, query_string=True),
         name='redirect_list_car_makes'),
 
@@ -37,17 +37,15 @@ urlpatterns = [
 
     url(r'^selector/$', views.CarSelectorDispatchView.as_view(), name="carselector"),
 
-    url(r'^кредит на/{car_make}/(?P<all>все/)?$'.format(**URL_RE_PARTS), views.CarModelListView.as_view(), name='list_model_families'),
+    url(r'^кредит/{car_make}/(?P<all>все/)?$'.format(**URL_RE_PARTS), views.CarModelListView.as_view(), name='list_model_families'),
 
-    url(r'^кредит на/{car_make}/{car_model}/{body}/{gen_year_start}/{object_id}/(?P<all>все/)?$'.format(**URL_RE_PARTS),
+    url(r'^кредит/{car_make}/{car_model}/{body}/{gen_year_start}/{object_id}/(?P<all>все/)?$'.format(**URL_RE_PARTS),
         views.ModificationListView.as_view(), name='list_modifications'),
 
     # TODO можно после gen_year_start передавать ещё несколько годов через запятую
-    url(r'^кредит на/{car_make}/{car_model}/{body}/{gen_year_start}/{generation}/{complect}/{engine}/{gear}/'
+    url(r'^кредит/{car_make}/{car_model}/{body}/{gen_year_start}/{generation}/{complect}/{engine}/{gear}/'
         r'{object_id}/$'.format(**URL_RE_PARTS), views.ModificationDetailView.as_view(),
         name='view_modification'),
-    url(r'^кредит на/{car_make}/{car_model}/{body}/{gen_year_start}/{generation}/{complect}/{engine}/{gear}/'
-        r'{object_id}$'.format(**URL_RE_PARTS), views.ModificationDetailView.as_view(), name='view_modification'),
 
     url(r'^заявка/', views.CreditApplicationView.as_view(), name='credit_application'),
 
@@ -65,41 +63,32 @@ urlpatterns = [
         views.ModificationDataApiView.as_view(),
         name='modification_data'),
 
-    # TODO убрать эти редиректы
-    url(r'^кредит/$', RedirectView.as_view(pattern_name='kreddb:list_car_makes',
+    # TODO убрать эти редиректы, когда поисковики всё "забудут"
+    url(r'^кредит на/$', RedirectView.as_view(pattern_name='kreddb:list_car_makes',
                                            permanent=True, query_string=True), name='redirect_list_car_makes'),
     url(r'^credit/$', RedirectView.as_view(pattern_name='kreddb:list_car_makes',
                                            permanent=True, query_string=True), name='redirect_list_car_makes'),
 
-    url(r'^кредит/{car_make}/$'.format(**URL_RE_PARTS),
+    url(r'^кредит на/{car_make}/$'.format(**URL_RE_PARTS),
         RedirectView.as_view(pattern_name='kreddb:list_model_families', permanent=True, query_string=True),
         name='redirect_list_model_families'),
     url(r'^credit/{car_make}/$'.format(**URL_RE_PARTS),
         RedirectView.as_view(pattern_name='kreddb:list_model_families', permanent=True, query_string=True),
         name='redirect_list_model_families'),
 
-    url(r'^кредит/{car_make}/{car_model}/{body}/{gen_year_start}/{object_id}/$'.format(**URL_RE_PARTS),
+    url(r'^кредит на/{car_make}/{car_model}/{body}/{gen_year_start}/{object_id}/$'.format(**URL_RE_PARTS),
         RedirectView.as_view(pattern_name='kreddb:list_modifications', permanent=True, query_string=True),
         name='redirect_list_modifications'),
     url(r'^credit/{car_make}/{car_model}/{gen_year_start}/{body}/{object_id}/$'.format(**URL_RE_PARTS),
         RedirectView.as_view(pattern_name='kreddb:list_modifications', permanent=True, query_string=True),
         name='redirect_list_modifications'),
 
-    url(r'^кредит/{car_make}/{car_model}/{body}/{gen_year_start}/{generation}/{complect}/{engine}/{gear}/'
+    url(r'^кредит на/{car_make}/{car_model}/{body}/{gen_year_start}/{generation}/{complect}/{engine}/{gear}/'
         r'{object_id}/$'.format(**URL_RE_PARTS),
         RedirectView.as_view(pattern_name='kreddb:view_modification', permanent=True, query_string=True),
         name='redirect_view_modification'),
     url(r'^credit/{car_make}/{car_model}/{gen_year_start}/{generation}/{complect}/{body}/{engine}/{gear}/'
         r'{object_id}/$'.format(**URL_RE_PARTS),
-        RedirectView.as_view(pattern_name='kreddb:view_modification', permanent=True, query_string=True),
-        name='redirect_view_modification'),
-
-    url(r'^кредит/{car_make}/{car_model}/{body}/{gen_year_start}/{generation}/{complect}/{engine}/{gear}/'
-        r'{object_id}$'.format(**URL_RE_PARTS),
-        RedirectView.as_view(pattern_name='kreddb:view_modification', permanent=True, query_string=True),
-        name='redirect_view_modification'),
-    url(r'^credit/{car_make}/{car_model}/{gen_year_start}/{generation}/{complect}/{body}/{engine}/{gear}/'
-        r'{object_id}$'.format(**URL_RE_PARTS),
         RedirectView.as_view(pattern_name='kreddb:view_modification', permanent=True, query_string=True),
         name='redirect_view_modification'),
 ]
