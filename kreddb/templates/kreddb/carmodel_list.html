@@ -1,9 +1,6 @@
 {% extends "kreddb/base.html" %}
 
-{% block page_description %}
-  {{ car_make }} в кредит &mdash; рассчитайте ежемесячный платеж и оформите заявку на кредит под низкую процентную
-  ставку в Петербурге
-{% endblock %}
+{% block page_description %}Актуальные цены, кредитный калькулятор {{ car_make }} {% for carmodel in carmodel_list|slice:":4" %}{{ carmodel.model_name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endblock %}
 
 {% block pagetitle %}
   Купить автомобиль {{ car_make }} в кредит онлайн в СПб
