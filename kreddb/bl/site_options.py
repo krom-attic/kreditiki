@@ -19,7 +19,7 @@ def get_promo_items():
     for car in cars:
         try:
             car_id = int(car['car_model'])
-            promo_items.append(_create_ui_promo_item(CarModel.objects.get(pk=car_id)))
+            promo_items.append(_create_ui_promo_item(CarModel.get_by_id(car_id)))
         except ValueError:
             pass
     return promo_items

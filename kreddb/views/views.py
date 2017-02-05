@@ -10,7 +10,7 @@ from django.views.generic import TemplateView
 from kreddb import models
 from kreddb.bl.image_works import get_car_main_images
 from kreddb.bl.site_options import get_promo_items
-from kreddb.models import cipher_id, decipher_id
+from kreddb.url_utils.cipher import cipher_id, decipher_id
 
 
 class CarMakeListView(ListView):
@@ -41,7 +41,7 @@ class CarModelListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         car_make_name = self.kwargs['car_make']
-        self.car_make = models.CarMake.get_by_name(car_make_name)
+        self.car_make = models.CarMake.get_by_safe_name(car_make_name)
         # сдаётся мне, что следование структуре джанговских вьюшек менее правильно, чем вынос из контроллера логики,
         # связанной получением данных из бд...
         return queryset.filter(generation__car_make=self.car_make, display=True)
@@ -78,10 +78,10 @@ class CarSelectorDispatchView(View):
         car_model_id = request.GET.get('carmodel')
         if car_make:
             if car_model_id:
-                car_model = models.CarModel.objects.get(id=decipher_id(car_model_id))
+                car_model = models.CarModel.get_by_id(decipher_id(car_model_id))
                 return redirect(car_model)
             else:
-                return redirect('kreddb:list_model_families', car_make=car_make)
+                return redirect('kreddb:list_model_families', car_make=car_make.replace(' ', '_'))
         else:
             # TODO заменить на логирование
             print('Nothing OK')

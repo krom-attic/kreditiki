@@ -8,27 +8,12 @@ from django.db import models
 from django.db.models import Min
 
 from kreddb.bl.calculator import calculate_best_interest_and_credit
+from kreddb.url_utils.cipher import cipher_id
 
 
-ID_MAP = ['z', 'Q', 'x', 'J', 'k', 'V', 'b', 'P', 'y', 'G']
-
-
-def cipher_id(digit_id: str):
-    letter_id = ['_']
-    for digit in digit_id:
-        letter_id.append(ID_MAP[int(digit)])
-    return ''.join(letter_id)
-
-
-def decipher_id(letter_id) -> str:
-    digit_id = list()
-    for letter in letter_id[1:]:
-        digit_id.append(str(ID_MAP.index(letter)))
-    return ''.join(digit_id)
-
-
-# не используется, но потребуется
-SAFE_TRANSLATION = str.maketrans(' &+:,/«»³®`×', '----_\\""3R\'x')
+class CarMakeManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(display=True)
 
 
 class CarMake(models.Model):
@@ -36,47 +21,50 @@ class CarMake(models.Model):
     display = models.BooleanField(default=False)
     updated_at = models.DateTimeField(auto_now=True)
 
+    objects = models.Manager()
+    objects_actual = CarMakeManager()
+
     class Meta:
         ordering = ['name']
+
+    # TODO при сохранении нужно проверять отсутствие "запрещённых" символов типа "_"
 
     def __str__(self):
         return self.name
 
+    @property
+    def safe_name(self):
+        return self.name.replace(' ', '_')
+
     def filter_url(self):
-        return reverse('kreddb:list_model_families', kwargs={'car_make': self.name})
+        return reverse('kreddb:list_model_families', kwargs={'car_make': self.safe_name})
 
     @classmethod
     def get_by_name(cls, name):
-        return cls.objects.get(name=name)
+        return cls.objects_actual.get(name=name)
 
+    @classmethod
+    def get_by_safe_name(cls, safe_name: str):
+        name = safe_name.replace('_', ' ')
+        return cls.get_by_name(name)
 
-class ModelFamilyManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(display=True)
+    @classmethod
+    def get_displayed(cls):
+        return cls.objects_actual.all()
 
 
 class ModelFamily(models.Model):
+    # на данный момент лукапа из урла нет, но если понадобится, стоит учесть, что здесь могут быть пробелы и слэши
     name = models.CharField(db_index=True, max_length=127)
     car_make = models.ForeignKey(CarMake)
     display = models.BooleanField(default=False)
-
-    objects = models.Manager()
-    objects_actual = ModelFamilyManager()
 
     def __str__(self):
         return self.car_make.name + ' ' + self.name
 
     @property
     def safe_name(self):
-        return self.name.replace('/', '\\')
-
-    @classmethod
-    def get_by_safe_name(cls, safe_name, car_make):
-        return cls.objects.get(name=safe_name.replace('\\', '/'), car_make=car_make)
-
-    @classmethod
-    def get_by_name(cls, name, car_make):
-        return cls.objects.get(name=name, car_make=car_make)
+        return self.name.replace('/', '\\').replace(' ', '_')
 
 
 class Generation(models.Model):
@@ -96,11 +84,11 @@ class Generation(models.Model):
 
     @property
     def safe_name(self):
-        return self.name.replace('/', '\\')
+        return self.name.replace('/', '\\').replace(' ', '_')
 
     @property
     def url_kwargs(self):
-        url_kwargs = {'car_make': self.car_make.name, 'model_family': self.model_family.name, 'name': self.safe_name,
+        url_kwargs = {'car_make': self.car_make.safe_name, 'model_family': self.model_family.safe_name, 'name': self.safe_name,
                       'body': '-', 'engine': '-', 'gear': '-'}
         return url_kwargs
 
@@ -133,6 +121,10 @@ class Body(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def safe_name(self):
+        return self.name.replace(' ', '_')
 
     @classmethod
     def get_by_name(cls, name):
@@ -179,22 +171,30 @@ class CarModel(models.Model):
 
     @property
     def safe_name(self):
-        return self.name.replace('/', '\\')
+        return self.name.replace('/', '\\').replace(' ', '_')
+
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.objects_actual.get(pk=id)
 
     @classmethod
     def get_by_name(cls, name, generation: Generation, body: Body):
-        return cls.objects.get(name=name, generation=generation, body=body)
+        return cls.objects_actual.get(name=name, generation=generation, body=body)
 
     @classmethod
-    def get_model_family_for_name(cls, car_make: CarMake, name: str) -> ModelFamily:
-        return cls.objects.filter(model_family__car_make=car_make, name=name).first().model_family
+    def get_by_main_parameters(cls, name, generation, body):
+        return cls.objects_actual.get(name_iexact=name, generation=generation, body=body)
+
+    @classmethod
+    def get_first_for_model_family(cls, car_make: CarMake, name: str):
+        return cls.objects_actual.filter(model_family__car_make=car_make, name__iexact=name).first()
 
     def get_absolute_url(self):
         return reverse('kreddb:list_modifications', kwargs=dict(
-            car_make=self.model_family.car_make.name,
+            car_make=self.model_family.car_make.safe_name,
             car_model=self.safe_name,
             gen_year_start=self.generation.year_start,
-            body=self.body.name,
+            body=self.body.safe_name,
             object_id=cipher_id(str(self.id)),
         ))
 
@@ -364,15 +364,15 @@ class Modification(models.Model):
 
     @property
     def safe_name(self):
-        return self.name.replace('/', '\\')
+        return self.name.replace('/', '\\').replace(' ', '_')
 
     def get_absolute_url(self):
         mod_params = {
-            'car_make': self.car_make.name,
+            'car_make': self.car_make.safe_name,
             'car_model': self.car_model.safe_name,
             # TODO эффективно ли это?
             'generation': self.generation.safe_name if self.generation.safe_name else '-',
-            'body': self.body.name,
+            'body': self.body.safe_name,
             'gear': self.gear.name,
             'engine': self.engine.name,
             'gen_year_start': self.generation.year_start,

@@ -27,7 +27,7 @@ class CarMakeSitemap(Sitemap):
     protocol = 'https'
 
     def items(self):
-        return CarMake.objects.filter(display=True)
+        return CarMake.get_displayed()
 
     def lastmod(self, obj):
         return obj.updated_at

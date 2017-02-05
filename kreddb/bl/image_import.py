@@ -55,8 +55,7 @@ def import_images(file, car_make_name=None, car_model_name=None, gen_start_year=
                 params.append(fix_zip_string(car_model_name))
             elif idx == 2:
                 gen_start_year = path_parts.pop()
-                # TODO вынести этот код в модель
-                first_car_model = CarModel.objects.filter(model_family__car_make=params[0], name=params[1]).first()
+                first_car_model = CarModel.get_first_for_model_family(params[0], params[1])
                 if first_car_model is None:
                     raise CarModel.DoesNotExist
                 model_family = first_car_model.model_family

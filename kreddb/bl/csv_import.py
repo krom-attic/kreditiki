@@ -15,19 +15,11 @@ def _parse_row(row: dict) -> Modification:
     except Body.DoesNotExist:
         raise CsvUploadException("body")
     modification.car_make = CarMake.get_by_name(row['car_make'])
-    # TODO вынести этот код в модель
-    modification.model_family = CarModel.objects.filter(
-        model_family__car_make=modification.car_make, name__iexact=row['car_model']
-    ).first().model_family
+    modification.model_family = CarModel.get_first_for_model_family(modification.car_make, row['car_model']).model_family
     modification.engine = Engine.get_or_create_by_name(row['engine'])[0]
     modification.gear = Gear.get_by_name(row['gear'])
     modification.generation = Generation.get_by_year(modification.model_family, row['year_start'])
-    # TODO вынести этот код в модель
-    modification.car_model = CarModel.objects.get(
-        name__iexact=row['car_model'],
-        generation=modification.generation,
-        body=modification.body
-    )
+    modification.car_model = CarModel.get_by_main_parameters(row['car_model'], modification.generation, modification.body)
     return modification
 
 

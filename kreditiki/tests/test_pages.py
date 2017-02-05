@@ -6,7 +6,7 @@ class TestPages:
     def test_find_db_errors(self):
         errors = {}
         BASE_URL = 'http://127.0.0.1:8000'
-        r = requests.get(BASE_URL + '/кредит на/')
+        r = requests.get(BASE_URL + '/кредит/')
         tree = html.fromstring(r.text)
         nodes = tree.xpath('//ul[@id="marks"]/li/a')
         for node in nodes:
