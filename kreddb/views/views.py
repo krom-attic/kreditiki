@@ -38,6 +38,12 @@ class CarModelListView(ListView):
         self.car_make = None
         super().__init__(**kwargs)
 
+    def get(self, request, *args, **kwargs):
+        # временное напоминание поисковикам, что пробелы мы больше не используем
+        if ' ' in request.path:
+            return redirect(request.path.replace(' ', '_'))
+        return super().get(request, *args, **kwargs)
+
     def get_queryset(self):
         queryset = super().get_queryset()
         car_make_name = self.kwargs['car_make']
@@ -97,6 +103,12 @@ class ModificationListView(ListView):
         self.car_make = None
         self.car_model = None
         super().__init__(**kwargs)
+
+    def get(self, request, *args, **kwargs):
+        # временное напоминание поисковикам, что пробелы мы больше не используем
+        if ' ' in request.path:
+            return redirect(request.path.replace(' ', '_'))
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         queryset = super().get_queryset()
