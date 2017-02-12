@@ -1,6 +1,11 @@
 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
   <div class="row my-content-header-text">
-    <h2 class="my-font-size-25">Автокредитный калькулятор {{ vm.car_name }}</h2>
+    <h2 class="my-font-size-25">Кредитный калькулятор {{ vm.car_name }}</h2>
+    <p>
+      <select id="select-modifications" class="form-control" data-ng-model="vm.modification" data-ng-change="vm.selectModification()"
+              name="modifications" ng-options="modification as modification.name + ' — ' + modification.price + ' руб.' for modification in vm.modifications">
+      </select>
+    </p>
     Рассчитайте на калькуляторе в режиме онлайн ежемесячный платеж и переплату по кредиту
   </div>
   <div class="row my-content-calc">
@@ -17,7 +22,7 @@
       <!--</div>-->
       <!--</div>-->
       <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 my-padding-bottom-30 my-font-size-20">
-        {{ vm.price | currency : "руб." : 0 }}</div>
+        {{ vm.modification.price | currency : "руб." : 0 }}</div>
 
     </div>
     <div class="row my-padding-top-30">
@@ -123,7 +128,7 @@
     <div class="row my-padding-bottom-25">
       <div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">Переплата по кредиту</div>
       <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 my-font-size-16  my-font-weight-bold">
-        {{ vm.total_credit - vm.price | currency : "руб." : 0 }}</div>
+        {{ vm.total_credit - vm.modification.price | currency : "руб." : 0 }}</div>
     </div>
     <div class="row my-padding-bottom-content-9">
       <div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">Процентная ставка</div>

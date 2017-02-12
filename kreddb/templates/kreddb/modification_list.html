@@ -7,9 +7,11 @@
 {% endblock %}
 
 {% block content %}
+  {% load angular %}
+  <h1 class="mod-list-h2">Автокредит на {{ car_make.name }} {{ car_model.name }} в СПб</h1>
 
-	<h1 class="mod-list-h2">Автокредит на {{ car_make.name }} {{ car_model.name }} в СПб</h1>
-	<p class="mod-list-txt">Выберите комплектацию:</p>
+  {% angular_app "creditcalc" %}
+{% comment %}
 
 	<hr>
 
@@ -26,7 +28,6 @@
 					<span class="price-inner">{{ modification.cost }} руб.</span>
 				</span>
 			</div>
-            {% comment %}
 			<div class="col-xs-12 col-sm-3">
 				<div class="row">
 					<ul class="nav nav-tabs my-tabs" role="tablist" data-mod-id="{{ modification.id }}">
@@ -43,9 +44,7 @@
 					</ul>
 				</div>
 			</div>
-			{% endcomment %}
 		</div>
-        {% comment %}
 		<div class="tab-content my-tab-content">
 			<div role="tabpanel" class="tab-pane" id="complectation{{ modification.id }}">
 
@@ -183,7 +182,7 @@
 
 			</div>
 		</div>
-	    {% endcomment %}
 	</div>
   {% endfor %}
+	    {% endcomment %}
 {% endblock %}

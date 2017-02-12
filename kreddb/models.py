@@ -366,6 +366,10 @@ class Modification(models.Model):
     def safe_name(self):
         return self.name.replace('/', '\\').replace(' ', '_')
 
+    @property
+    def modification_name(self):
+        return ' '.join((self.name, self.body.name, self.engine.name, self.gear.name))
+
     def get_absolute_url(self):
         mod_params = {
             'car_make': self.car_make.safe_name,
@@ -393,8 +397,8 @@ class Modification(models.Model):
         return modification
 
     @classmethod
-    def get_by_old_id(cls, old_id):
-        return cls.objects.get(old_id=old_id)
+    def get_by_car_model(cls, car_model: CarModel):
+        return cls.objects.filter(car_model=car_model).order_by('cost')
 
 
 class EquipmentCost(models.Model):

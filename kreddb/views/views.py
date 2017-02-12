@@ -131,6 +131,21 @@ class ModificationListView(ListView):
         context = super().get_context_data(**kwargs)
         context['car_make'] = self.car_make
         context['car_model'] = self.car_model
+        creditcalc_context = {}
+        modification_list = models.Modification.get_by_car_model(self.car_model)
+        creditcalc_context['modifications'] = [{'name': modification.modification_name, 'price': modification.cost,
+                                                'index': i} for i, modification in enumerate(modification_list)]
+        # TODO выкинуть ошибку, если лист пустой
+        modification = modification_list[0]
+        if modification.cost:
+            creditcalc_context['price'] = modification.cost
+        else:
+            creditcalc_context['price'] = None
+        photo_urls = [car_image.image.url.rsplit('.', 1)
+                      for car_image in modification.car_model.carimage_set.all()]
+        creditcalc_context['photos'] = [{'path': url[0], 'ext': url[1]} for url in photo_urls]
+        creditcalc_context['car_name'] = '{} {}'.format(modification.car_make.name, modification.car_model.model_name)
+        context['creditcalc'] = creditcalc_context
         return context
 
 
@@ -167,7 +182,7 @@ class ModificationDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         creditcalc_context = {}
         modification = context.get('modification')
-        if context.get('modification').cost:
+        if modification.cost:
             creditcalc_context['price'] = modification.cost
         else:
             creditcalc_context['price'] = None
