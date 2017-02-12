@@ -4,7 +4,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import mail_managers
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, View
+from django.views.generic import RedirectView
 from django.views.generic import TemplateView
 
 from kreddb import models
@@ -170,28 +171,12 @@ class ModificationDataApiView(View):
         }))
 
 
-class ModificationDetailView(DetailView):
-    model = models.Modification
+class ModificationDetailView(RedirectView):
+    permanent = True
 
-    def get(self, request, *args, **kwargs):
-        self.object = get_object_or_404(models.Modification, pk=decipher_id(self.kwargs['object_id']))
-        context = self.get_context_data(object=self.object)
-        return self.render_to_response(context)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        creditcalc_context = {}
-        modification = context.get('modification')
-        if modification.cost:
-            creditcalc_context['price'] = modification.cost
-        else:
-            creditcalc_context['price'] = None
-        photo_urls = [car_image.image.url.rsplit('.', 1)
-                      for car_image in modification.car_model.carimage_set.all()]
-        creditcalc_context['photos'] = [{'path': url[0], 'ext': url[1]} for url in photo_urls]
-        creditcalc_context['car_name'] = '{} {}'.format(modification.car_make.name, modification.car_model.model_name)
-        context['creditcalc'] = creditcalc_context
-        return context
+    def get_redirect_url(self, *args, **kwargs):
+        modification = get_object_or_404(models.Modification, pk=decipher_id(self.kwargs['object_id']))
+        return modification.car_model.get_absolute_url()
 
 
 class CreditApplicationView(View):
