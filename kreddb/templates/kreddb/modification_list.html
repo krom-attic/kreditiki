@@ -1,15 +1,13 @@
 {% extends "kreddb/base.html" %}
 
-{% block page_description %}Удобный кредитный калькулятор с актуальными ценами на {{ car_make.name }} {{ car_model.name }}{% endblock %}
+{% block page_description %}Расчет кредита по актуальным дилерским ценам на {{ car_make.name }} {{ car_model.name }}{% endblock %}
 
 {% block pagetitle %}
-  Купить {{ car_make.name }} {{ car_model.name }} в кредит онлайн
+  Купить {{ car_make.name }} {{ car_model.name }} в кредит &mdash; калькулятор и онлайн-заявка
 {% endblock %}
 
 {% block content %}
   {% load angular %}
-  <h1 class="mod-list-h2">Автокредит на {{ car_make.name }} {{ car_model.name }} в СПб</h1>
-
   {% angular_app "creditcalc" %}
 {% comment %}
 

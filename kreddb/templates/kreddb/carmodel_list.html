@@ -1,16 +1,16 @@
 {% extends "kreddb/base.html" %}
 
-{% block page_description %}Актуальные цены, кредитный калькулятор {{ car_make }} {% for carmodel in carmodel_list|slice:":4" %}{{ carmodel.model_name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endblock %}
+{% block page_description %}Кредитный калькулятор и актуальные цены на {{ car_make }} {% for carmodel in carmodel_list|slice:":3" %}{{ carmodel.name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endblock %}
 
 {% block pagetitle %}
-  Купить автомобиль {{ car_make }} в кредит онлайн в СПб
+  {{ car_make }} в кредит в СПб &mdash; калькулятор и оформление онлайн
 {% endblock %}
 
 {% block content %}
 
   <div class="container">
 
-    <h1 class="text-center my-h1">Автокредит на новую машину {{ car_make }}</h1>
+    <h1 class="text-center my-h1">Выберите модель {{ car_make }} для расчета автокредита</h1>
 
     <div class="row" id="model_families">
       {% for carmodel in carmodel_list %}
