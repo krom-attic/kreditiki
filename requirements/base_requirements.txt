@@ -2,3 +2,4 @@ Django==1.11.1
 django_compressor==2.1
 Pillow==4.1.1
 PyExecJs==1.4.0
+pytz==2017.2

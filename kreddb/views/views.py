@@ -95,6 +95,7 @@ class CarSelectorDispatchView(View):
         return super().dispatch(request, *args, **kwargs)
 
 
+# TODO переименовать: это больше не лист
 class ModificationListView(ListView):
     """Вывод списка модификаций"""
     # TODO сделать фильтры
@@ -147,6 +148,9 @@ class ModificationListView(ListView):
         creditcalc_context['photos'] = [{'path': url[0], 'ext': url[1]} for url in photo_urls]
         creditcalc_context['car_name'] = '{} {}'.format(modification.car_make.name, modification.car_model.model_name)
         context['creditcalc'] = creditcalc_context
+        descriptions = models.CarDescription.get_by_model(self.car_model)
+        creditcalc_context['desc_top'] = descriptions.get('T', '')
+        creditcalc_context['desc_bottom'] = descriptions.get('B', '')
         return context
 
 

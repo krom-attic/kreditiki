@@ -10,6 +10,8 @@ from django.db.models import Min
 from kreddb.bl.calculator import calculate_best_interest_and_credit
 from kreddb.url_utils.cipher import cipher_id
 
+POSITIONS = (('T', 'Наверху'), ('B', 'Внизу'))
+
 
 class CarMakeManager(models.Manager):
     def get_queryset(self):
@@ -222,6 +224,20 @@ class CarModel(models.Model):
             self.model_family = self.generation.model_family
         self.model_family.car_make.save()
         super().save(force_insert, force_update, using, update_fields)
+
+
+class CarDescription(models.Model):
+    car_model = models.ForeignKey(CarModel, db_index=True)
+    description = models.TextField()
+    description_pos = models.CharField(max_length=1, choices=POSITIONS)
+
+    class Meta:
+        unique_together = (('car_model', 'description_pos'),)
+
+    @classmethod
+    def get_by_model(cls, car_model: CarModel):
+        return {description['description_pos']: description.get('description') for description in
+                cls.objects.filter(car_model=car_model).values('description', 'description_pos')}
 
 
 def car_image_path(instance, filename):

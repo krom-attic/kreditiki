@@ -27,6 +27,11 @@ class CarImageInline(admin.StackedInline):
     extra = 1
     fields = ('image', 'main', )
 
+class CarDescriptionInline(admin.StackedInline):
+    model = models.CarDescription
+    extra = 1
+    fields = ('description_pos', 'description', )
+
 
 class ModificationInline(admin.StackedInline):
     model = models.Modification
@@ -61,6 +66,7 @@ class CarModelAdmin(admin.ModelAdmin):
     inlines = [
         CarImageInline,
         ModificationInline,
+        CarDescriptionInline
     ]
 
     readonly_fields = ('generation', )

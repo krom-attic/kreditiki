@@ -73,6 +73,8 @@
             vm.photos = app_context["photos"];
             vm.car_name = app_context["car_name"];
             vm.modifications = app_context["modifications"];
+            vm.desc_top = app_context["desc_top"];
+            vm.desc_bottom = app_context["desc_bottom"];
             vm.modification = vm.modifications[0];
             vm.selectModification();
         };
