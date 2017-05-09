@@ -1,4 +1,4 @@
-Django==1.10.5
+Django==1.11.1
 django_compressor==2.1
-Pillow==3.3.0
+Pillow==4.1.1
 PyExecJs==1.4.0

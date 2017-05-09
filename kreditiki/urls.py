@@ -9,12 +9,10 @@ from django.views.generic import TemplateView
 
 from kreditiki import sitemaps as sm
 
-# TODO sitemaps
 sitemaps = {
     'index': sm.IndexSitemap,
     'car_make': sm.CarMakeSitemap,
     'car_model': sm.CarModelSitemap,
-    'modifications': sm.ModificationSitemap
 }
 
 urlpatterns = [

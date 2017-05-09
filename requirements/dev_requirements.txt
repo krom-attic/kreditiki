@@ -1,7 +1,7 @@
 -r base_requirements.txt
-django-debug-toolbar==1.6
-lxml==3.4.4
-py==1.4.32
-pytest==3.0.6
+django-debug-toolbar==1.8
+lxml==3.7.3
+py==1.4.33
+pytest==3.0.7
 requests==2.13.0
-sqlparse==0.2.2
+sqlparse==0.2.3
