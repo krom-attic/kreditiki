@@ -94,6 +94,7 @@ class Generation(models.Model):
                       'body': '-', 'engine': '-', 'gear': '-'}
         return url_kwargs
 
+    # TODO не должен использоваться
     def get_absolute_url(self):
         return reverse('kreddb:list_modifications', kwargs=self.url_kwargs)
 

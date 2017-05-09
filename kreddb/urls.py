@@ -40,7 +40,7 @@ urlpatterns = [
     url(r'^кредит/{car_make}/(?P<all>все/)?$'.format(**URL_RE_PARTS), views.CarModelListView.as_view(),
         name='list_model_families'),
 
-    url(r'^кредит/{car_make}/{car_model}/{body}/{gen_year_start}/{object_id}/(?P<all>все/)?$'.format(**URL_RE_PARTS),
+    url(r'^кредит/{car_make}/{car_model}__{body}__{gen_year_start}__{object_id}/$'.format(**URL_RE_PARTS),
         views.ModificationListView.as_view(), name='list_modifications'),
 
     # TODO можно после gen_year_start передавать ещё несколько годов через запятую
@@ -77,6 +77,9 @@ urlpatterns = [
         RedirectView.as_view(pattern_name='kreddb:list_model_families', permanent=True, query_string=True),
         name='redirect_list_model_families'),
 
+    url(r'^кредит/{car_make}/{car_model}/{body}/{gen_year_start}/{object_id}/$'.format(**URL_RE_PARTS),
+        RedirectView.as_view(pattern_name='kreddb:list_modifications', permanent=True, query_string=True),
+        name='redirect_list_modifications'),
     url(r'^кредит на/{car_make}/{car_model}/{body}/{gen_year_start}/{object_id}/$'.format(**URL_RE_PARTS),
         RedirectView.as_view(pattern_name='kreddb:list_modifications', permanent=True, query_string=True),
         name='redirect_list_modifications'),
