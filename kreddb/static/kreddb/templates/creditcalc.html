@@ -1,8 +1,8 @@
 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
   <div class="row my-content-header-text">
     <h1 class="mod-list-h2">Кредитный калькулятор для {{ vm.car_name }}</h1>
-    <h2 class="my-font-size-22">Выберите комплектацию, рассчитайте ежемесячный платеж и ставку</h2>
     <p data-ng-if="vm.desc_top">{{ vm.desc_top }}</p>
+    <h2 class="my-font-size-22">Выберите комплектацию, рассчитайте ежемесячный платеж и ставку</h2>
     <p>
       <select id="select-modifications" class="form-control" data-ng-model="vm.modification" data-ng-change="vm.selectModification()"
               name="modifications" ng-options="modification as modification.name + ' — ' + modification.price + ' руб.' for modification in vm.modifications">
