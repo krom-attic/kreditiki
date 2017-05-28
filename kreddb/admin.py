@@ -27,6 +27,7 @@ class CarImageInline(admin.StackedInline):
     extra = 1
     fields = ('image', 'main', )
 
+
 class CarDescriptionInline(admin.StackedInline):
     model = models.CarDescription
     extra = 1
@@ -37,7 +38,7 @@ class ModificationInline(admin.StackedInline):
     model = models.Modification
     extra = 0
     show_change_link = True
-    readonly_fields = ('car_make', 'model_family', 'generation', 'old_id', )
+    readonly_fields = ('car_make', 'model_family', 'generation', 'body', 'old_id', )
 
 
 class CarMakeAdmin(admin.ModelAdmin):
@@ -73,7 +74,7 @@ class CarModelAdmin(admin.ModelAdmin):
 
 
 class ModificationAdmin(admin.ModelAdmin):
-    readonly_fields = ('car_make', 'model_family', 'generation', 'body_id', 'generation_id')
+    readonly_fields = ('car_make', 'model_family', 'body', 'generation', 'body_id', 'generation_id')
 
 
 class CarImageAdmin(admin.ModelAdmin):

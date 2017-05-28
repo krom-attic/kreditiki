@@ -375,6 +375,11 @@ class Modification(models.Model):
         return ' '.join([str(self.generation), self.body.name, self.gear.name, self.engine.name, self.name])
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        # TODO не отображть избыточные поля при редактировании модели
+        self.body = self.car_model.body
+        self.generation = self.car_model.generation
+        self.model_family = self.generation.model_family
+        self.car_make = self.model_family.car_make
         self.car_model.update_price()
         self.car_model.save()
         super().save(force_insert, force_update, using, update_fields)
