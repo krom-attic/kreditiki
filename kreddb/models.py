@@ -156,6 +156,7 @@ class CarModel(models.Model):
     generation = models.ForeignKey(Generation, db_index=True)
     body = models.ForeignKey(Body, db_index=True)
     display = models.BooleanField(default=False)
+    related = models.ManyToManyField('self', blank=True)
     price_per_day = models.PositiveIntegerField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -164,6 +165,9 @@ class CarModel(models.Model):
 
     class Meta:
         unique_together = (('name', 'generation', 'body'),)
+
+    def __str__(self):
+        return ' '.join([str(self.model_family), str(self.generation), self.name, str(self.body)])
 
     @property
     def model_name(self):

@@ -136,6 +136,16 @@
       <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 my-font-size-16  my-font-weight-bold">{{ vm.percent }}%</div>
     </div>
   </div>
+  <div ng-if="vm.related.length > 0" class="row my-content-right-text my-margin-left-content-0">
+    <div class="row my-padding-bottom-25 my-padding-top-content-8">
+      <h2 class="my-font-size-22">Похожие модели</h2>
+    </div>
+    <div ng-repeat="related in vm.related" class="row my-padding-bottom-25">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <a ng-href="{{ related.url }}">{{ related.car_name }}</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 my-margin-bottom-35">

@@ -70,6 +70,8 @@ class CarModelAdmin(admin.ModelAdmin):
         CarDescriptionInline
     ]
 
+    search_fields = ('model_family__car_make__name', 'name', 'body__name')
+    raw_id_fields = ('related', )
     readonly_fields = ('generation', )
 
 

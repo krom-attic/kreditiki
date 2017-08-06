@@ -69,17 +69,18 @@ class CarModelListAPIView(View):
         # TODO возможно тут надо намекнуть джанге на подгрузку связанных записей
         car_models = models.CarModel.objects_actual.filter(model_family__car_make=car_make)
         car_models_list = [{
-                               'id': cipher_id(str(car_model.id)),
-                               'name': car_model.model_name
-                           }
-                           for car_model in car_models
-                           ]
+            'id': cipher_id(str(car_model.id)),
+            'name': car_model.model_name
+        }
+            for car_model in car_models
+        ]
 
         return HttpResponse(json.dumps(car_models_list))
 
 
 class CarSelectorDispatchView(View):
     """Обработчик селектора"""
+
     def dispatch(self, request, *args, **kwargs):
         car_make = request.GET.get('carmake')
         car_model_id = request.GET.get('carmodel')
@@ -147,10 +148,12 @@ class ModificationListView(ListView):
                       for car_image in modification.car_model.carimage_set.all()]
         creditcalc_context['photos'] = [{'path': url[0], 'ext': url[1]} for url in photo_urls]
         creditcalc_context['car_name'] = '{} {}'.format(modification.car_make.name, modification.car_model.model_name)
-        context['creditcalc'] = creditcalc_context
+        creditcalc_context['related'] = [{'car_name': str(related), 'url': related.get_absolute_url()}
+                                         for related in modification.car_model.related.all()]
         descriptions = models.CarDescription.get_by_model(self.car_model)
         creditcalc_context['desc_top'] = descriptions.get('T', '')
         creditcalc_context['desc_bottom'] = descriptions.get('B', '')
+        context['creditcalc'] = creditcalc_context
         return context
 
 

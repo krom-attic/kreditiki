@@ -22,6 +22,7 @@
         vm.photos = null;
         vm.car_name = null;
         vm.modifications = null;
+        vm.related = null;
 
         // Участвуют в расчёте
         vm.modification = {"price": 0};
@@ -75,6 +76,7 @@
             vm.modifications = app_context["modifications"];
             vm.desc_top = app_context["desc_top"];
             vm.desc_bottom = app_context["desc_bottom"];
+            vm.related = app_context["related"];
             vm.modification = vm.modifications[0];
             vm.selectModification();
         };
