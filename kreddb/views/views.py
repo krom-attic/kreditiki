@@ -34,6 +34,7 @@ class CarMakeListView(ListView):
 class CarModelListView(ListView):
     """Вывод списка моделей"""
     model = models.CarModel
+    invisible_car_make = False
 
     def __init__(self, **kwargs):
         self.car_make = None
@@ -43,12 +44,20 @@ class CarModelListView(ListView):
         # временное напоминание поисковикам, что пробелы мы больше не используем
         if ' ' in request.path:
             return redirect(request.path.replace(' ', '_'))
-        return super().get(request, *args, **kwargs)
+        response = super().get(request, *args, **kwargs)
+        if self.invisible_car_make:
+            return redirect(models.CarMake.get_random_carmake())
+        else:
+            return response
 
     def get_queryset(self):
         queryset = super().get_queryset()
         car_make_name = self.kwargs['car_make']
-        self.car_make = models.CarMake.get_by_safe_name(car_make_name)
+        try:
+            self.car_make = models.CarMake.get_by_safe_name(car_make_name)
+        except ObjectDoesNotExist:
+            self.invisible_car_make = True
+            return queryset.none()
         # сдаётся мне, что следование структуре джанговских вьюшек менее правильно, чем вынос из контроллера логики,
         # связанной получением данных из бд...
         return queryset.filter(generation__car_make=self.car_make, display=True)
@@ -75,6 +84,7 @@ class CarModelListAPIView(View):
             for car_model in car_models
         ]
 
+        # использовать JsonResponse
         return HttpResponse(json.dumps(car_models_list))
 
 

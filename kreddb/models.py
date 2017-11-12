@@ -1,11 +1,12 @@
 import json
 import os
+from random import randint
 
 from PIL import Image
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.db.models import Min
+from django.db.models import Min, Count
 
 from kreddb.bl.calculator import calculate_best_interest_and_credit
 from kreddb.url_utils.cipher import cipher_id
@@ -16,6 +17,11 @@ POSITIONS = (('T', 'Наверху'), ('B', 'Внизу'))
 class CarMakeManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(display=True)
+
+    def random(self):
+        count = self.aggregate(count=Count('id'))['count']
+        random_index = randint(0, count - 1)
+        return self.all()[random_index]
 
 
 class CarMake(models.Model):
@@ -38,6 +44,11 @@ class CarMake(models.Model):
     def safe_name(self):
         return self.name.replace(' ', '_')
 
+    def get_absolute_url(self):
+        return reverse('kreddb:list_model_families', kwargs=dict(
+            car_make=self.safe_name
+        ))
+
     def filter_url(self):
         return reverse('kreddb:list_model_families', kwargs={'car_make': self.safe_name})
 
@@ -53,6 +64,10 @@ class CarMake(models.Model):
     @classmethod
     def get_displayed(cls):
         return cls.objects_actual.all()
+
+    @classmethod
+    def get_random_carmake(cls):
+        return cls.objects_actual.random()
 
 
 class ModelFamily(models.Model):
@@ -90,7 +105,8 @@ class Generation(models.Model):
 
     @property
     def url_kwargs(self):
-        url_kwargs = {'car_make': self.car_make.safe_name, 'model_family': self.model_family.safe_name, 'name': self.safe_name,
+        url_kwargs = {'car_make': self.car_make.safe_name, 'model_family': self.model_family.safe_name,
+                      'name': self.safe_name,
                       'body': '-', 'engine': '-', 'gear': '-'}
         return url_kwargs
 
@@ -138,7 +154,7 @@ class Body(models.Model):
         # точку глотает кто ни попадя
         if name[-2:] == 'дв':
             try:
-                return cls.objects.get(name__iexact=name+'.')
+                return cls.objects.get(name__iexact=name + '.')
             except ObjectDoesNotExist:
                 pass
         return cls.objects.get(name__iexact=name)
