@@ -27,6 +27,7 @@ class CarMakeListView(ListView):
         try:
             context['promo'] = get_promo_items()
         except ObjectDoesNotExist:
+            # TODO хорошо бы залогировать
             pass  # когда сайт не настроен, промо нет. ну и фиг с ним
         return context
 
@@ -111,6 +112,7 @@ class ModificationListView(ListView):
     """Вывод списка модификаций"""
     # TODO сделать фильтры
     model = models.Modification
+    invisible_car_model = False
 
     def __init__(self, **kwargs):
         self.car_make = None
@@ -121,19 +123,26 @@ class ModificationListView(ListView):
         # временное напоминание поисковикам, что пробелы мы больше не используем
         if ' ' in request.path:
             return redirect(request.path.replace(' ', '_'))
-        return super().get(request, *args, **kwargs)
+        response = super().get(request, *args, **kwargs)
+        if self.invisible_car_model:
+            return redirect(models.CarModel.get_random_carmodel())
+        else:
+            return response
 
     def get_queryset(self):
         queryset = super().get_queryset()
 
         qs_filter = queryset.filter(car_model__id=decipher_id(self.kwargs['object_id']))
-        first_car_model = qs_filter.first()
-        if first_car_model is None:
+        first_modification = qs_filter.first()
+        if first_modification is None:
             mail_managers('Обнаружена машина без модификаций!', 'Пользователю попытались показать все модификации ' +
                           '{car_make} {car_model} {body} {gen_year_start}, но ничего не нашлось'.format(**self.kwargs))
         # TODO не стоит после этого валиться с 500
-        self.car_make = first_car_model.car_make
-        self.car_model = first_car_model.car_model
+        self.car_make = first_modification.car_make
+        self.car_model = first_modification.car_model
+        if not self.car_model.display:
+            self.invisible_car_model = True
+            return queryset.none()
         # на данный момент неактуально, но может пригодиться
         if self.kwargs.get('all'):
             return qs_filter

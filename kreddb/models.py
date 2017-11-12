@@ -14,14 +14,16 @@ from kreddb.url_utils.cipher import cipher_id
 POSITIONS = (('T', 'Наверху'), ('B', 'Внизу'))
 
 
-class CarMakeManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(display=True)
-
+class EnhancedManager(models.Manager):
     def random(self):
         count = self.aggregate(count=Count('id'))['count']
         random_index = randint(0, count - 1)
         return self.all()[random_index]
+
+
+class CarMakeManager(EnhancedManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(display=True)
 
 
 class CarMake(models.Model):
@@ -160,7 +162,7 @@ class Body(models.Model):
         return cls.objects.get(name__iexact=name)
 
 
-class CarModelManager(models.Manager):
+class CarModelManager(EnhancedManager):
     def get_queryset(self):
         return super().get_queryset().filter(display=True)
 
@@ -245,6 +247,10 @@ class CarModel(models.Model):
             self.model_family = self.generation.model_family
         self.model_family.car_make.save()
         super().save(force_insert, force_update, using, update_fields)
+
+    @classmethod
+    def get_random_carmodel(cls):
+        return cls.objects_actual.random()
 
 
 class CarDescription(models.Model):
